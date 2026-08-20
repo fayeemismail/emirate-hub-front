@@ -65,6 +65,13 @@ function AnimatedCounter({ end, duration = 2000, suffix = "+" }: { end: number; 
 }
 
 const Hero = () => {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleClick = () => {
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 600);
+  };
+
   return (
     <section className="relative w-full overflow-hidden pt-40 md:pt-35 lg:pt-22">
       {/* Background Image */}
@@ -107,18 +114,31 @@ const Hero = () => {
             {/* Button */}
             <button
               type="button"
-              className="group relative mt-6 h-11 sm:h-12 md:h-13 inline-flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-8 pl-3 pr-6 sm:pl-4 sm:pr-7 md:pl-4 md:pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300"
+              onClick={handleClick}
+              className="group relative z-10 mt-6 h-11 sm:h-12 md:h-13 inline-flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-8 pl-3 pr-6 sm:pl-4 sm:pr-7 md:pl-4 md:pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300 active:scale-95 select-none focus:outline-none"
             >
-              {/* Red Round Circle background that animates on hover */}
-              <span className="absolute left-0 top-0 w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-[#E02126] transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full -z-0 shadow-sm" />
+              {/* Red Round Circle background that animates on hover and click */}
+              <span
+                className={`absolute left-0 top-0 rounded-full bg-[#E02126] transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
+                  isClicked ? "w-full h-full" : "w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13"
+                }`}
+              />
 
               {/* Button Text */}
-              <span className="relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-white group-hover:text-black transition-colors duration-300 tracking-wider uppercase pl-2">
+              <span
+                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-white group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
+                  isClicked ? "!text-black" : ""
+                }`}
+              >
                 REQUEST INFORMATION
               </span>
 
               {/* Right Arrow */}
-              <span className="relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-white group-hover:text-black group-hover:translate-x-2 transition-all duration-300 ease-in-out">
+              <span
+                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-white group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
+                  isClicked ? "!text-black translate-x-2" : ""
+                }`}
+              >
                 →
               </span>
             </button>

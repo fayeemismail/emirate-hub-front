@@ -1,11 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function About() {
+    const [isClicked, setIsClicked] = useState(false);
+
+    const handleClick = () => {
+        setIsClicked(true);
+        setTimeout(() => setIsClicked(false), 600);
+    };
+
     return (
-        <section className="py-16 md:py-24 bg-[#FFFFF]">
+        <section className="py-16 md:py-24 bg-white">
             <div className="site-container flex flex-col items-center text-center">
                 {/* Main Section Heading */}
                 <div className="pb-10 w-full text-center md:text-start lg:text-start">
@@ -48,17 +56,33 @@ export default function About() {
 
                 {/* Animated Discover Emirate Hub Button Centered */}
                 <div className="flex justify-center items-center">
-                    <button className="group relative h-14 md:h-16 inline-flex items-center gap-6 pl-4 pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300">
-                        {/* Red Round Circle background that animates on hover */}
-                        <span className="absolute left-0 top-0 w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full -z-0 shadow-sm" />
+                    <button
+                        type="button"
+                        onClick={handleClick}
+                        className="group relative z-10 h-14 md:h-16 inline-flex items-center gap-6 pl-4 pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300 active:scale-95 select-none focus:outline-none"
+                    >
+                        {/* Red Round Circle background that animates on hover and click */}
+                        <span
+                            className={`absolute left-0 top-0 rounded-full bg-primary transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
+                                isClicked ? "w-full h-full" : "w-14 h-14 md:w-16 md:h-16"
+                            }`}
+                        />
 
                         {/* Button Text */}
-                        <span className="relative z-10 text-base md:text-lg tracking-widest font-normal text-gray-800 group-hover:text-white transition-colors duration-300 uppercase pl-3">
+                        <span
+                            className={`relative z-10 text-base md:text-lg tracking-widest font-normal text-gray-800 group-hover:text-white group-active:text-white transition-colors duration-300 uppercase pl-3 ${
+                                isClicked ? "!text-white" : ""
+                            }`}
+                        >
                             DISCOVER EMIRATE HUB
                         </span>
 
                         {/* Red Right Arrow */}
-                        <FiArrowRight className="relative z-10 w-7 h-7 text-primary group-hover:text-white group-hover:translate-x-2 transition-all duration-300 ease-in-out" />
+                        <FiArrowRight
+                            className={`relative z-10 w-7 h-7 text-primary group-hover:text-white group-active:text-white group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
+                                isClicked ? "!text-white translate-x-2" : ""
+                            }`}
+                        />
                     </button>
                 </div>
             </div>
