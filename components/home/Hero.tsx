@@ -1,6 +1,68 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
+
+const statsData = [
+  { end: 17, suffix: "+", label: "Years In The Business" },
+  { end: 1540, suffix: "+", label: "Happy Customers" },
+  { end: 25, suffix: "+", label: "Team Members" },
+  { end: 14, suffix: "+", label: "Languages Spoken" },
+  { end: 10, suffix: "+", label: "Industry Awards" },
+];
+
+function AnimatedCounter({ end, duration = 2000, suffix = "+" }: { end: number; duration?: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!hasAnimated) return;
+
+    let startTime: number | null = null;
+    let animationFrameId: number;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+
+      // Smooth deceleration easing function (easeOutExpo)
+      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setCount(Math.floor(easeProgress * end));
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(step);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(step);
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [hasAnimated, end, duration]);
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}{suffix}
+    </span>
+  );
+}
 
 const Hero = () => {
   return (
@@ -45,10 +107,18 @@ const Hero = () => {
             {/* Button */}
             <button
               type="button"
-              className="mt-6 flex h-11 items-center gap-4 rounded-full bg-[#E02126] px-5 text-[12px] font-normal text-white transition-transform duration-300 hover:scale-[1.03] sm:h-12 sm:gap-5 sm:px-6 sm:text-[13px] md:mt-7 md:h-13 md:gap-7 md:px-7 md:text-[14px] lg:gap-8"
+              className="group relative mt-6 h-11 sm:h-12 md:h-13 inline-flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-8 pl-3 pr-6 sm:pl-4 sm:pr-7 md:pl-4 md:pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300"
             >
-              <span>REQUEST INFORMATION</span>
-              <span className="text-[20px] leading-none sm:text-[24px] md:text-[28px]">
+              {/* Red Round Circle background that animates on hover */}
+              <span className="absolute left-0 top-0 w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-[#E02126] transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full -z-0 shadow-sm" />
+
+              {/* Button Text */}
+              <span className="relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-white group-hover:text-black transition-colors duration-300 tracking-wider uppercase pl-2">
+                REQUEST INFORMATION
+              </span>
+
+              {/* Right Arrow */}
+              <span className="relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-white group-hover:text-black group-hover:translate-x-2 transition-all duration-300 ease-in-out">
                 →
               </span>
             </button>
@@ -59,58 +129,23 @@ const Hero = () => {
             mobile/tablet so it never overlaps the hero content; switches to
             an absolutely-positioned overlay bar only at lg+ to match the
             original desktop design. */}
-       <div className="w-full bg-black/40 backdrop-blur-[2px] lg:mt-0">
-          <div className="site-container ">
+        <div className="w-full bg-black/40 backdrop-blur-[2px] lg:mt-0">
+          <div className="site-container">
             <div className="grid grid-cols-2 gap-x-4 gap-y-6 py-8 sm:gap-y-8 md:grid-cols-3 md:gap-y-10 md:py-10 lg:grid-cols-5 lg:gap-0 lg:py-12">
-              {/* Stat 1 */}
-              <div className="flex flex-col items-center text-center">
-                <span className="text-[24px] font-medium text-[#E02126] sm:text-[28px] md:text-[32px] lg:text-[36px]">
-                  17+
-                </span>
-                <span className="mt-1 text-[12px] text-white/80 sm:text-[13px] md:text-[14px]">
-                  Years In The Business
-                </span>
-              </div>
-
-              {/* Stat 2 */}
-              <div className="flex flex-col items-center text-center">
-                <span className="text-[24px] font-medium text-[#E02126] sm:text-[28px] md:text-[32px] lg:text-[36px]">
-                  80,000+
-                </span>
-                <span className="mt-1 text-[12px] text-white/80 sm:text-[13px] md:text-[14px]">
-                  Happy Customers
-                </span>
-              </div>
-
-              {/* Stat 3 */}
-              <div className="flex flex-col items-center text-center">
-                <span className="text-[24px] font-medium text-[#E02126] sm:text-[28px] md:text-[32px] lg:text-[36px]">
-                  250+
-                </span>
-                <span className="mt-1 text-[12px] text-white/80 sm:text-[13px] md:text-[14px]">
-                  Team Members
-                </span>
-              </div>
-
-              {/* Stat 4 */}
-              <div className="flex flex-col items-center text-center">
-                <span className="text-[24px] font-medium text-[#E02126] sm:text-[28px] md:text-[32px] lg:text-[36px]">
-                  40+
-                </span>
-                <span className="mt-1 text-[12px] text-white/80 sm:text-[13px] md:text-[14px]">
-                  Languages Spoken
-                </span>
-              </div>
-
-              {/* Stat 5 */}
-              <div className="col-span-2 flex flex-col items-center text-center md:col-span-1">
-                <span className="text-[24px] font-medium text-[#E02126] sm:text-[28px] md:text-[32px] lg:text-[36px]">
-                  25+
-                </span>
-                <span className="mt-1 text-[12px] text-white/80 sm:text-[13px] md:text-[14px]">
-                  Industry Awards
-                </span>
-              </div>
+              {statsData.map((stat, index) => (
+                <div
+                  key={index}
+                  className={`flex flex-col items-center text-center ${index === statsData.length - 1 ? "col-span-2 md:col-span-1" : ""
+                    }`}
+                >
+                  <span className="text-[24px] font-medium text-[#E02126] sm:text-[28px] md:text-[32px] lg:text-[36px]">
+                    <AnimatedCounter end={stat.end} suffix={stat.suffix} />
+                  </span>
+                  <span className="mt-1 text-[12px] text-white/80 sm:text-[13px] md:text-[14px]">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
