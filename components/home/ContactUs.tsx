@@ -7,11 +7,11 @@ import ContactForm from "@/components/common/ContactForm";
 
 export default function ContactUs() {
     return (
-        <section className="py-16 md:py-24 bg-gradient-to-b from-[#F8F6FB] to-white overflow-hidden">
+        <section className="py-16 md:py-24 bg-linear-to-b from-[#F8F6FB] to-white overflow-hidden">
             <div className="site-container">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
                     {/* Left Column - Image (Hidden on Small Screens) */}
-                    <div className="hidden lg:block lg:col-span-5 relative min-h-[600px] rounded-3xl overflow-hidden shadow-lg">
+                    <div className="hidden lg:block lg:col-span-5 relative min-h-150 rounded-3xl overflow-hidden shadow-lg">
                         <Image
                             src="/images/contact-person.jpg"
                             alt="Contact Us - Business Consultation"

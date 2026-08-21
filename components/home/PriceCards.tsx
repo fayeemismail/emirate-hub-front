@@ -33,7 +33,7 @@ export default function PriceCards() {
     <section className="py-16 md:py-24 bg-[#F8F6FB]">
       <div className="site-container">
         <div className="pb-10 text-center md:text-left">
-          <h3 className="relative text-7xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[3px] after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
+          <h3 className="relative text-7xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.75 after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
             Pricing
           </h3>
         </div>
@@ -54,7 +54,7 @@ export default function PriceCards() {
                   </div>
 
                   {/* Title */}
-                  <h4 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-8 min-h-[3.5rem] flex items-start">
+                  <h4 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-8 min-h-14 flex items-start">
                     {card.title}
                   </h4>
                 </div>

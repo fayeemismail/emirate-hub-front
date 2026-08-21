@@ -127,7 +127,7 @@ const Hero = () => {
               {/* Button Text */}
               <span
                 className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-white group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
-                  isClicked ? "!text-black" : ""
+                  isClicked ? "text-black!" : ""
                 }`}
               >
                 REQUEST INFORMATION
@@ -136,7 +136,7 @@ const Hero = () => {
               {/* Right Arrow */}
               <span
                 className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-white group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
-                  isClicked ? "!text-black translate-x-2" : ""
+                  isClicked ? "text-black! translate-x-2" : ""
                 }`}
               >
                 →

@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <nav className="absolute top-0 left-0 right-0 z-50">
       <div className="site-container border-b border-white/20">
-        <div className="flex h-[90px] items-center justify-between">
+        <div className="flex h-22.5 items-center justify-between">
 
           {/* Logo */}
           <div>

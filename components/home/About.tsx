@@ -17,7 +17,7 @@ export default function About() {
             <div className="site-container flex flex-col items-center text-center">
                 {/* Main Section Heading */}
                 <div className="pb-10 w-full text-center md:text-start lg:text-start">
-                    <h2 className="relative text-6xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[3px] after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
+                    <h2 className="relative text-6xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.75 after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
                         About Us
                     </h2>
                 </div>
@@ -71,7 +71,7 @@ export default function About() {
                         {/* Button Text */}
                         <span
                             className={`relative z-10 text-base md:text-lg tracking-widest font-normal text-gray-800 group-hover:text-white group-active:text-white transition-colors duration-300 uppercase pl-3 ${
-                                isClicked ? "!text-white" : ""
+                                isClicked ? "text-white!" : ""
                             }`}
                         >
                             DISCOVER EMIRATE HUB
@@ -80,7 +80,7 @@ export default function About() {
                         {/* Red Right Arrow */}
                         <FiArrowRight
                             className={`relative z-10 w-7 h-7 text-primary group-hover:text-white group-active:text-white group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
-                                isClicked ? "!text-white translate-x-2" : ""
+                                isClicked ? "text-white! translate-x-2" : ""
                             }`}
                         />
                     </button>
