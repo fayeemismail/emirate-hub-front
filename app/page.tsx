@@ -1,8 +1,11 @@
 import About from "@/components/home/About";
+import BlogsAndNews from "@/components/home/BlogsAndNews";
 import ContactUs from "@/components/home/ContactUs";
+import Faq from "@/components/home/Faq";
 import Hero from "@/components/home/Hero";
 import PriceCards from "@/components/home/PriceCards";
 import Service from "@/components/home/Service";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Image from "next/image";
 
 export default function Home() {
@@ -13,6 +16,9 @@ export default function Home() {
       <About />
       <ContactUs />
       <Service />
+      <WhyChooseUs />
+      <BlogsAndNews />
+      <Faq />
     </main>
   );
 }
