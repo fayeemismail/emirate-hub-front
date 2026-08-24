@@ -73,14 +73,18 @@ export default function Faq() {
       </div>
 
       <div className="site-container relative z-10">
-        {/* Section Header */}
-        <div className="mb-10 md:mb-14">
-          <span className="text-xs md:text-sm font-semibold tracking-wider text-primary uppercase block mb-2">
+        {/* Main Section Heading - Matching About and PriceCards style */}
+        <div className="pb-2 text-center md:text-left">
+          <h2 className="relative text-5xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.75 after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
             FAQ
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900">
-            Questions ? Look here.
           </h2>
+        </div>
+
+        {/* Subtitle */}
+        <div className="mb-10 md:mb-14 text-center md:text-left">
+          <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
+            Questions ? Look here.
+          </h3>
         </div>
 
         {/* 2-Column Content Layout */}

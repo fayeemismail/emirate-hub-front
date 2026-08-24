@@ -2,14 +2,19 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function About() {
+    const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
         setIsClicked(true);
-        setTimeout(() => setIsClicked(false), 600);
+        setTimeout(() => {
+            setIsClicked(false);
+            router.push("/coming-soon");
+        }, 400);
     };
 
     return (

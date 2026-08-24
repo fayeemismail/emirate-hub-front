@@ -23,11 +23,24 @@ export default function ContactUs() {
 
                     {/* Right Column - Contact Info & Form */}
                     <div className="lg:col-span-7 flex flex-col justify-between py-2">
+                        {/* Heading for Mobile Screens Only */}
+                        <div className="block md:hidden mb-6 text-center">
+                            <h2 className="text-4xl font-normal text-primary leading-tight">
+                                Contact Us today
+                            </h2>
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-                            {/* Left Part: Title & Details */}
-                            <div className="flex flex-col justify-between">
+                            {/* Form - First on mobile (order-1), Second on Desktop (md:order-2) */}
+                            <div className="order-1 md:order-2">
+                                <ContactForm />
+                            </div>
+
+                            {/* Details - Second on mobile (order-2), First on Desktop (md:order-1) */}
+                            <div className="flex flex-col justify-between order-2 md:order-1">
                                 <div>
-                                    <h2 className="text-5xl text-center md:text-start lg:text-start font-normal text-primary leading-tight mb-8">
+                                    {/* Heading for Desktop Screens Only */}
+                                    <h2 className="hidden md:block text-5xl md:text-start lg:text-start font-normal text-primary leading-tight mb-8">
                                         Contact Us <br />
                                         today
                                     </h2>
@@ -78,9 +91,6 @@ export default function ContactUs() {
                                     </a>
                                 </div>
                             </div>
-
-                            {/* Right Part: Reusable Contact Form Component */}
-                            <ContactForm />
                         </div>
                     </div>
                 </div>
