@@ -5,7 +5,6 @@ import Hero from "@/components/home/Hero";
 import PriceCards from "@/components/home/PriceCards";
 import Service from "@/components/home/Service";
 import Testimonials from "@/components/home/Testimonials";
-import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Image from "next/image";
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
       <Service />
       <ContactUs />
       <Testimonials />
-      <WhyChooseUs />
       <BlogsAndNews />
       <Faq />
     </main>
