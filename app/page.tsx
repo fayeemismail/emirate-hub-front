@@ -1,4 +1,3 @@
-import About from "@/components/home/About";
 import BlogsAndNews from "@/components/home/BlogsAndNews";
 import ContactUs from "@/components/home/ContactUs";
 import Faq from "@/components/home/Faq";
@@ -13,8 +12,8 @@ export default function Home() {
     <main>
       <Hero />
       <PriceCards />
-      <ContactUs />
       <Service />
+      <ContactUs />
       <WhyChooseUs />
       <BlogsAndNews />
       <Faq />
