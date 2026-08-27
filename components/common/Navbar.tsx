@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiMenu, FiX, FiPhone, FiArrowRight } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -100,13 +101,17 @@ export default function Navbar() {
           </div>
 
           {/* Right Side Info */}
-          <div className="hidden items-center gap-8 xl:gap-10 lg:flex">
-            <button
-              type="button"
-              className="text-[13px] text-white/80 hover:text-white cursor-pointer transition-colors"
+          <div className="hidden items-center gap-6 xl:gap-8 lg:flex">
+            {/* WhatsApp Link */}
+            <a
+              href="https://wa.me/971000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contact on WhatsApp"
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#25D366]/20 flex items-center justify-center transition-all duration-300 hover:scale-105"
             >
-              EN
-            </button>
+              <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
+            </a>
 
             <a
               href="tel:+971000000"
@@ -160,6 +165,18 @@ export default function Navbar() {
               {/* Bottom Details for Mobile */}
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
                 <a
+                  href="https://wa.me/971000000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-white/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <div className="w-7 h-7 rounded-full bg-[#25D366]/20 flex items-center justify-center">
+                    <FaWhatsapp className="w-4 h-4 text-[#25D366]" />
+                  </div>
+                  <span className="font-medium">Chat on WhatsApp</span>
+                </a>
+
+                <a
                   href="tel:+971000000"
                   className="flex items-center gap-3 text-sm text-white/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                 >
@@ -168,13 +185,6 @@ export default function Navbar() {
                   </div>
                   <span className="font-medium">+971 000 000</span>
                 </a>
-
-                <div className="flex items-center justify-between px-3.5 pt-1">
-                  <span className="text-xs text-gray-400">Language</span>
-                  <span className="text-xs font-bold text-white px-2.5 py-1 rounded-md bg-white/10">
-                    EN
-                  </span>
-                </div>
               </div>
             </div>
           </motion.div>
@@ -183,4 +193,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
  
