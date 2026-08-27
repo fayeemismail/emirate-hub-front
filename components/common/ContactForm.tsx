@@ -13,14 +13,12 @@ export default function ContactForm({
   className = "",
 }: ContactFormProps) {
   const [formData, setFormData] = useState({
-    enquiry: "",
-    firstName: "",
-    lastName: "",
+    businessActivity: "",
+    name: "",
     email: "",
     phone: "",
     request: "",
     consentData: false,
-    consentMarketing: false,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,43 +35,34 @@ export default function ContactForm({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Enquiry Dropdown */}
+          {/* Business Activity Dropdown */}
           <div>
             <select
-              value={formData.enquiry}
-              onChange={(e) => setFormData({ ...formData, enquiry: e.target.value })}
+              value={formData.businessActivity}
+              onChange={(e) => setFormData({ ...formData, businessActivity: e.target.value })}
               className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 bg-transparent outline-none focus:border-primary cursor-pointer"
             >
-              <option value="">Select your enquiry</option>
-              <option value="business-setup">Business Setup</option>
-              <option value="licensing">Licensing & Visas</option>
-              <option value="banking">Banking Assistance</option>
-              <option value="general">General Enquiry</option>
+              <option value="">Select your business activity</option>
+              <option value="e-commerce">E-Commerce & Digital Trade</option>
+              <option value="it-software">IT, Tech & Software Services</option>
+              <option value="consulting">Management & Business Consulting</option>
+              <option value="trading">General Trading & Commercial</option>
+              <option value="marketing">Advertising & Digital Media</option>
+              <option value="real-estate">Real Estate & Property</option>
+              <option value="other">Other Business Activity</option>
             </select>
           </div>
 
-          {/* First & Last Name */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <input
-                type="text"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 outline-none focus:border-primary placeholder-gray-400"
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 outline-none focus:border-primary placeholder-gray-400"
-                required
-              />
-            </div>
+          {/* Full Name */}
+          <div>
+            <input
+              type="text"
+              placeholder="Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 outline-none focus:border-primary placeholder-gray-400"
+              required
+            />
           </div>
 
           {/* Email Address */}
@@ -90,10 +79,10 @@ export default function ContactForm({
 
           {/* Phone Number */}
           <div className="flex items-center border-b border-gray-300 py-2.5 gap-2">
-            <span className="text-sm">🇺🇸 ▾</span>
+            <span className="text-sm">🇦🇪 ▾</span>
             <input
               type="tel"
-              placeholder="(201) 555-0123"
+              placeholder="+971 50 000 0000"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               className="w-full text-sm text-gray-700 outline-none focus:border-primary placeholder-gray-400"
@@ -111,8 +100,8 @@ export default function ContactForm({
             />
           </div>
 
-          {/* Consent Checkboxes */}
-          <div className="space-y-3 pt-2">
+          {/* Consent Checkbox */}
+          <div className="pt-2">
             <label className="flex items-start gap-2.5 text-xs text-gray-500 cursor-pointer">
               <input
                 type="checkbox"
@@ -129,29 +118,13 @@ export default function ContactForm({
                 .
               </span>
             </label>
-
-            <label className="flex items-start gap-2.5 text-xs text-gray-500 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={formData.consentMarketing}
-                onChange={(e) => setFormData({ ...formData, consentMarketing: e.target.checked })}
-                className="mt-0.5 rounded border-gray-300 text-primary focus:ring-primary accent-primary"
-              />
-              <span>
-                I consent to receiving marketing communications as outlined in the{" "}
-                <a href="#" className="text-primary hover:underline font-medium">
-                  Privacy Policy
-                </a>{" "}
-                [Optional].
-              </span>
-            </label>
           </div>
 
           {/* Submit Button */}
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full py-3.5 bg-primary hover:bg-[#c8191e] text-white font-bold text-sm tracking-wide rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-md"
+              className="w-full py-3.5 bg-primary hover:bg-[#c8191e] text-white font-bold text-sm tracking-wide rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-md active:scale-[0.99]"
             >
               Submit <FiArrowRight className="w-5 h-5" />
             </button>
@@ -161,3 +134,4 @@ export default function ContactForm({
     </div>
   );
 }
+
