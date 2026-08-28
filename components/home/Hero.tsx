@@ -17,7 +17,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full overflow-hidden pt-40 md:pt-35 lg:pt-22">
+    <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
       {/* Background Image */}
       <Image
         src="/images/hero-bg.png"
@@ -38,22 +38,22 @@ const Hero = () => {
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-center md:text-start lg:text-start">
             {/* Heading */}
-            <h1 className="text-[26px] font-normal leading-tight tracking-[-0.5px] lg:w-2/3 text-white sm:text-[28px] md:text-[32px] md:leading-[1.15] md:tracking-[-1px] lg:text-[40px] lg:leading-[1.1] lg:tracking-[-1.5px]">
-              Build Your Company within our
-              <br className="hidden md:block" /> Global{" "}
-              <span className="text-[#E02126]">Emirate Hub</span> Business
-              Community
+            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white sm:text-[32px] md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
+              Your search for the right{" "} 
+              <br className="" />
+              <span className="text-[#E02126] font-bold">UAE business license</span> 
+              <br className="block md:hidden lg:hidden " /> ends here.
             </h1>
 
-            {/* Description */}
-            <p className="mt-4 max-w-[95%] text-[14px] leading-[1.55] text-white/90 sm:max-w-[90%] sm:text-[15px] md:mt-5 md:max-w-[80%] md:text-[17px] md:leading-normal lg:mt-6 lg:max-w-212.5 lg:text-[16px] lg:leading-[1.45]">
-              EMIRATE HUB provides business setup services with world-class
-              infrastructure, state-of-
-              <br className="hidden" /> the-art facilities, and business
-              friendly regulations, making it an ideal destination
-              <br className="hidden" /> for foreign investors looking to set up
-              and grow their business.
-            </p>
+            {/* Sub Heading & Description */}
+            <div className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3">
+              <p className="text-[15px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-bold lg:font-medium text-white/95 leading-snug">
+                Get the most cost-effective mainland or free zone setup with a partner you can trust.
+              </p>
+              <p className="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/80 font-medium lg:font-light">
+                We deliver comprehensive, end-to-end solutions spanning business setup, licensing, visa processing, compliance, and corporate service equipping you to establish, expand, and maintain a thriving business in the UAE.
+              </p>
+            </div>
 
             {/* Button */}
             <button

@@ -28,10 +28,10 @@ export default function BlogsAndNews() {
           </p>
         </div>
 
-        {/* News Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+        {/* News Grid / Mobile Horizontal Scroll */}
+        <div className="flex lg:grid lg:grid-cols-12 overflow-x-auto lg:overflow-visible gap-5 sm:gap-6 lg:gap-8 pb-4 lg:pb-0 -mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* CARD 1: Top Left - Featured Dark Overlay Card */}
-          <div className="lg:col-span-7">
+          <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-7 snap-start">
             <div className="relative overflow-hidden rounded-2xl md:rounded-[24px] h-full min-h-[380px] md:min-h-[420px] flex flex-col justify-end p-6 md:p-8 group cursor-pointer shadow-sm">
               <img
                 src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop"
@@ -56,9 +56,9 @@ export default function BlogsAndNews() {
           </div>
 
           {/* CARD 2: Top Right - Vertical Card */}
-          <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col h-full group cursor-pointer hover:shadow-md transition-all duration-300">
-              <div className="h-48 md:h-56 overflow-hidden relative">
+          <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-5 snap-start">
+            <div className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col h-full min-h-[380px] md:min-h-[420px] group cursor-pointer hover:shadow-md transition-all duration-300">
+              <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
                 <img
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop"
                   alt="Compliance Obligations"
@@ -67,7 +67,7 @@ export default function BlogsAndNews() {
               </div>
               <div className="p-6 md:p-7 flex flex-col justify-between flex-grow">
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
                     When Your Business Changes, Your Compliance Obligations May Change Too
                   </h3>
                   <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
@@ -84,18 +84,18 @@ export default function BlogsAndNews() {
           </div>
 
           {/* CARD 3: Bottom Left - Horizontal Split Card */}
-          <div className="lg:col-span-7">
-            <div className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm grid grid-cols-1 sm:grid-cols-12 h-full group cursor-pointer hover:shadow-md transition-all duration-300">
-              <div className="sm:col-span-5 h-56 sm:h-full relative overflow-hidden">
+          <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-7 snap-start">
+            <div className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col lg:grid lg:grid-cols-12 h-full min-h-[380px] md:min-h-[420px] group cursor-pointer hover:shadow-md transition-all duration-300">
+              <div className="h-48 md:h-56 lg:h-full lg:col-span-5 relative overflow-hidden shrink-0">
                 <img
                   src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop"
                   alt="Strategic Partnership"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="sm:col-span-7 p-6 md:p-8 flex flex-col justify-between">
+              <div className="p-6 md:p-8 lg:col-span-7 flex flex-col justify-between flex-grow">
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
                     <span className="text-primary font-bold">Emirate Hub</span> and AIM Launch Strategic Partnership to Accelerate Cross-Border Investment & Business Growth
                   </h3>
                   <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
@@ -112,9 +112,9 @@ export default function BlogsAndNews() {
           </div>
 
           {/* CARD 4: Bottom Right - Vertical Card */}
-          <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col h-full group cursor-pointer hover:shadow-md transition-all duration-300">
-              <div className="h-48 md:h-56 overflow-hidden relative">
+          <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-5 snap-start">
+            <div className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col h-full min-h-[380px] md:min-h-[420px] group cursor-pointer hover:shadow-md transition-all duration-300">
+              <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
                 <img
                   src="https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=1200&auto=format&fit=crop"
                   alt="Corporate Tax Relief"
@@ -123,7 +123,7 @@ export default function BlogsAndNews() {
               </div>
               <div className="p-6 md:p-7 flex flex-col justify-between flex-grow">
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
                     UAE Corporate Tax: Small Business Relief Explained
                   </h3>
                   <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">

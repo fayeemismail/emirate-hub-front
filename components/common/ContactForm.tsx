@@ -40,16 +40,16 @@ export default function ContactForm({
             <select
               value={formData.businessActivity}
               onChange={(e) => setFormData({ ...formData, businessActivity: e.target.value })}
-              className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 bg-transparent outline-none focus:border-primary cursor-pointer"
+              className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 bg-transparent outline-none focus:border-primary cursor-pointer whitespace-nowrap truncate block"
             >
-              <option value="">Select your business activity</option>
-              <option value="e-commerce">E-Commerce & Digital Trade</option>
-              <option value="it-software">IT, Tech & Software Services</option>
-              <option value="consulting">Management & Business Consulting</option>
-              <option value="trading">General Trading & Commercial</option>
-              <option value="marketing">Advertising & Digital Media</option>
-              <option value="real-estate">Real Estate & Property</option>
-              <option value="other">Other Business Activity</option>
+              <option value="" className="whitespace-nowrap">Select your business activity</option>
+              <option value="e-commerce" className="whitespace-nowrap">E-Commerce & Digital Trade</option>
+              <option value="it-software" className="whitespace-nowrap">IT, Tech & Software Services</option>
+              <option value="consulting" className="whitespace-nowrap">Management & Business Consulting</option>
+              <option value="trading" className="whitespace-nowrap">General Trading & Commercial</option>
+              <option value="marketing" className="whitespace-nowrap">Advertising & Digital Media</option>
+              <option value="real-estate" className="whitespace-nowrap">Real Estate & Property</option>
+              <option value="other" className="whitespace-nowrap">Other Business Activity</option>
             </select>
           </div>
 

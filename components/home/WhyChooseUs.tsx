@@ -89,7 +89,7 @@ export default function WhyChooseUs() {
 
         {/* Tabs Bar Header */}
         <div className="border-b border-gray-300/60 max-w-5xl mx-auto">
-          <div className="flex items-center justify-start md:justify-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] gap-4 sm:gap-6 md:gap-8 lg:gap-10 pb-0 px-2">
+          <div className="flex items-center justify-start md:justify-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none gap-4 sm:gap-6 md:gap-8 lg:gap-10 pb-0 px-2">
             {tabsData.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -132,7 +132,7 @@ export default function WhyChooseUs() {
             >
               {/* Left Side: Image */}
               <div className="lg:col-span-6">
-                <div className="relative overflow-hidden rounded-2xl md:rounded-[24px] shadow-sm aspect-[4/3] w-full bg-gray-200">
+                <div className="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-sm aspect-4/3 w-full bg-gray-200">
                   <img
                     src={currentTab.image}
                     alt={currentTab.title}

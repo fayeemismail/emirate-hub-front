@@ -73,7 +73,7 @@ export default function Service() {
                       isEven ? "lg:order-1" : "lg:order-2"
                     }`}
                   >
-                    <div className="relative w-full max-w-lg mx-auto lg:max-w-none aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/10] lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)] group bg-gray-100">
+                    <div className="relative w-full max-w-lg mx-auto lg:max-w-none aspect-4/3 sm:aspect-16/10 md:aspect-16/10 lg:aspect-4/3 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)] group bg-gray-100">
                       <Image
                         src={service.image}
                         alt={service.title}
