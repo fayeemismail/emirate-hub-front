@@ -17,20 +17,20 @@ const services = [
   {
     id: 2,
     number: "02",
-    tag: "B2B COLLABORATION",
+    tag: "VISA & IMMIGRATION",
     image: "/images/service-2.jpg",
-    title: "Professional Partnership",
+    title: "Visa Services",
     description:
-      "EMIRATE HUB Dubai operates on a collaborative Business-to-Business (B2B) model. We work hand-in-hand with corporate partners, legal specialists, and international formation agencies towards sustained growth and shared success.",
+      "We offer end‑to‑end visa and immigration services for companies in UAE mainland and free zones, handling employment visas, family sponsorship, visit visas, Emirates ID, medical coordination and establishment card renewals. Our team manages all government liaison with GDRFA, ICP, MOHRE...",
   },
   {
     id: 3,
     number: "03",
-    tag: "GLOBAL NETWORK",
+    tag: "TAX & COMPLIANCE",
     image: "/images/service-3.jpg",
-    title: "Discover the Benefits of Being our Partner",
+    title: "Tax Readiness",
     description:
-      "If you are a business formation specialist, law firm, or agency located in the UAE or internationally, Emirate Hub offers a world of opportunities. Gain direct access to UAE regulatory insights, priority channels, and dedicated support.",
+      "We provide comprehensive corporate tax consulting services tailored for businesses operating in UAE mainland and free zones, guiding you through corporate tax registration, return filings, compliance assessments, and strategic planning to ensure full regulatory alignment.",
   },
 ];
 
@@ -41,7 +41,7 @@ export default function Service() {
     <section className="py-16 md:py-24 lg:py-28 bg-[#F2F3EE]/50 overflow-hidden">
       <div className="site-container">
         {/* Subtitle Header Section */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 md:mb-20 px-4">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14 px-4">
           {/* Small Top Subtitle */}
           <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
             SERVICES
@@ -56,6 +56,18 @@ export default function Service() {
           <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
             Emirate Hub provides premium standards of business setup solutions for SMEs through our wide network of Professional Partners and Business Communities.
           </p>
+        </div>
+
+        {/* View All Services Top Right Button (Desktop / Tablet) */}
+        <div className="hidden md:flex justify-end items-center mb-8 md:mb-10">
+          <button
+            type="button"
+            onClick={() => router.push("/coming-soon")}
+            className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
+          >
+            <span>VIEW ALL SERVICES</span>
+            <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
+          </button>
         </div>
 
         {/* Alternating Services Rows */}
@@ -129,6 +141,18 @@ export default function Service() {
               </div>
             );
           })}
+        </div>
+
+        {/* Mobile View All Services Bottom Button */}
+        <div className="flex md:hidden justify-center items-center mt-12 sm:mt-14">
+          <button
+            type="button"
+            onClick={() => router.push("/coming-soon")}
+            className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
+          >
+            <span>VIEW ALL SERVICES</span>
+            <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
+          </button>
         </div>
       </div>
     </section>

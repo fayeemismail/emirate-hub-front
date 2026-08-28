@@ -19,7 +19,10 @@ const headerVariants: Variants = {
 
 export default function ContactUs() {
   return (
-    <section className="py-16 md:py-24 bg-linear-to-b from-[#F8F6FB] via-white to-[#F8F6FB] overflow-hidden">
+    <section
+      id="contact-us"
+      className="py-16 md:py-24 bg-linear-to-b from-[#F8F6FB] via-white to-[#F8F6FB] overflow-hidden scroll-mt-20 md:scroll-mt-24"
+    >
       <div className="site-container px-4 sm:px-6 md:px-8">
         {/* Top Heading Section */}
         <motion.div

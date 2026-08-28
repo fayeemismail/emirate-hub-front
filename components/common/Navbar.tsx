@@ -9,12 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Business Setup", href: "/coming-soon" },
   { label: "About Us", href: "/coming-soon" },
   { label: "Services", href: "/coming-soon" },
-  { label: "Why Choose Us", href: "/coming-soon" },
   { label: "Blogs", href: "/coming-soon" },
-  { label: "Contact Us", href: "/coming-soon" },
+  { label: "Contact Us", href: "/#contact-us" },
 ];
 
 export default function Navbar() {
@@ -22,6 +20,19 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("/#")) {
+      const targetId = href.replace("/#", "");
+      const element = document.getElementById(targetId);
+      if (element) {
+        e.preventDefault();
+        setIsMobileMenuOpen(false);
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", href);
+      }
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,15 +68,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-        isVisible || isMobileMenuOpen
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${isVisible || isMobileMenuOpen
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
-      } ${
-        isScrolled || isMobileMenuOpen
+        } ${isScrolled || isMobileMenuOpen
           ? "bg-black/75 backdrop-blur-md shadow-lg border-b border-white/10"
           : "bg-transparent border-b border-white/20"
-      }`}
+        }`}
     >
       <div className="site-container">
         <div className="flex h-20 sm:h-22.5 items-center justify-between">
@@ -89,20 +98,20 @@ export default function Navbar() {
               <Link
                 key={index}
                 href={link.href}
-                className={`text-[13px] tracking-wide transition-colors ${
-                  index === 0
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`text-[13px] tracking-wide transition-colors ${index === 0
                     ? "text-[#E02126] font-semibold"
                     : "text-white/80 hover:text-white"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Right Side Info */}
-          <div className="hidden items-center gap-6 xl:gap-8 lg:flex">
-            {/* WhatsApp Link */}
+          {/* Right Side Info & Mobile Actions */}
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
+            {/* WhatsApp Link - Always visible (Desktop & Mobile before menu) */}
             <a
               href="https://wa.me/971000000"
               target="_blank"
@@ -113,25 +122,26 @@ export default function Navbar() {
               <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
             </a>
 
+            {/* Phone Link - Desktop only */}
             <a
               href="tel:+971000000"
-              className="text-[13px] text-white hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="hidden lg:flex text-[13px] text-white hover:text-primary transition-colors font-medium items-center gap-2"
             >
               <FiPhone className="w-3.5 h-3.5 text-primary" />
               <span>+971 000 000</span>
             </a>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileMenuOpen}
-            className="flex items-center justify-center w-10 h-10 rounded-lg text-white hover:bg-white/10 transition-colors lg:hidden cursor-pointer"
-          >
-            {isMobileMenuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
-          </button>
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              className="flex items-center justify-center w-10 h-10 rounded-lg text-white hover:bg-white/10 transition-colors lg:hidden cursor-pointer"
+            >
+              {isMobileMenuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -150,12 +160,14 @@ export default function Navbar() {
                 <Link
                   key={index}
                   href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${
-                    index === 0
+                  onClick={(e) => {
+                    setIsMobileMenuOpen(false);
+                    handleNavClick(e, link.href);
+                  }}
+                  className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${index === 0
                       ? "text-primary font-semibold bg-white/5"
                       : "text-white/85 hover:text-white hover:bg-white/5"
-                  }`}
+                    }`}
                 >
                   <span>{link.label}</span>
                   <FiArrowRight className="w-4 h-4 opacity-40" />
@@ -164,18 +176,6 @@ export default function Navbar() {
 
               {/* Bottom Details for Mobile */}
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
-                <a
-                  href="https://wa.me/971000000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-sm text-white/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
-                >
-                  <div className="w-7 h-7 rounded-full bg-[#25D366]/20 flex items-center justify-center">
-                    <FaWhatsapp className="w-4 h-4 text-[#25D366]" />
-                  </div>
-                  <span className="font-medium">Chat on WhatsApp</span>
-                </a>
-
                 <a
                   href="tel:+971000000"
                   className="flex items-center gap-3 text-sm text-white/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
@@ -194,4 +194,3 @@ export default function Navbar() {
   );
 }
 
- 

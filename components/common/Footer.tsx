@@ -47,10 +47,10 @@ const footerData = [
   {
     title: "Quick Links",
     links: [
-      { name: "About Us", href: "#" },
-      { name: "Sitemap", href: "#" },
-      { name: "Privacy Policy", href: "#" },
-      { name: "Contact Us", href: "#" },
+      { name: "About Us", href: "/coming-soon" },
+      { name: "Sitemap", href: "/coming-soon" },
+      { name: "Privacy Policy", href: "/coming-soon" },
+      { name: "Contact Us", href: "/#contact-us" },
     ],
   },
 ];
