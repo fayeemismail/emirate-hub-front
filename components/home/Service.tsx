@@ -7,6 +7,7 @@ import { FiArrowRight } from "react-icons/fi";
 const services = [
   {
     id: 1,
+    slug: "business-incorporation",
     number: "01",
     tag: "COMPANY FORMATION",
     image: "/images/service-1.jpg",
@@ -16,6 +17,7 @@ const services = [
   },
   {
     id: 2,
+    slug: "visa-services",
     number: "02",
     tag: "VISA & IMMIGRATION",
     image: "/images/service-2.jpg",
@@ -25,6 +27,7 @@ const services = [
   },
   {
     id: 3,
+    slug: "tax-readiness",
     number: "03",
     tag: "TAX & COMPLIANCE",
     image: "/images/service-3.jpg",
@@ -62,7 +65,7 @@ export default function Service() {
         <div className="hidden md:flex justify-end items-center mb-8 md:mb-10">
           <button
             type="button"
-            onClick={() => router.push("/coming-soon")}
+            onClick={() => router.push("/services")}
             className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
           >
             <span>VIEW ALL SERVICES</span>
@@ -85,7 +88,10 @@ export default function Service() {
                       isEven ? "lg:order-1" : "lg:order-2"
                     }`}
                   >
-                    <div className="relative w-full max-w-lg mx-auto lg:max-w-none aspect-4/3 sm:aspect-16/10 md:aspect-16/10 lg:aspect-4/3 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)] group bg-gray-100">
+                    <div
+                      onClick={() => router.push(`/services#${service.slug}`)}
+                      className="relative w-full max-w-lg mx-auto lg:max-w-none aspect-4/3 sm:aspect-16/10 md:aspect-16/10 lg:aspect-4/3 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)] group bg-gray-100 cursor-pointer"
+                    >
                       <Image
                         src={service.image}
                         alt={service.title}
@@ -124,7 +130,7 @@ export default function Service() {
                     <div>
                       <button
                         type="button"
-                        onClick={() => router.push("/coming-soon")}
+                        onClick={() => router.push(`/services#${service.slug}`)}
                         className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
                       >
                         <span>LEARN MORE</span>
@@ -147,7 +153,7 @@ export default function Service() {
         <div className="flex md:hidden justify-center items-center mt-12 sm:mt-14">
           <button
             type="button"
-            onClick={() => router.push("/coming-soon")}
+            onClick={() => router.push("/services")}
             className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
           >
             <span>VIEW ALL SERVICES</span>

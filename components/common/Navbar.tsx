@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/coming-soon" },
-  { label: "Services", href: "/coming-soon" },
+  { label: "Services", href: "/services" },
   { label: "Blogs", href: "/coming-soon" },
   { label: "Contact Us", href: "/#contact-us" },
 ];
@@ -101,13 +101,15 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${isVisible || isMobileMenuOpen
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        isVisible || isMobileMenuOpen
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
-        } ${isScrolled || isMobileMenuOpen
+      } ${
+        isScrolled || isMobileMenuOpen
           ? "bg-black/75 backdrop-blur-md shadow-lg border-b border-white/10"
           : "bg-transparent border-b border-white/20"
-        }`}
+      }`}
     >
       <div className="site-container">
         <div className="flex h-20 sm:h-22.5 items-center justify-between">
@@ -127,19 +129,29 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-7 xl:gap-9 lg:flex">
-            {navLinks.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`text-[13px] tracking-wide transition-colors ${index === 0
-                    ? "text-[#E02126] font-semibold"
-                    : "text-white/80 hover:text-white"
+            {navLinks.map((link, index) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : link.href.startsWith("/#")
+                  ? false
+                  : pathname.startsWith(link.href);
+
+              return (
+                <Link
+                  key={index}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`text-[13px] tracking-wide transition-colors ${
+                    isActive
+                      ? "text-[#E02126] font-semibold"
+                      : "text-white/80 hover:text-white"
                   }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right Side Info & Mobile Actions */}
@@ -189,23 +201,33 @@ export default function Navbar() {
             className="lg:hidden bg-black/90 backdrop-blur-xl border-t border-white/10 overflow-hidden shadow-2xl"
           >
             <div className="site-container py-5 flex flex-col space-y-2">
-              {navLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.href}
-                  onClick={(e) => {
-                    setIsMobileMenuOpen(false);
-                    handleNavClick(e, link.href);
-                  }}
-                  className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${index === 0
-                      ? "text-primary font-semibold bg-white/5"
-                      : "text-white/85 hover:text-white hover:bg-white/5"
+              {navLinks.map((link, index) => {
+                const isActive =
+                  link.href === "/"
+                    ? pathname === "/"
+                    : link.href.startsWith("/#")
+                    ? false
+                    : pathname.startsWith(link.href);
+
+                return (
+                  <Link
+                    key={index}
+                    href={link.href}
+                    onClick={(e) => {
+                      setIsMobileMenuOpen(false);
+                      handleNavClick(e, link.href);
+                    }}
+                    className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${
+                      isActive
+                        ? "text-primary font-semibold bg-white/5"
+                        : "text-white/85 hover:text-white hover:bg-white/5"
                     }`}
-                >
-                  <span>{link.label}</span>
-                  <FiArrowRight className="w-4 h-4 opacity-40" />
-                </Link>
-              ))}
+                  >
+                    <span>{link.label}</span>
+                    <FiArrowRight className="w-4 h-4 opacity-40" />
+                  </Link>
+                );
+              })}
 
               {/* Bottom Details for Mobile */}
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">

@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FiChevronRight } from "react-icons/fi";
 
-const Hero = () => {
+export default function ServicesHero() {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -12,16 +14,16 @@ const Hero = () => {
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-      router.push("/coming-soon");
+      router.push("/#contact-us");
     }, 400);
   };
 
   return (
     <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
-      {/* Background Image */}
+      {/* Background Hero Image */}
       <Image
         src="/images/hero-bg.png"
-        alt=""
+        alt="Emirate Hub Services"
         fill
         priority
         sizes="100vw"
@@ -37,21 +39,28 @@ const Hero = () => {
             only becomes an absolutely-centered min-h-screen block at lg+ */}
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-center md:text-start lg:text-start">
+            {/* Breadcrumb Navigation */}
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 mb-4 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">
+              <Link href="/" className="hover:text-white transition-colors">
+                Home
+              </Link>
+              <FiChevronRight className="w-3.5 h-3.5 text-gray-500" />
+              <span className="text-primary font-medium">Services</span>
+            </div>
+
             {/* Heading */}
             <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white sm:text-[32px] md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
-              Your Search for The Right{" "} 
-              <br className="" />
-              <span className="text-[#E02126] font-bold">UAE Business License</span> 
-              <br className="block md:hidden lg:hidden " /> Ends Here.
+              Comprehensive Corporate Services for{" "}
+              <span className="text-[#E02126] font-bold">UAE Business Growth</span>
             </h1>
 
             {/* Sub Heading & Description */}
             <div className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3">
               <p className="text-[15px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-bold lg:font-medium text-white/95 leading-snug">
-                Get the most cost-effective mainland or free zone setup with a partner you can trust.
+                Our Expertise & Solutions Tailored for Your Enterprise.
               </p>
               <p className="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/80 font-medium lg:font-light">
-                We deliver comprehensive, end-to-end solutions spanning business setup, licensing, visa processing, compliance, and corporate service equipping you to establish, expand, and maintain a thriving business in the UAE.
+                From company formation and lifetime visas to corporate tax compliance, office rentals, bank account opening, and digital branding — Emirate Hub delivers turnkey solutions to establish, scale, and manage your enterprise effortlessly.
               </p>
             </div>
 
@@ -74,7 +83,7 @@ const Hero = () => {
                   isClicked ? "text-black!" : ""
                 }`}
               >
-                REQUEST INFORMATION
+                CONNECT WITH AN EXPERT
               </span>
 
               {/* Right Arrow */}
@@ -91,6 +100,4 @@ const Hero = () => {
       </div>
     </section>
   );
-};
-
-export default Hero;
+}
