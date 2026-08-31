@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { FiMenu, FiX, FiPhone, FiArrowRight } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,23 +17,55 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
+  const scrollToSection = (targetId: string) => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      const navOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+      window.history.pushState(null, "", `#${targetId}`);
+    }
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith("/#")) {
-      const targetId = href.replace("/#", "");
-      const element = document.getElementById(targetId);
-      if (element) {
-        e.preventDefault();
-        setIsMobileMenuOpen(false);
-        element.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", href);
+    setIsMobileMenuOpen(false);
+
+    if (href.startsWith("/#") || href.startsWith("#")) {
+      e.preventDefault();
+      const targetId = href.replace(/^\/?#/, "");
+
+      if (pathname === "/") {
+        setTimeout(() => {
+          scrollToSection(targetId);
+        }, 150);
+      } else {
+        router.push(`/#${targetId}`);
       }
     }
   };
+
+  // Scroll to hash on page transition or direct load
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash.replace("#", "");
+      const timer = setTimeout(() => {
+        scrollToSection(hash);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
