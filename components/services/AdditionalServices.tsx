@@ -8,6 +8,11 @@ import { AdditionalServicesData } from "@/types/service/additionalServices";
 
 export default function AdditionalServices() {
   const data: AdditionalServicesData = additionalServicesData;
+
+  if (!data.active) {
+    return null;
+  }
+
   const { sectionHeader, services } = data;
 
   return (
@@ -32,12 +37,12 @@ export default function AdditionalServices() {
           </p>
         </div>
 
-        {/* Services Cards Grid (No Images, Pure Card Design - pulled entirely from JSON) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        {/* Services Cards Container: Mobile Horizontal Scroll / Desktop 3-Col Grid */}
+        <div className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-visible gap-5 sm:gap-6 lg:gap-8 pb-4 lg:pb-0 -mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-width:none">
           {services.map((item) => (
             <div
               key={item.id}
-              className="group bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/90 hover:border-primary/40 shadow-xs hover:shadow-xl transition-all duration-300 ease-out flex flex-col justify-between"
+              className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-95 md:max-w-95 lg:w-auto lg:max-w-none shrink-0 lg:shrink snap-start group bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/90 hover:border-primary/40 shadow-xs hover:shadow-xl transition-all duration-300 ease-out flex flex-col justify-between"
             >
               <div>
                 {/* Card Top Row: Number & Category Badge */}

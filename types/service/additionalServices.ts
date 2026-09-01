@@ -18,6 +18,7 @@ export interface AdditionalServicesSectionHeader {
 }
 
 export interface AdditionalServicesData {
+  active: boolean;
   sectionHeader: AdditionalServicesSectionHeader;
   services: AdditionalServiceItem[];
 }

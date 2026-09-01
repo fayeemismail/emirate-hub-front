@@ -4,6 +4,7 @@ import ServicesList from "@/components/services/ServicesList";
 import AdditionalServices from "@/components/services/AdditionalServices";
 import ServicesFaq from "@/components/services/Faq";
 import ServicesCta from "@/components/services/ServicesCta";
+import additionalServicesData from "@/data/service/additionalServices.json";
 import faqData from "@/data/service/faq.json";
 
 export const metadata: Metadata = {
@@ -17,12 +18,13 @@ export default function ServicesPage() {
     <main>
       <ServicesHero />
       <ServicesList />
-      <AdditionalServices />
+      {additionalServicesData.active && <AdditionalServices />}
       {faqData.active && <ServicesFaq />}
       <ServicesCta />
     </main>
   );
 }
+
 
 
 
