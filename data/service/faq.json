@@ -1,0 +1,63 @@
+{
+  "active": true,
+  "sectionHeader": {
+    "badge": "HELP & ADVISORY DESK",
+    "titlePrefix": "Everything You Need to Know About",
+    "highlightedTitle": "UAE Corporate Setup",
+    "description": "Have questions before incorporating your enterprise? Browse our curated answers or use the instant search to find solutions tailored to your business.",
+    "searchPlaceholder": "Search questions by topic (e.g. visa, corporate tax, license, banking)..."
+  },
+  "helpBox": {
+    "active": true,
+    "title": "Still have specific questions?",
+    "description": "Our senior business setup consultants are ready to provide a personalized advisory session tailored to your exact business activities.",
+    "buttonText": "REQUEST ADVISORY CALL",
+    "buttonHref": "/#contact-us",
+    "whatsappText": "CHAT ON WHATSAPP",
+    "whatsappHref": "https://wa.me/971000000"
+  },
+  "items": [
+    {
+      "id": 1,
+      "number": "01",
+      "category": "LICENSING & SETUP",
+      "question": "Which business license is best suited for my company in the UAE?",
+      "answer": "The ideal license depends on your business activity, target clients, and physical office needs. Free Zone licenses offer 100% foreign ownership, 0% personal tax, and zero customs duty for international trade. Mainland (DET) licenses allow you to trade freely anywhere across the UAE local market and bid on government contracts."
+    },
+    {
+      "id": 2,
+      "number": "02",
+      "category": "INCORPORATION SPEED",
+      "question": "How long does it take to incorporate a company and get a trade license?",
+      "answer": "Standard Free Zone and Mainland company incorporations typically take between 3 to 7 business days, provided all initial KYC and passport documents are in order."
+    },
+    {
+      "id": 3,
+      "number": "03",
+      "category": "VISA & RESIDENCY",
+      "question": "What is the process for obtaining a UAE Investor or Employment Visa?",
+      "answer": "Once your trade license and establishment card are issued, we initiate the entry permit application, followed by in-country status change, VIP medical fitness test, Emirates ID biometric typing, and final residency visa stamping."
+    },
+    {
+      "id": 4,
+      "number": "04",
+      "category": "TAX & COMPLIANCE",
+      "question": "Do I need to register for UAE Corporate Tax and VAT?",
+      "answer": "Yes, all UAE businesses (Mainland and Free Zone) must register for UAE Corporate Tax with the Federal Tax Authority (FTA) regardless of revenue. VAT registration is mandatory if taxable turnover exceeds AED 375,000 per annum (and optional from AED 187,500)."
+    },
+    {
+      "id": 5,
+      "number": "05",
+      "category": "CORPORATE BANKING",
+      "question": "Can Emirate Hub assist with opening a corporate bank account?",
+      "answer": "Yes, we work closely with major UAE Tier-1 banks (such as Emirates NBD, Mashreq, Wio, FAB, ADCB) and digital banking providers to assist you with KYC documentation, source-of-funds verification, and smooth account onboarding."
+    },
+    {
+      "id": 6,
+      "number": "06",
+      "category": "OFFICE SPACES",
+      "question": "Is physical office space mandatory for all UAE business licenses?",
+      "answer": "No. Many Free Zones allow cost-effective flexi-desks or virtual office setups suitable for digital and consultancy companies. For Mainland licenses and companies with higher visa quotas, a physical Ejari tenancy contract is required."
+    }
+  ]
+}

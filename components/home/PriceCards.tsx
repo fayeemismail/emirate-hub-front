@@ -10,6 +10,7 @@ import {
   LuArrowRight,
   LuCheck,
   LuSparkles,
+  LuBriefcaseBusiness,
 } from "react-icons/lu";
 
 const pricingCards = [
@@ -17,17 +18,17 @@ const pricingCards = [
     id: 1,
     badge: "FAST SETUP",
     isPopular: false,
-    icon: LuGlobe,
-    title: "E-Commerce & Digital License",
-    tagline: "For online stores, tech startups & media agencies",
+    icon: LuBriefcaseBusiness,
+    title: "Business License",
+    tagline: "Launch your business in the UAE with ease",
     startingAt: "Starting at",
     currency: "AED",
-    price: "5,750",
+    price: "3,999",
     features: [
       "100% Foreign Ownership",
-      "Fast 3-Day Digital Processing",
-      "Multiple Business Activities Included",
-      "Online Bank Account Assistance",
+      "10 Business Activities",
+      "Fast Processing",
+      "Bank Account Opening Assistance",
     ],
   },
   {
@@ -129,10 +130,12 @@ export default function PriceCards() {
             PRICING PACKAGES
           </span>
           <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
-            Transparent Pricing for <span className="text-primary">Your Success</span>
+            Transparent Pricing for{" "}
+            <span className="text-primary">Your Success</span>
           </h3>
           <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
-            Choose the ideal license package designed to fast-track your business setup in Dubai and across the UAE with zero hidden costs.
+            Choose the ideal license package designed to fast-track your
+            business setup in Dubai and across the UAE with zero hidden costs.
           </p>
         </motion.div>
 
@@ -196,7 +199,7 @@ export default function PriceCards() {
                   </h4>
 
                   {/* Short Tagline */}
-                  <p className="text-gray-500 text-xs sm:text-[13px] leading-relaxed font-normal mb-6 min-h-[38px]">
+                  <p className="text-gray-500 text-xs sm:text-[13px] leading-relaxed font-normal mb-6 min-h-9.5">
                     {card.tagline}
                   </p>
 
@@ -229,7 +232,7 @@ export default function PriceCards() {
                               : "bg-secondary/10 text-secondary"
                           }`}
                         >
-                          <LuCheck className="w-2.5 h-2.5 stroke-[3]" />
+                          <LuCheck className="w-2.5 h-2.5 stroke-3" />
                         </div>
                         <span className="text-xs sm:text-sm text-gray-600 font-normal leading-tight">
                           {feature}
@@ -262,5 +265,3 @@ export default function PriceCards() {
     </section>
   );
 }
-
-

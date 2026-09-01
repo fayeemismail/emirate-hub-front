@@ -1,0 +1,106 @@
+{
+  "sectionHeader": {
+    "badge": "ADDITIONAL SUPPORT SERVICES",
+    "titlePrefix": "Value-Added Corporate Solutions for",
+    "highlightedTitle": "Seamless UAE Operations",
+    "description": "Complement your core business setup with our suite of specialized administrative, legal, and operational support services tailored for businesses across Dubai and the UAE."
+  },
+  "services": [
+    {
+      "id": "trademark-ip-registration",
+      "number": "01",
+      "badge": "LEGAL PROTECTION",
+      "title": "Trademark & IP Registration",
+      "description": "Protect your brand identity, logos, slogans, and patents across the UAE and GCC. We manage search clearance, filing with the Ministry of Economy, publication, and final registration certificate issuance.",
+      "featuresHeading": "Key Highlights:",
+      "features": [
+        "Brand & Logo Search Clearance",
+        "Ministry of Economy Filings",
+        "Publication & Opposition Handling",
+        "10-Year Renewals & Trademark Watch"
+      ],
+      "buttonText": "ENQUIRE SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "pro-government-liaison",
+      "number": "02",
+      "badge": "GOVERNMENT RELATIONS",
+      "title": "PRO & Government Liaison Services",
+      "description": "Dedicated corporate PRO services managing all official documentation and administrative liaison with GDRFA, MOHRE, Dubai Courts, Municipality, and Free Zone authorities with zero delays.",
+      "featuresHeading": "Key Highlights:",
+      "features": [
+        "Establishment Card Renewals",
+        "Labour & Immigration Approvals",
+        "Commercial Register Amendments",
+        "VIP Document Clearing & Deliveries"
+      ],
+      "buttonText": "ENQUIRE SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "legal-translation-attestation",
+      "number": "03",
+      "badge": "DOCUMENTATION",
+      "title": "Legal Translation & Attestation",
+      "description": "Ministry of Justice certified translation and legal document attestation services for commercial agreements, MOAs, powers of attorney, board resolutions, and certificates from MOFA and foreign embassies.",
+      "featuresHeading": "Key Highlights:",
+      "features": [
+        "MOJ Certified Legal Translation",
+        "MOFA UAE & Embassy Attestations",
+        "Notary Public Coordination",
+        "Multi-Language Technical Translation"
+      ],
+      "buttonText": "ENQUIRE SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "customs-client-code",
+      "number": "04",
+      "badge": "TRADE & LOGISTICS",
+      "title": "Customs Code & Import/Export Setup",
+      "description": "Register your enterprise with Dubai Customs and Federal Customs Authority to obtain your import, export, and re-export client codes, ensuring frictionless global trading operations.",
+      "featuresHeading": "Key Highlights:",
+      "features": [
+        "Dubai Customs Client Code Registration",
+        "Mirsal II Portal Integration",
+        "Import / Export Code Renewals",
+        "Duty Exemption & Harmonized Tariff Advice"
+      ],
+      "buttonText": "ENQUIRE SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "hr-payroll-wps",
+      "number": "05",
+      "badge": "HUMAN RESOURCES",
+      "title": "HR & Wages Protection System (WPS)",
+      "description": "Complete setup and management of UAE Wages Protection System (WPS) compliant payroll processing, employment contract registrations, and employee onboarding administration.",
+      "featuresHeading": "Key Highlights:",
+      "features": [
+        "WPS Bank Account Linkage",
+        "Monthly Salary File Processing (SIF)",
+        "MOHRE Employment Contracts",
+        "End of Service Gratuity Calculation"
+      ],
+      "buttonText": "ENQUIRE SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "corporate-secretarial",
+      "number": "06",
+      "badge": "GOVERNANCE",
+      "title": "Corporate Secretarial & Compliance",
+      "description": "Maintain highest corporate governance standards with ongoing board resolution drafting, statutory record management, share transfer documentation, and license amendments.",
+      "featuresHeading": "Key Highlights:",
+      "features": [
+        "Shareholder Resolution Drafting",
+        "Share Transfer & Capital Restructuring",
+        "Ultimate Beneficial Owner (UBO) Filings",
+        "Annual Statutory Register Maintenance"
+      ],
+      "buttonText": "ENQUIRE SERVICE",
+      "buttonHref": "/#contact-us"
+    }
+  ]
+}
