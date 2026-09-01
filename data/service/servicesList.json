@@ -1,0 +1,119 @@
+{
+  "active": true,
+  "services": [
+    {
+      "id": "business-incorporation",
+      "number": "01",
+      "tag": "COMPANY FORMATION",
+      "title": "Business Incorporation",
+      "serviceType": "main service",
+      "active": true,
+      "image": "/images/service-1.jpg",
+      "description": "We have streamlined the complexities of incorporating a company in Dubai so entrepreneurs and businesses can quickly establish their presence. From initial name reservation to final trade license issuance, our specialists deliver seamless guidance.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "Mainland, Free Zone & Offshore Company Licensing",
+        "100% Foreign Ownership Structuring",
+        "Department of Economy and Tourism (DET) Approvals",
+        "Memorandum of Association (MOA) Drafting & Legal Typing"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "visa-services",
+      "number": "02",
+      "tag": "VISA & IMMIGRATION",
+      "title": "Visa Services",
+      "serviceType": "main service",
+      "active": true,
+      "image": "/images/service-2.jpg",
+      "description": "We offer end‑to‑end visa and immigration services for companies in UAE mainland and free zones, handling employment visas, family sponsorship, visit visas, Emirates ID, medical coordination and establishment card renewals. Our team manages all government liaison with GDRFA, ICP, MOHRE and free zone authorities, from document preparation and application submission to status tracking and final delivery, ensuring compliance, timely processing and minimal disruption to your business.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "Investor & Partner Golden Visas (10-Year Residency)",
+        "Employee & Employment Visa Quota Allocations",
+        "Family & Dependent Visa Sponsorship Facilitation",
+        "Emirates ID Biometrics & Medical Fitness VIP Typing"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "tax-readiness",
+      "number": "03",
+      "tag": "TAX & COMPLIANCE",
+      "title": "Tax Readiness",
+      "serviceType": "main service",
+      "active": true,
+      "image": "/images/service-3.jpg",
+      "description": "We provide corporate tax consulting services tailored for businesses operating in UAE mainland and free zones, guiding you through corporate tax registration, return filings, compliance assessments, and strategic planning to ensure full regulatory alignment.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "UAE Corporate Tax Registration & Compliance Review",
+        "Value Added Tax (VAT) Registration & Periodic Filings",
+        "Qualifying Free Zone Person (QFZP) Optimization",
+        "Bookkeeping, Financial Reporting & Audit Preparation"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "office-rentals",
+      "number": "04",
+      "tag": "COMMERCIAL SPACES",
+      "title": "Office Rentals",
+      "serviceType": "normal service",
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop",
+      "description": "We offer end‑to‑end office rental agreement services for businesses setting up or relocating in UAE mainland and free zones.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "Ejari Attestation & Tenancy Contract Approvals",
+        "Flexi-Desks, Coworking & Shared Business Spaces",
+        "Furnished Private Offices & Commercial Suites in Prime Hubs",
+        "Virtual Office Solutions with Dedicated Mail Handling"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "banking",
+      "number": "05",
+      "tag": "FINANCIAL SERVICES",
+      "title": "Banking",
+      "serviceType": "normal service",
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=1200&auto=format&fit=crop",
+      "description": "We help businesses open corporate bank accounts, set up payment gateways and access a full range of banking services in the UAE. From KYC and documentation to liaison with banks and payment providers, we ensure a smooth, compliant onboarding so you can start transacting quickly and focus on growing your business.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "Corporate Bank Account Opening with Top UAE Tier-1 Banks",
+        "Multi-Currency Merchant Accounts (AED, USD, EUR, GBP)",
+        "Payment Gateway Integration for E-Commerce & Retail",
+        "Source of Funds, KYC & Compliance Advisory"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "digital-marketing",
+      "number": "06",
+      "tag": "DIGITAL & MEDIA",
+      "title": "Digital Marketing",
+      "serviceType": "normal service",
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
+      "description": "We help you create a professional website for your company and leverage digital marketing and social media to reach more customers. From design and content to targeted campaigns and social media management, we build your online presence to support your business growth in the UAE and beyond.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "Custom Modern Website Design & High-Converting Landing Pages",
+        "Search Engine Optimization (SEO) & Google Ads (PPC)",
+        "Social Media Management & Paid Ads (Meta, LinkedIn, TikTok)",
+        "Corporate Brand Identity, Logo Design & Content Strategy"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    }
+  ]
+}

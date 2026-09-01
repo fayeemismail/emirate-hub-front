@@ -1,116 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
-
-export interface ServiceItem {
-  id: string;
-  number: string;
-  tag: string;
-  title: string;
-  image: string;
-  description: string;
-  keyFeatures: string[];
-}
-
-export const servicesData: ServiceItem[] = [
-  {
-    id: "business-incorporation",
-    number: "01",
-    tag: "COMPANY FORMATION",
-    title: "Business Incorporation",
-    image: "/images/service-1.jpg",
-    description:
-      "We have streamlined the complexities of incorporating a company in Dubai so entrepreneurs and businesses can quickly establish their presence. From initial name reservation to final trade license issuance, our specialists deliver seamless guidance.",
-    keyFeatures: [
-      "Mainland, Free Zone & Offshore Company Licensing",
-      "100% Foreign Ownership Structuring",
-      "Department of Economy and Tourism (DET) Approvals",
-      "Memorandum of Association (MOA) Drafting & Legal Typing",
-    ],
-  },
-  {
-    id: "visa-services",
-    number: "02",
-    tag: "VISA & IMMIGRATION",
-    title: "Visa Services",
-    image: "/images/service-2.jpg",
-    description:
-      "We offer end‑to‑end visa and immigration services for companies in UAE mainland and free zones, handling employment visas, family sponsorship, visit visas, Emirates ID, medical coordination and establishment card renewals. Our team manages all government liaison with GDRFA, ICP, MOHRE and free zone authorities, from document preparation and application submission to status tracking and final delivery, ensuring compliance, timely processing and minimal disruption to your business.",
-    keyFeatures: [
-      "Investor & Partner Golden Visas (10-Year Residency)",
-      "Employee & Employment Visa Quota Allocations",
-      "Family & Dependent Visa Sponsorship Facilitation",
-      "Emirates ID Biometrics & Medical Fitness VIP Typing",
-    ],
-  },
-  {
-    id: "tax-readiness",
-    number: "03",
-    tag: "TAX & COMPLIANCE",
-    title: "Tax Readiness",
-    image: "/images/service-3.jpg",
-    description:
-      "We provide corporate tax consulting services tailored for businesses operating in UAE mainland and free zones, guiding you through corporate tax registration, return filings, compliance assessments, and strategic planning to ensure full regulatory alignment.",
-    keyFeatures: [
-      "UAE Corporate Tax Registration & Compliance Review",
-      "Value Added Tax (VAT) Registration & Periodic Filings",
-      "Qualifying Free Zone Person (QFZP) Optimization",
-      "Bookkeeping, Financial Reporting & Audit Preparation",
-    ],
-  },
-  {
-    id: "office-rentals",
-    number: "04",
-    tag: "COMMERCIAL SPACES",
-    title: "Office Rentals",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop",
-    description:
-      "We offer end‑to‑end office rental agreement services for businesses setting up or relocating in UAE mainland and free zones.",
-    keyFeatures: [
-      "Ejari Attestation & Tenancy Contract Approvals",
-      "Flexi-Desks, Coworking & Shared Business Spaces",
-      "Furnished Private Offices & Commercial Suites in Prime Hubs",
-      "Virtual Office Solutions with Dedicated Mail Handling",
-    ],
-  },
-  {
-    id: "banking",
-    number: "05",
-    tag: "FINANCIAL SERVICES",
-    title: "Banking",
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=1200&auto=format&fit=crop",
-    description:
-      "We help businesses open corporate bank accounts, set up payment gateways and access a full range of banking services in the UAE. From KYC and documentation to liaison with banks and payment providers, we ensure a smooth, compliant onboarding so you can start transacting quickly and focus on growing your business.",
-    keyFeatures: [
-      "Corporate Bank Account Opening with Top UAE Tier-1 Banks",
-      "Multi-Currency Merchant Accounts (AED, USD, EUR, GBP)",
-      "Payment Gateway Integration for E-Commerce & Retail",
-      "Source of Funds, KYC & Compliance Advisory",
-    ],
-  },
-  {
-    id: "digital-marketing",
-    number: "06",
-    tag: "DIGITAL & MEDIA",
-    title: "Digital Marketing",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
-    description:
-      "We help you create a professional website for your company and leverage digital marketing and social media to reach more customers. From design and content to targeted campaigns and social media management, we build your online presence to support your business growth in the UAE and beyond.",
-    keyFeatures: [
-      "Custom Modern Website Design & High-Converting Landing Pages",
-      "Search Engine Optimization (SEO) & Google Ads (PPC)",
-      "Social Media Management & Paid Ads (Meta, LinkedIn, TikTok)",
-      "Corporate Brand Identity, Logo Design & Content Strategy",
-    ],
-  },
-];
+import rawServicesListData from "@/data/service/servicesList.json";
+import { ServicesListData } from "@/types/service/servicesList";
 
 export default function ServicesList() {
   const router = useRouter();
+  const data: ServicesListData = rawServicesListData as ServicesListData;
   const [activeHash, setActiveHash] = useState<string>("");
+
+  const activeServices = useMemo(() => {
+    return data.services.filter((service) => service.active);
+  }, [data.services]);
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -155,13 +59,17 @@ export default function ServicesList() {
     }
   };
 
+  if (!data.active || activeServices.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-[#F2F3EE]/60 overflow-hidden">
       <div className="site-container">
         {/* Category Pills Navigation Bar */}
         <div className="mb-8 sm:mb-10 md:mb-12">
           <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-2 gap-2.5 sm:gap-3 no-scrollbar">
-            {servicesData.map((service) => {
+            {activeServices.map((service) => {
               const isActive = activeHash === service.id;
               return (
                 <button
@@ -184,7 +92,7 @@ export default function ServicesList() {
 
         {/* Alternating Services Cards List */}
         <div className="space-y-10 sm:space-y-12 md:space-y-14 lg:space-y-16">
-          {servicesData.map((service, index) => {
+          {activeServices.map((service, index) => {
             const isEven = index % 2 === 1; // 2nd, 4th, 6th rows: Image Left, Details Right
             const isTargeted = activeHash === service.id;
 
@@ -250,7 +158,7 @@ export default function ServicesList() {
                     {/* Key Features Bullet List */}
                     <div className="space-y-2 mb-6 sm:mb-7">
                       <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                        What&apos;s Included:
+                        {service.featuresHeading}
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {service.keyFeatures.map((feature, fIdx) => (
@@ -271,10 +179,10 @@ export default function ServicesList() {
                     <div>
                       <button
                         type="button"
-                        onClick={() => router.push("/#contact-us")}
+                        onClick={() => router.push(service.buttonHref)}
                         className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-primary bg-primary text-white hover:bg-[#c8191e] font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer active:scale-95"
                       >
-                        <span>ENQUIRE FOR THIS SERVICE</span>
+                        <span>{service.buttonText}</span>
                         <FiArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300 ease-in-out" />
                       </button>
                     </div>
@@ -282,7 +190,7 @@ export default function ServicesList() {
                 </div>
 
                 {/* Divider Line between services */}
-                {index !== servicesData.length - 1 && (
+                {index !== activeServices.length - 1 && (
                   <div className="w-full h-px bg-gray-300/50 mt-10 sm:mt-12 md:mt-14" />
                 )}
               </div>

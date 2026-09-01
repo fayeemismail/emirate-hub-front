@@ -4,6 +4,7 @@ import ServicesList from "@/components/services/ServicesList";
 import AdditionalServices from "@/components/services/AdditionalServices";
 import ServicesFaq from "@/components/services/Faq";
 import ServicesCta from "@/components/services/ServicesCta";
+import servicesListData from "@/data/service/servicesList.json";
 import additionalServicesData from "@/data/service/additionalServices.json";
 import faqData from "@/data/service/faq.json";
 
@@ -17,13 +18,14 @@ export default function ServicesPage() {
   return (
     <main>
       <ServicesHero />
-      <ServicesList />
+      {servicesListData.active && <ServicesList />}
       {additionalServicesData.active && <AdditionalServices />}
       {faqData.active && <ServicesFaq />}
       <ServicesCta />
     </main>
   );
 }
+
 
 
 
