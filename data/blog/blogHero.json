@@ -1,0 +1,49 @@
+{
+  "active": true,
+  "breadcrumb": {
+    "parentLabel": "Home",
+    "parentHref": "/",
+    "label": "Blogs & Insights"
+  },
+  "badge": "LATEST INSIGHTS & REGULATIONS",
+  "title": "UAE Business Insights &",
+  "highlightedTitle": "Market Updates",
+  "subtitle": "Authoritative perspectives on UAE corporate setup, tax strategies, and regulatory compliance.",
+  "description": "Stay informed with actionable advice from Emirate Hub's advisors. Explore in-depth guides on VAT registration, corporate tax reliefs, international expansions, and corporate governance in Dubai.",
+  "quickTags": [
+    {
+      "label": "All Articles",
+      "category": "all"
+    },
+    {
+      "label": "Tax & VAT",
+      "category": "tax-compliance"
+    },
+    {
+      "label": "Compliance & Regulations",
+      "category": "regulations"
+    },
+    {
+      "label": "Strategic Growth",
+      "category": "strategic-growth"
+    },
+    {
+      "label": "Corporate Advisory",
+      "category": "corporate-advisory"
+    }
+  ],
+  "stats": [
+    {
+      "value": "100%",
+      "label": "Regulatory Accuracy"
+    },
+    {
+      "value": "2026",
+      "label": "Compliance Directives"
+    },
+    {
+      "value": "3-5 Days",
+      "label": "Avg. Registration Speed"
+    }
+  ]
+}

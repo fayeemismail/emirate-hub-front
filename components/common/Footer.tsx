@@ -38,7 +38,7 @@ const footerData = [
   {
     title: "Resources",
     links: [
-      { name: "Business Setup Blog", href: "#" },
+      { name: "Business Setup Blog", href: "/blog" },
       { name: "Emirate Hub in the Press", href: "#" },
       { name: "Trade License Dubai", href: "#" },
       { name: "How to Start a Business in Dubai", href: "#" },

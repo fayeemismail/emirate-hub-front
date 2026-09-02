@@ -1,0 +1,272 @@
+{
+  "active": true,
+  "categories": [
+    {
+      "id": "all",
+      "label": "All Articles"
+    },
+    {
+      "id": "tax-compliance",
+      "label": "Tax & VAT"
+    },
+    {
+      "id": "regulations",
+      "label": "Compliance & Regulations"
+    },
+    {
+      "id": "strategic-growth",
+      "label": "Strategic Growth"
+    },
+    {
+      "id": "corporate-advisory",
+      "label": "Corporate Advisory"
+    }
+  ],
+  "blogs": [
+    {
+      "id": "vat-registration-dubai-2026",
+      "title": "VAT Registration in Dubai 2026: A Practical Guide for UAE Businesses",
+      "excerpt": "If you are starting or growing a business in Dubai, VAT (Value Added Tax) registration is one of the most critical compliance milestones you must navigate to avoid severe penalties.",
+      "category": "tax-compliance",
+      "date": "March 2026",
+      "readTime": "5 min read",
+      "featured": true,
+      "active": true,
+      "author": {
+        "name": "Tariq Al-Mansoor",
+        "role": "Senior Tax & Compliance Advisor",
+        "avatar": "/images/contact-person.jpg"
+      },
+      "image": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop",
+      "tags": ["VAT Dubai", "Federal Tax Authority", "Tax Compliance", "Business Setup"],
+      "summaryQuote": "Understanding mandatory versus voluntary VAT thresholds early protects cash flow and prevents costly retrospective penalties from the FTA.",
+      "keyTakeaways": [
+        "Mandatory threshold: Taxable supplies exceed AED 375,000 in the prior 12 months or anticipated 30 days.",
+        "Voluntary threshold: Taxable supplies or expenses exceed AED 187,500.",
+        "Zero-rated and exempt supplies require distinct accounting treatments in UAE financial reporting.",
+        "Late registration penalties start at AED 10,000, compounding with subsequent filing delays."
+      ],
+      "sections": [
+        {
+          "heading": "Understanding VAT in the UAE Landscape",
+          "paragraphs": [
+            "Since its introduction at a standard rate of 5%, Value Added Tax (VAT) has become an integral pillar of doing business in the UAE. Governed by the Federal Tax Authority (FTA), VAT applies to the supply of most goods and services with specific provisions for designated free zones and international transactions.",
+            "In 2026, enhanced digital auditing and real-time transaction reporting require companies in Dubai to maintain flawless accounting standards and tax records for a minimum of 5 years."
+          ]
+        },
+        {
+          "heading": "Mandatory vs. Voluntary Registration Thresholds",
+          "paragraphs": [
+            "A business must register for VAT if the total value of its taxable supplies and imports exceeds AED 375,000 over the previous 12-month period, or is expected to exceed this threshold in the next 30 days.",
+            "Businesses with turnover or taxable expenses exceeding AED 187,500 are eligible for voluntary registration. Voluntary registration is particularly advantageous for startups seeking input tax refunds on heavy capital expenditure."
+          ]
+        },
+        {
+          "heading": "Steps to Register with the FTA Portal",
+          "paragraphs": [
+            "To successfully obtain your Tax Registration Number (TRN), you must submit valid trade licenses, memorandum of association (MOA), passport and Emirates ID copies of authorized signatories, and detailed audited financial statements or turnover certificates.",
+            "Emirate Hub provides end-to-end assistance throughout the FTA submission process to ensure registration turnaround within 3-5 business days."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compliance-obligations-uae",
+      "title": "When Your Business Changes, Your Compliance Obligations May Change Too",
+      "excerpt": "When launching or scaling a business in the UAE, the excitement of growth can often overshadow subtle regulatory triggers such as Ultimate Beneficial Ownership (UBO), ESR, and AML filings.",
+      "category": "regulations",
+      "date": "February 2026",
+      "readTime": "6 min read",
+      "featured": false,
+      "active": true,
+      "author": {
+        "name": "Sarah Jenkins",
+        "role": "Head of Corporate Governance",
+        "avatar": "/images/contact-person.jpg"
+      },
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop",
+      "tags": ["Corporate Governance", "UBO Regulations", "ESR Reporting", "AML UAE"],
+      "summaryQuote": "Changes in shareholding, office location, or business activities trigger mandatory statutory disclosures within 15 days across UAE licensing authorities.",
+      "keyTakeaways": [
+        "UBO registers must be updated within 15 days of any changes in ownership or control structures.",
+        "Economic Substance Regulations (ESR) apply to specific relevant activities including distribution, service centers, and holding companies.",
+        "Anti-Money Laundering (AML) goAML reporting is mandatory for designated non-financial businesses and professions (DNFBPs).",
+        "Failure to maintain statutory registers can lead to license suspension and fines up to AED 100,000."
+      ],
+      "sections": [
+        {
+          "heading": "Dynamic Compliance Triggers in Fast-Growing Companies",
+          "paragraphs": [
+            "Corporate compliance in the UAE is not a one-time setup checkpoint; it is an evolving framework. Every time your company expands operations, brings in an international investor, or changes its trade activities, statutory obligations across various authorities are triggered.",
+            "Failing to notify the relevant licensing authority (such as the Dubai Department of Economy and Tourism or specific Free Zone Authorities) can result in administrative blocks on visa processing and corporate bank accounts."
+          ]
+        },
+        {
+          "heading": "Ultimate Beneficial Ownership (UBO) Disclosures",
+          "paragraphs": [
+            "Cabinet Resolution No. 109 of 2023 mandates that all mainland and commercial free zone entities maintain a Real Beneficiary Register, a Partners/Shareholders Register, and a Nominee Directors Register.",
+            "Whenever equity changes hand or a trust/nominee arrangement is modified, the updated register must be submitted to the licensing registrar within 15 calendar days."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "emirate-hub-aim-partnership",
+      "title": "Emirate Hub and AIM Launch Strategic Partnership to Accelerate Cross-Border Investment & Business Growth",
+      "excerpt": "This strategic partnership will strengthen international business engagement and connect innovation-led companies with global investors and regional stakeholders through AIM Congress 2026.",
+      "category": "strategic-growth",
+      "date": "February 2026",
+      "readTime": "4 min read",
+      "featured": false,
+      "active": true,
+      "author": {
+        "name": "Rashid Al-Nuaimi",
+        "role": "Director of Strategic Alliances",
+        "avatar": "/images/contact-person.jpg"
+      },
+      "image": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop",
+      "tags": ["Cross-Border Investment", "AIM Congress", "Global Partnerships", "UAE Economy"],
+      "summaryQuote": "By joining forces with AIM Congress, Emirate Hub provides our clients with direct access to sovereign wealth networks, institutional investors, and global markets.",
+      "keyTakeaways": [
+        "Unlocking institutional funding and strategic venture backing for UAE-based tech and industrial firms.",
+        "Fast-tracked corporate setup and licensing assistance for foreign direct investors entering the GCC.",
+        "Collaborative roundtables connecting European and Asian enterprises directly with Dubai government stakeholders.",
+        "Turnkey executive migration and golden visa facilitation for international founders."
+      ],
+      "sections": [
+        {
+          "heading": "Empowering Global Entrepreneurs in Dubai",
+          "paragraphs": [
+            "Dubai continues to solidify its reputation as the premier global nexus for capital, innovation, and entrepreneurship. The newly forged alliance between Emirate Hub and the Annual Investment Meeting (AIM Congress) establishes a streamlined pathway for international enterprises expanding into the MENA region.",
+            "Through this partnership, international delegations and prospective founders gain unprecedented access to corporate advisory, tax restructuring, and regulatory fast-tracking."
+          ]
+        },
+        {
+          "heading": "Key Pillars of the Alliance",
+          "paragraphs": [
+            "The collaboration focuses on three major initiatives: cross-border capital readiness workshops, bespoke licensing tracks for high-growth tech ventures, and dedicated institutional banking partnerships.",
+            "Emirate Hub acts as the sovereign on-ground advisory partner, ensuring seamless transition from investor interest to operational business reality in the UAE."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uae-corporate-tax-small-business-relief",
+      "title": "UAE Corporate Tax: Small Business Relief Explained",
+      "excerpt": "The UAE introduced Small Business Relief (SBR) to support small businesses during the initial implementation of the Corporate Tax regime. Learn how your company can benefit from 0% taxable income status.",
+      "category": "tax-compliance",
+      "date": "January 2026",
+      "readTime": "7 min read",
+      "featured": false,
+      "active": true,
+      "author": {
+        "name": "Tariq Al-Mansoor",
+        "role": "Senior Tax & Compliance Advisor",
+        "avatar": "/images/contact-person.jpg"
+      },
+      "image": "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=1200&auto=format&fit=crop",
+      "tags": ["Corporate Tax", "Small Business Relief", "0% Tax Rate", "UAE Business"],
+      "summaryQuote": "Small Business Relief treats eligible taxable persons as having no taxable income for tax periods ending on or before 31 December 2026.",
+      "keyTakeaways": [
+        "Revenue threshold: Gross revenue must not exceed AED 3,000,000 for relevant and previous tax periods.",
+        "Relief eligibility is available for tax periods starting on or after 1 June 2023 and ending on or before 31 December 2026.",
+        "Qualifying Free Zone Persons and members of Multinational Enterprise (MNE) groups are excluded from SBR.",
+        "Corporate Tax registration remains mandatory even if electing for Small Business Relief."
+      ],
+      "sections": [
+        {
+          "heading": "What is Small Business Relief (SBR)?",
+          "paragraphs": [
+            "Under Ministerial Decision No. 73 of 2023, resident taxable persons with revenue not exceeding AED 3,000,000 in any relevant tax period may elect to be treated as having derived no taxable income during that period.",
+            "This critical provision significantly lowers compliance overhead for startups, independent consultancies, and emerging SMEs operating across the UAE."
+          ]
+        },
+        {
+          "heading": "Critical Caveats and Anti-Abuse Rules",
+          "paragraphs": [
+            "While SBR provides substantial tax savings, businesses electing for SBR cannot carry forward tax losses or unutilized net interest expenditure from that tax period.",
+            "Furthermore, the Federal Tax Authority enforces stringent General Anti-Abuse Rules (GAAR) to prevent artificial splitting of businesses designed purely to stay beneath the AED 3M revenue cap."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dubai-mainland-vs-freezone-guide",
+      "title": "Dubai Mainland vs. Free Zone in 2026: Choosing the Right Structure for Your Enterprise",
+      "excerpt": "A detailed strategic comparison between establishing your company in the Dubai Mainland versus one of the UAE's 40+ specialized Free Zones.",
+      "category": "corporate-advisory",
+      "date": "January 2026",
+      "readTime": "8 min read",
+      "featured": false,
+      "active": true,
+      "author": {
+        "name": "Sarah Jenkins",
+        "role": "Head of Corporate Governance",
+        "avatar": "/images/contact-person.jpg"
+      },
+      "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
+      "tags": ["Mainland Setup", "Free Zone UAE", "Company Formation", "Trade License"],
+      "summaryQuote": "Mainland setup allows unrestricted direct trade with the local UAE market and government bidding, while Free Zones offer 100% foreign ownership with specialized industry hubs.",
+      "keyTakeaways": [
+        "Mainland licenses enable direct retail and B2C/B2B trading throughout all seven Emirates without local distributor restrictions.",
+        "Free Zones (such as DMCC, DIFC, IFZA, DAFZA) offer streamlined digital incorporation and custom sector-specific ecosystems.",
+        "100% foreign ownership is now available across virtually all commercial and industrial mainland activities.",
+        "Visa allocation in mainland is generally determined by physical office square footage, whereas free zones offer tiered visa packages."
+      ],
+      "sections": [
+        {
+          "heading": "Navigating UAE Jurisdiction Models",
+          "paragraphs": [
+            "One of the foundational decisions every international investor faces is selecting between a Mainland corporate license and a Free Zone entity. Both offer world-class regulatory protection and zero personal income tax, but differ markedly in operational scope and geographical trading flexibility.",
+            "With recent reforms in UAE commercial company laws, foreign investors can now hold 100% equity in most mainland businesses without requiring a UAE national majority shareholder."
+          ]
+        },
+        {
+          "heading": "How Emirate Hub Guides Your Jurisdiction Choice",
+          "paragraphs": [
+            "Our advisory team performs a comprehensive feasibility assessment covering your target clientele, banking requirements, customs duty exposure, and planned office locations to determine the optimum corporate structure."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "opening-corporate-bank-account-uae",
+      "title": "Navigating UAE Corporate Banking: Essential Steps for Seamless Account Approval",
+      "excerpt": "Opening a corporate bank account is often considered the most demanding stage of UAE business setup. Here is our insider blueprint for swift banking onboarding.",
+      "category": "corporate-advisory",
+      "date": "January 2026",
+      "readTime": "5 min read",
+      "featured": false,
+      "active": true,
+      "author": {
+        "name": "Rashid Al-Nuaimi",
+        "role": "Director of Strategic Alliances",
+        "avatar": "/images/contact-person.jpg"
+      },
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
+      "tags": ["Corporate Banking", "UAE Bank Account", "KYC Compliance", "Emirates NBD"],
+      "summaryQuote": "Clear proof of business substance, verified source of funds, and well-documented client/supplier invoices are the three pillars of instant bank KYC approval in Dubai.",
+      "keyTakeaways": [
+        "Maintain comprehensive 6-month personal or parent company bank statements with clear audit trails.",
+        "Provide draft contracts, prospective supplier MOUs, and a concrete business model overview.",
+        "Physical residency (Emirates ID and UAE residential tenancy) dramatically accelerates premier tier account opening.",
+        "Emirate Hub works directly with relationship managers at leading tier-1 UAE financial institutions."
+      ],
+      "sections": [
+        {
+          "heading": "The Current UAE Banking Compliance Landscape",
+          "paragraphs": [
+            "UAE banks adhere to stringent international AML and FATCA/CRS guidelines. As a consequence, compliance officers require extensive background documentation to verify the legitimate commercial rationale and operational substance of new corporate entities.",
+            "Having structured documentation prepared prior to initial bank meeting ensures your application proceeds smoothly without repetitive queries or weeks of delay."
+          ]
+        },
+        {
+          "heading": "Our Direct Banking Relationship Advantage",
+          "paragraphs": [
+            "Emirate Hub maintains institutional partnerships with top UAE banks including Emirates NBD, Mashreq, Abu Dhabi Commercial Bank (ADCB), and Wio Bank. We assist founders in pre-vetting documentation to achieve first-time account approvals."
+          ]
+        }
+      ]
+    }
+  ]
+}

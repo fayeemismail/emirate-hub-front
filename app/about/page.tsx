@@ -16,7 +16,7 @@ export default function AboutPage() {
     <main>
       {aboutHeroData.active && <AboutHero />}
       {visionData.active && <OurVision />}
-      <ServicesCta />
+      {/* <ServicesCta /> */}
     </main>
   );
 }
