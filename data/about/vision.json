@@ -1,0 +1,33 @@
+{
+  "active": true,
+  "header": {
+    "title": "Our Vision, Your Future",
+    "subtitle": "Creating modern enterprise solutions that inspire sustainable business growth, stronger corporate communities, and lasting value across the UAE."
+  },
+  "vision": {
+    "title": "Our Vision",
+    "description": "To become the most trusted corporate setup and business advisory partner for global enterprises, modern founders, and ambitious investors in Dubai and beyond."
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "Our mission is to deliver comprehensive turnkey corporate solutions and business licenses with complete transparency, uncompromising integrity, and unmatched client satisfaction."
+  },
+  "images": {
+    "column1": {
+      "src": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+      "alt": "Modern Dubai Skyline Landmark"
+    },
+    "column2": {
+      "src": "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=800&q=80",
+      "alt": "Contemporary Commercial Architecture Dubai"
+    },
+    "column3": {
+      "src": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+      "alt": "Modern Corporate Tower"
+    },
+    "column4": {
+      "src": "https://images.unsplash.com/photo-1546412414-e1885259563a?auto=format&fit=crop&w=800&q=80",
+      "alt": "Dubai Architectural Landmarks and Green Space"
+    }
+  }
+}

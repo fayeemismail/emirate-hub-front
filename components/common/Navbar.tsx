@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/coming-soon" },
+  { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Blogs", href: "/coming-soon" },
   { label: "Contact Us", href: "/#contact-us" },
@@ -106,7 +106,7 @@ export default function Navbar() {
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
       } ${
-        isScrolled || isMobileMenuOpen
+        isScrolled || isMobileMenuOpen || pathname === "/about"
           ? "bg-black/75 backdrop-blur-md shadow-lg border-b border-white/10"
           : "bg-transparent border-b border-white/20"
       }`}
