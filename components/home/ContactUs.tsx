@@ -49,10 +49,23 @@ export default function ContactUs() {
           </p>
         </motion.div>
 
-        {/* 2-Column Grid: Photo + Form */}
+        {/* 2-Column Grid: Form first on mobile, Photo second on mobile; Side-by-side on desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch max-w-6xl mx-auto">
-          {/* Photo Column */}
-          <div className="lg:col-span-5 relative min-h-[380px] sm:min-h-[460px] md:min-h-[520px] lg:min-h-full rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group">
+          {/* Form Column (First on mobile, Right side on desktop) */}
+          <div className="order-1 lg:order-2 lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100/90 flex flex-col justify-center">
+            <div className="mb-6">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-2">
+                Send Us a Message
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-500 font-light">
+                Fill out the form below and our team will get in touch with you shortly.
+              </p>
+            </div>
+            <ContactForm subtitle="" />
+          </div>
+
+          {/* Photo Column (Second on mobile, Left side on desktop) */}
+          <div className="order-2 lg:order-1 lg:col-span-5 relative min-h-[380px] sm:min-h-[460px] md:min-h-[520px] lg:min-h-full rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group">
             <Image
               src="/images/contact-person.jpg"
               alt="Connect With Us - Business Consultation"
@@ -84,19 +97,6 @@ export default function ContactUs() {
                 </span>
               </div>
             </div>
-          </div>
-
-          {/* Form Column */}
-          <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100/90 flex flex-col justify-center">
-            <div className="mb-6">
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-2">
-                Send Us a Message
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-500 font-light">
-                Fill out the form below and our team will get in touch with you shortly.
-              </p>
-            </div>
-            <ContactForm subtitle="" />
           </div>
         </div>
       </div>

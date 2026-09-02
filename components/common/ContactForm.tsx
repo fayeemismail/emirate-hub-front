@@ -42,7 +42,7 @@ export default function ContactForm({
               onChange={(e) => setFormData({ ...formData, businessActivity: e.target.value })}
               className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 bg-transparent outline-none focus:border-primary cursor-pointer whitespace-nowrap truncate block"
             >
-              <option value="" className="whitespace-nowrap">Select your business activity</option>
+              <option value="" className="whitespace-nowrap">Select</option>
               <option value="e-commerce" className="whitespace-nowrap">E-Commerce & Digital Trade</option>
               <option value="it-software" className="whitespace-nowrap">IT, Tech & Software Services</option>
               <option value="consulting" className="whitespace-nowrap">Management & Business Consulting</option>
