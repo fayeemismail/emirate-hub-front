@@ -44,7 +44,7 @@ export default function AboutHero() {
         {/* 3-Column Image & Center Impact Card Gallery */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 lg:gap-6 items-stretch max-w-6xl mx-auto">
           {/* Left Column: 2 Stacked Images */}
-          <div className="md:col-span-4 flex flex-col gap-4 sm:gap-5 lg:gap-6 justify-between">
+          <div className="hidden md:flex md:col-span-4 flex-col gap-4 sm:gap-5 lg:gap-6 justify-between">
             {/* Top Left Image */}
             <div className="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
               <Image
@@ -104,7 +104,7 @@ export default function AboutHero() {
           </div>
 
           {/* Right Column: 2 Stacked Images */}
-          <div className="md:col-span-4 flex flex-col gap-4 sm:gap-5 lg:gap-6 justify-between">
+          <div className="hidden md:flex md:col-span-4 flex-col gap-4 sm:gap-5 lg:gap-6 justify-between">
             {/* Top Right Image */}
             <div className="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
               <Image
