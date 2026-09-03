@@ -111,10 +111,10 @@ export default function ContactForm({
                 required
               />
               <span>
-                I consent to the processing of my personal data as outlined in the{" "}
-                <a href="#" className="text-primary hover:underline font-medium">
+                I'm not a robot{""}
+                {/* <a href="#" className="text-primary hover:underline font-medium">
                   Privacy Policy
-                </a>
+                </a> */}
                 .
               </span>
             </label>

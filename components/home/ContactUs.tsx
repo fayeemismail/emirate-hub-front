@@ -65,7 +65,7 @@ export default function ContactUs() {
           </div>
 
           {/* Photo Column (Second on mobile, Left side on desktop) */}
-          <div className="order-2 lg:order-1 lg:col-span-5 relative min-h-[380px] sm:min-h-[460px] md:min-h-[520px] lg:min-h-full rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group">
+          <div className="order-2 lg:order-1 lg:col-span-5 relative min-h-95 sm:min-h-115 md:min-h-130 lg:min-h-full rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group">
             <Image
               src="/images/contact-person.jpg"
               alt="Connect With Us - Business Consultation"
@@ -75,7 +75,7 @@ export default function ContactUs() {
               sizes="(max-width: 1024px) 100vw, 40vw"
             />
             {/* Soft Dark Gradient Overlay at bottom for contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
 
             {/* Floating Glassmorphic Badge / Advisor Info */}
             <div className="absolute bottom-6 left-6 right-6 p-4 sm:p-5 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 text-white flex flex-col gap-2">

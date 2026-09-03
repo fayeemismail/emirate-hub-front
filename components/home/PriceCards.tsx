@@ -11,61 +11,38 @@ import {
   LuCheck,
   LuSparkles,
   LuBriefcaseBusiness,
+  LuShieldCheck,
+  LuLandmark,
+  LuFileText,
+  LuTrendingUp,
+  LuZap,
 } from "react-icons/lu";
+import rawPricingData from "@/data/home/pricing.json";
+import { PricingData } from "@/types/home/pricing";
 
-const pricingCards = [
-  {
-    id: 1,
-    badge: "FAST SETUP",
-    isPopular: false,
-    icon: LuBriefcaseBusiness,
-    title: "Business License",
-    tagline: "Launch your business in the UAE with ease",
-    startingAt: "Starting at",
-    currency: "AED",
-    price: "3,999",
-    features: [
-      "100% Foreign Ownership",
-      "10 Business Activities",
-      "Fast Processing",
-      "Bank Account Opening Assistance",
-    ],
-  },
-  {
-    id: 2,
-    badge: "MOST POPULAR",
-    isPopular: true,
-    icon: LuBuilding2,
-    title: "Dubai Mainland License",
-    tagline: "Direct access to UAE local & global markets",
-    startingAt: "Starting at",
-    currency: "AED",
-    price: "15,000",
-    features: [
-      "Trade Anywhere in the UAE & Worldwide",
-      "No Minimum Paid-Up Capital Required",
-      "Dedicated Corporate Banking Support",
-      "Unlimited Employment Visa Quotas",
-    ],
-  },
-  {
-    id: 3,
-    badge: "BEST VALUE",
-    isPopular: false,
-    icon: LuBadgeCheck,
-    title: "Freezone & Lifetime Visa",
-    tagline: "All-in-one package with residency for life",
-    startingAt: "Starting at",
-    currency: "AED",
-    price: "12,500",
-    features: [
-      "Free Lifetime Investor Residency Visa",
-      "0% Personal & Corporate Tax Benefits",
-      "100% Capital & Profit Repatriation",
-      "Fast-Track Emirates ID & Medicals",
-    ],
-  },
-];
+// Dynamic icon mapping helper
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  briefcase: LuBriefcaseBusiness,
+  LuBriefcaseBusiness: LuBriefcaseBusiness,
+  building: LuBuilding2,
+  LuBuilding2: LuBuilding2,
+  "badge-check": LuBadgeCheck,
+  LuBadgeCheck: LuBadgeCheck,
+  globe: LuGlobe,
+  LuGlobe: LuGlobe,
+  sparkles: LuSparkles,
+  LuSparkles: LuSparkles,
+  shield: LuShieldCheck,
+  LuShieldCheck: LuShieldCheck,
+  landmark: LuLandmark,
+  LuLandmark: LuLandmark,
+  file: LuFileText,
+  LuFileText: LuFileText,
+  zap: LuZap,
+  LuZap: LuZap,
+  trending: LuTrendingUp,
+  LuTrendingUp: LuTrendingUp,
+};
 
 // Lightweight GPU-accelerated entrance variants
 const containerVariants: Variants = {
@@ -105,13 +82,18 @@ const headerVariants: Variants = {
 
 export default function PriceCards() {
   const router = useRouter();
-  const [clickedId, setClickedId] = useState<number | null>(null);
+  const [clickedId, setClickedId] = useState<number | string | null>(null);
+  const data: PricingData = rawPricingData as PricingData;
 
-  const handleEnquire = (id: number) => {
-    setClickedId(id);
+  if (!data.active) {
+    return null;
+  }
+
+  const handleEnquire = (href?: string, id?: number | string) => {
+    if (id !== undefined) setClickedId(id);
     setTimeout(() => {
       setClickedId(null);
-      router.push("/coming-soon");
+      router.push(href || "/coming-soon");
     }, 250);
   };
 
@@ -126,17 +108,22 @@ export default function PriceCards() {
           variants={headerVariants}
           className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 md:mb-16 px-4"
         >
-          <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
-            PRICING PACKAGES
-          </span>
+          {data.badge && (
+            <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
+              {data.badge}
+            </span>
+          )}
           <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
-            Transparent Pricing for{" "}
-            <span className="text-primary">Your Success</span>
+            {data.title}{" "}
+            {data.highlightedTitle && (
+              <span className="text-primary">{data.highlightedTitle}</span>
+            )}
           </h3>
-          <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
-            Choose the ideal license package designed to fast-track your
-            business setup in Dubai and across the UAE with zero hidden costs.
-          </p>
+          {data.description && (
+            <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
+              {data.description}
+            </p>
+          )}
         </motion.div>
 
         {/* Pricing Cards Grid */}
@@ -147,25 +134,26 @@ export default function PriceCards() {
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch"
         >
-          {pricingCards.map((card, index) => {
-            const IconComponent = card.icon;
-            const isLastCard = index === pricingCards.length - 1;
+          {data.cards.map((card, index) => {
+            const IconComponent = ICON_MAP[card.icon] || LuBriefcaseBusiness;
+            const isLastCard = index === data.cards.length - 1;
             const isClicked = clickedId === card.id;
+            const isCenterOrPopular = card.isPopular;
 
             return (
               <motion.div
                 key={card.id}
                 variants={itemVariants}
-                className={`group relative bg-white rounded-3xl p-7 md:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between border ${
-                  card.isPopular
-                    ? "border-primary/40 ring-1 ring-primary/20 hover:shadow-[0_20px_45px_rgba(224,33,38,0.12)]"
-                    : "border-gray-100/90 hover:border-secondary/30 hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
+                className={`group relative rounded-3xl p-7 md:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between border ${
+                  isCenterOrPopular
+                    ? "bg-primary text-white border-primary shadow-xl hover:shadow-[0_20px_50px_rgba(224,33,38,0.28)]"
+                    : "bg-white text-gray-900 border-gray-100/90 hover:border-secondary/30 hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
                 } ${isLastCard ? "md:col-span-2 lg:col-span-1" : ""}`}
               >
-                {/* Popular / Recommended Tag */}
+                {/* Popular / Recommended Floating Tag */}
                 {card.isPopular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 bg-primary text-white text-[11px] font-bold tracking-widest uppercase px-4 py-1 rounded-full shadow-md flex items-center gap-1.5 select-none">
-                    <LuSparkles className="w-3.5 h-3.5" />
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 bg-white text-primary text-[11px] font-extrabold tracking-widest uppercase px-4 py-1 rounded-full shadow-md flex items-center gap-1.5 select-none border border-primary/20">
+                    <LuSparkles className="w-3.5 h-3.5 text-primary" />
                     <span>{card.badge}</span>
                   </div>
                 )}
@@ -175,8 +163,8 @@ export default function PriceCards() {
                   <div className="flex items-center justify-between mb-6">
                     <div
                       className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 ease-in-out shadow-xs group-hover:scale-105 ${
-                        card.isPopular
-                          ? "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
+                        isCenterOrPopular
+                          ? "bg-white/15 text-white border border-white/20 backdrop-blur-xs group-hover:bg-white group-hover:text-primary"
                           : "bg-secondary/10 text-secondary group-hover:bg-secondary group-hover:text-secondary-foreground"
                       }`}
                     >
@@ -192,27 +180,49 @@ export default function PriceCards() {
 
                   {/* Title (Guaranteed Single Line) */}
                   <h4
-                    className="text-lg sm:text-xl lg:text-[17px] xl:text-xl font-bold text-gray-900 tracking-tight truncate whitespace-nowrap mb-2"
+                    className={`text-lg sm:text-xl lg:text-[17px] xl:text-xl font-bold tracking-tight truncate whitespace-nowrap mb-2 ${
+                      isCenterOrPopular ? "text-white" : "text-gray-900"
+                    }`}
                     title={card.title}
                   >
                     {card.title}
                   </h4>
 
                   {/* Short Tagline */}
-                  <p className="text-gray-500 text-xs sm:text-[13px] leading-relaxed font-normal mb-6 min-h-9.5">
+                  <p
+                    className={`text-xs sm:text-[13px] leading-relaxed font-normal mb-6 min-h-9.5 ${
+                      isCenterOrPopular ? "text-white/85" : "text-gray-500"
+                    }`}
+                  >
                     {card.tagline}
                   </p>
 
                   {/* Price Block */}
-                  <div className="pb-6 border-b border-gray-100">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 block mb-1">
+                  <div
+                    className={`pb-6 border-b ${
+                      isCenterOrPopular ? "border-white/20" : "border-gray-100"
+                    }`}
+                  >
+                    {/* <span
+                      className={`text-xs font-semibold uppercase tracking-wider block mb-1 ${
+                        isCenterOrPopular ? "text-white/75" : "text-gray-400"
+                      }`}
+                    >
                       {card.startingAt}
-                    </span>
+                    </span> */}
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-sm sm:text-base font-semibold text-gray-500">
+                      <span
+                        className={`text-sm sm:text-base font-semibold ${
+                          isCenterOrPopular ? "text-white/90" : "text-gray-500"
+                        }`}
+                      >
                         {card.currency}
                       </span>
-                      <span className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                      <span
+                        className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                          isCenterOrPopular ? "text-white" : "text-gray-900"
+                        }`}
+                      >
                         {card.price}
                       </span>
                     </div>
@@ -220,21 +230,29 @@ export default function PriceCards() {
 
                   {/* Features List */}
                   <div className="py-6 space-y-3">
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-gray-400 block mb-1">
-                      What&apos;s Included:
+                    <span
+                      className={`text-[11px] font-bold uppercase tracking-widest block mb-1 ${
+                        isCenterOrPopular ? "text-white/75" : "text-gray-400"
+                      }`}
+                    >
+                      {card.featuresHeading || "What's Included:"}
                     </span>
                     {card.features.map((feature, fIndex) => (
                       <div key={fIndex} className="flex items-start gap-2.5">
                         <div
                           className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
-                            card.isPopular
-                              ? "bg-primary/10 text-primary"
+                            isCenterOrPopular
+                              ? "bg-white/20 text-white border border-white/30"
                               : "bg-secondary/10 text-secondary"
                           }`}
                         >
-                          <LuCheck className="w-2.5 h-2.5 stroke-3" />
+                          <LuCheck className="w-2.5 h-2.5 stroke-3 text-current" />
                         </div>
-                        <span className="text-xs sm:text-sm text-gray-600 font-normal leading-tight">
+                        <span
+                          className={`text-xs sm:text-sm font-normal leading-tight ${
+                            isCenterOrPopular ? "text-white/95" : "text-gray-600"
+                          }`}
+                        >
                           {feature}
                         </span>
                       </div>
@@ -242,18 +260,18 @@ export default function PriceCards() {
                   </div>
                 </div>
 
-                {/* Enquire Now Bordered CTA Button (Popular gets Primary, others get Secondary) */}
+                {/* Enquire Now CTA Button */}
                 <div className="pt-2">
                   <button
                     type="button"
-                    onClick={() => handleEnquire(card.id)}
-                    className={`group/btn w-full py-3.5 px-6 rounded-xl font-semibold text-xs tracking-wider uppercase border bg-transparent transition-all duration-300 ease-in-out flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md select-none active:scale-[0.98] ${
-                      card.isPopular
-                        ? "border-primary text-primary hover:bg-primary hover:text-white"
-                        : "border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
+                    onClick={() => handleEnquire(card.buttonHref, card.id)}
+                    className={`group/btn w-full py-3.5 px-6 rounded-xl font-semibold text-xs tracking-wider uppercase border transition-all duration-300 ease-in-out flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md select-none active:scale-[0.98] ${
+                      isCenterOrPopular
+                        ? "bg-white text-primary border-black hover:bg-white/90 hover:text-primary font-bold"
+                        : "bg-transparent border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
                     } ${isClicked ? "opacity-75 scale-95" : ""}`}
                   >
-                    <span>ENQUIRE NOW</span>
+                    <span>{card.buttonText || "ENQUIRE NOW"}</span>
                     <LuArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform duration-300 ease-in-out" />
                   </button>
                 </div>

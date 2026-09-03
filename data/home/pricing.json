@@ -1,0 +1,69 @@
+{
+  "active": true,
+  "badge": "PRICING PACKAGES",
+  "title": "Transparent Pricing for",
+  "highlightedTitle": "Your Success",
+  "description": "Choose the ideal license package designed to fast-track your business setup in Dubai and across the UAE with zero hidden costs.",
+  "cards": [
+    {
+      "id": 1,
+      "badge": "FAST SETUP",
+      "isPopular": false,
+      "icon": "briefcase",
+      "title": "Business License",
+      "tagline": "Launch your business in the UAE with ease",
+      "startingAt": "Starting at",
+      "currency": "AED",
+      "price": "3,999",
+      "featuresHeading": "What's Included:",
+      "features": [
+        "100% Foreign Ownership",
+        "10 Business Activities",
+        "Fast Processing",
+        "Bank Account Opening Assistance"
+      ],
+      "buttonText": "ENQUIRE NOW",
+      "buttonHref": "/coming-soon"
+    },
+    {
+      "id": 2,
+      "badge": "MOST POPULAR",
+      "isPopular": true,
+      "icon": "building",
+      "title": "Dubai Mainland License",
+      "tagline": "Direct access to UAE local & global markets",
+      "startingAt": "Starting at",
+      "currency": "AED",
+      "price": "15,000",
+      "featuresHeading": "What's Included:",
+      "features": [
+        "Trade Anywhere in the UAE & Worldwide",
+        "No Minimum Paid-Up Capital Required",
+        "Dedicated Corporate Banking Support",
+        "Unlimited Employment Visa Quotas"
+      ],
+      "buttonText": "ENQUIRE NOW",
+      "buttonHref": "/coming-soon"
+    },
+    {
+      "id": 3,
+      "badge": "BEST VALUE",
+      "isPopular": false,
+      "icon": "badge-check",
+      "title": "Freezone & Lifetime Visa",
+      "tagline": "All-in-one package with residency",
+      "startingAt": "Starting at",
+      "currency": "AED",
+      "price": "8,888",
+      "featuresHeading": "What's Included:",
+      "features": [
+        "Business license",
+        "Residency visa",
+        "100% Capital & Profit Repatriation",
+        "Fast-Track Emirates ID & Medicals"
+      ],
+      "buttonText": "ENQUIRE NOW",
+      "buttonHref": "/coming-soon"
+    }
+  ]
+}
