@@ -10,7 +10,7 @@ const services = [
     slug: "business-incorporation",
     number: "01",
     tag: "COMPANY FORMATION",
-    image: "/images/service-1.jpg",
+    image: "/images/service-2.jpg",
     title: "Business Incorporation",
     description:
       "We have streamlined the complexities of incorporating a company in Dubai so entrepreneurs and businesses can quickly establish their presence. From initial name reservation to final trade license issuance, our specialists deliver seamless guidance.",
@@ -20,7 +20,7 @@ const services = [
     slug: "visa-services",
     number: "02",
     tag: "VISA & IMMIGRATION",
-    image: "/images/service-2.jpg",
+    image: "/images/service-1.jpg",
     title: "Visa Services",
     description:
       "We offer end‑to‑end visa and immigration services for companies in UAE mainland and free zones, handling employment visas, family sponsorship, visit visas, Emirates ID, medical coordination and establishment card renewals. Our team manages all government liaison with GDRFA, ICP, MOHRE...",
