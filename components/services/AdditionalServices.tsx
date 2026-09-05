@@ -56,9 +56,11 @@ export default function AdditionalServices() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug mb-3 group-hover:text-primary transition-colors duration-300">
-                  {item.title}
-                </h3>
+                <Link href={`/services/${item.id}`}>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug mb-3 hover:text-primary transition-colors duration-300 cursor-pointer">
+                    {item.title}
+                  </h3>
+                </Link>
 
                 {/* Description */}
                 <p className="text-gray-600 text-xs sm:text-sm leading-relaxed font-light mb-6">
@@ -84,10 +86,10 @@ export default function AdditionalServices() {
               {/* Bottom CTA Action Button */}
               <div className="pt-2">
                 <Link
-                  href={item.buttonHref}
+                  href={`/services/${item.id}`}
                   className="group/btn w-full py-3 px-5 rounded-xl font-semibold text-xs tracking-wider uppercase border border-gray-200 group-hover:border-primary text-gray-700 group-hover:text-primary hover:bg-primary hover:text-white! transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-[0.98]"
                 >
-                  <span>{item.buttonText}</span>
+                  <span>VIEW DETAILS</span>
                   <FiArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300 ease-in-out" />
                 </Link>
               </div>

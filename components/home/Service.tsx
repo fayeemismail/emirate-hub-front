@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
 
@@ -118,9 +119,11 @@ export default function Service() {
                       </span>
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
-                      {service.title}
-                    </h3>
+                    <Link href={`/services/${service.slug}`}>
+                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-4 hover:text-primary transition-colors cursor-pointer">
+                        {service.title}
+                      </h3>
+                    </Link>
 
                     <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed font-light mb-6 max-w-xl">
                       {service.description}
@@ -130,7 +133,7 @@ export default function Service() {
                     <div>
                       <button
                         type="button"
-                        onClick={() => router.push(`/services#${service.slug}`)}
+                        onClick={() => router.push(`/services/${service.slug}`)}
                         className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
                       >
                         <span>LEARN MORE</span>

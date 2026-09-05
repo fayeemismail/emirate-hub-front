@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
 import rawServicesListData from "@/data/service/servicesList.json";
@@ -113,7 +114,10 @@ export default function ServicesList() {
                       isEven ? "lg:order-1" : "lg:order-2"
                     }`}
                   >
-                    <div className="relative w-full max-w-lg mx-auto lg:max-w-none aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/10] lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group bg-gray-200">
+                    <Link
+                      href={`/services/${service.id}`}
+                      className="block relative w-full max-w-lg mx-auto lg:max-w-none aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/10] lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group bg-gray-200 cursor-pointer"
+                    >
                       <Image
                         src={service.image}
                         alt={service.title}
@@ -125,7 +129,7 @@ export default function ServicesList() {
                       <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full border border-white/20">
                         {service.number}
                       </div>
-                    </div>
+                    </Link>
                   </div>
 
                   {/* Details Column */}
@@ -146,9 +150,11 @@ export default function ServicesList() {
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-3 sm:mb-4">
-                      {service.title}
-                    </h2>
+                    <Link href={`/services/${service.id}`}>
+                      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-3 sm:mb-4 hover:text-primary transition-colors cursor-pointer">
+                        {service.title}
+                      </h2>
+                    </Link>
 
                     {/* Full Description */}
                     <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed font-light mb-5">
@@ -175,16 +181,21 @@ export default function ServicesList() {
                       </div>
                     </div>
 
-                    {/* Enquire CTA Button */}
-                    <div>
-                      <button
-                        type="button"
-                        onClick={() => router.push(service.buttonHref)}
-                        className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-primary bg-primary text-white hover:bg-[#c8191e] font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer active:scale-95"
+                    {/* Action Buttons: View Details & Enquire */}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Link
+                        href={`/services/${service.id}`}
+                        className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full border border-primary bg-primary text-white hover:bg-[#c8191e] font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer active:scale-95"
                       >
-                        <span>{service.buttonText}</span>
+                        <span>VIEW DETAILS</span>
                         <FiArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300 ease-in-out" />
-                      </button>
+                      </Link>
+                      <Link
+                        href={service.buttonHref || "/#contact-us"}
+                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900 font-semibold text-xs tracking-wider uppercase transition-all duration-300 cursor-pointer active:scale-95"
+                      >
+                        <span>ENQUIRE NOW</span>
+                      </Link>
                     </div>
                   </div>
                 </div>

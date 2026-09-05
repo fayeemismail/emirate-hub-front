@@ -46,7 +46,7 @@ export default function AboutHero() {
           {/* Left Column: 2 Stacked Images */}
           <div className="hidden md:flex md:col-span-4 flex-col gap-4 sm:gap-5 lg:gap-6 justify-between">
             {/* Top Left Image */}
-            <div className="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
+            <div className="relative w-full aspect-4/3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
               <Image
                 src={data.images.topLeft.src}
                 alt={data.images.topLeft.alt}
@@ -58,7 +58,7 @@ export default function AboutHero() {
             </div>
 
             {/* Bottom Left Image */}
-            <div className="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
+            <div className="relative w-full aspect-4/3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
               <Image
                 src={data.images.bottomLeft.src}
                 alt={data.images.bottomLeft.alt}
@@ -71,7 +71,7 @@ export default function AboutHero() {
 
           {/* Center Column: Dark Impact Feature Card */}
           <div className="md:col-span-4 flex">
-            <div className="w-full rounded-2xl sm:rounded-3xl bg-[#0d1015] border border-white/10 shadow-2xl p-6 sm:p-8 lg:p-9 flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[360px] md:min-h-full">
+            <div className="w-full rounded-2xl sm:rounded-3xl bg-[#0d1015] border border-white/10 shadow-2xl p-6 sm:p-8 lg:p-9 flex flex-col items-center justify-center text-center relative overflow-hidden min-h-90 md:min-h-full">
               {/* Geometric Background Pattern SVG Overlay */}
               <div
                 className="absolute inset-0 opacity-15 pointer-events-none"
@@ -106,7 +106,7 @@ export default function AboutHero() {
           {/* Right Column: 2 Stacked Images */}
           <div className="hidden md:flex md:col-span-4 flex-col gap-4 sm:gap-5 lg:gap-6 justify-between">
             {/* Top Right Image */}
-            <div className="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
+            <div className="relative w-full aspect-4/3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
               <Image
                 src={data.images.topRight.src}
                 alt={data.images.topRight.alt}
@@ -118,7 +118,7 @@ export default function AboutHero() {
             </div>
 
             {/* Bottom Right Image */}
-            <div className="relative w-full aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
+            <div className="relative w-full aspect-4/3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-500 group bg-gray-100 border border-gray-200/80">
               <Image
                 src={data.images.bottomRight.src}
                 alt={data.images.bottomRight.alt}

@@ -56,14 +56,22 @@ export default function Navbar() {
     }
   };
 
-  // Scroll to hash on page transition or direct load
+  // Scroll to hash on page transition or direct load and reset visibility
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash) {
-      const hash = window.location.hash.replace("#", "");
-      const timer = setTimeout(() => {
-        scrollToSection(hash);
-      }, 300);
-      return () => clearTimeout(timer);
+    setIsVisible(true);
+    setIsMobileMenuOpen(false);
+
+    if (typeof window !== "undefined") {
+      lastScrollY.current = window.scrollY;
+      setIsScrolled(window.scrollY > 20);
+
+      if (window.location.hash) {
+        const hash = window.location.hash.replace("#", "");
+        const timer = setTimeout(() => {
+          scrollToSection(hash);
+        }, 300);
+        return () => clearTimeout(timer);
+      }
     }
   }, [pathname]);
 
@@ -99,6 +107,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Pages with a full-bleed dark hero banner at the very top
+  const hasDarkHeroAtTop =
+    pathname === "/" || pathname === "/services" || pathname === "/coming-soon";
+  const showSolidNavbar = isScrolled || isMobileMenuOpen || !hasDarkHeroAtTop;
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
@@ -106,8 +119,8 @@ export default function Navbar() {
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
       } ${
-        isScrolled || isMobileMenuOpen || pathname === "/about" || pathname === "/blog"
-          ? "bg-black/75 backdrop-blur-md shadow-lg border-b border-white/10"
+        showSolidNavbar
+          ? "bg-black/85 backdrop-blur-md shadow-lg border-b border-white/10"
           : "bg-transparent border-b border-white/20"
       }`}
     >
