@@ -3,16 +3,23 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import rawHeroData from "@/data/home/hero.json";
+import { HeroData } from "@/types/home/hero";
 
 const Hero = () => {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
+  const data: HeroData = rawHeroData as HeroData;
+
+  if (!data.active) {
+    return null;
+  }
 
   const handleClick = () => {
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-      router.push("/coming-soon");
+      router.push(data.buttonHref || "/coming-soon");
     }, 400);
   };
 
@@ -20,7 +27,7 @@ const Hero = () => {
     <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
       {/* Background Image */}
       <Image
-        src="/images/hero-bg.png"
+        src={data.backgroundImage || "/images/hero-bg.png"}
         alt=""
         fill
         priority
@@ -39,19 +46,22 @@ const Hero = () => {
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-center md:text-start lg:text-start">
             {/* Heading */}
             <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white sm:text-[32px] md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
-              Your Search for The Right{" "} 
+              {data.heading.prefix}
               <br className="" />
-              <span className="text-[#E02126] font-bold">UAE Business License</span> 
-              <br className="block md:hidden lg:hidden " /> Ends Here.
+              <span className="text-[#E02126] font-bold">
+                {data.heading.highlightedText}
+              </span>{" "}
+              <br className="block md:hidden lg:hidden " />
+              {data.heading.suffix}
             </h1>
 
             {/* Sub Heading & Description */}
             <div className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3">
               <p className="text-[15px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-bold lg:font-medium text-white/95 leading-snug">
-                Get the most cost-effective mainland or free zone setup with a partner you can trust.
+                {data.subheading}
               </p>
               <p className="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/80 font-medium lg:font-light">
-                We deliver comprehensive, end-to-end solutions spanning business setup, licensing, visa processing, compliance, and corporate service equipping you to establish, expand, and maintain a thriving business in the UAE.
+                {data.description}
               </p>
             </div>
 
@@ -74,7 +84,7 @@ const Hero = () => {
                   isClicked ? "text-black!" : ""
                 }`}
               >
-                REQUEST INFORMATION
+                {data.buttonText}
               </span>
 
               {/* Right Arrow */}

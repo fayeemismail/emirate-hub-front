@@ -1,39 +1,48 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
-import rawBlogsData from "@/data/blog/blogsData.json";
-import { BlogsPageData } from "@/types/blog/blog";
+import rawBlogData from "@/data/home/blog.json";
+import { HomeBlogData } from "@/types/home/blog";
 
 export default function BlogsAndNews() {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
-  const data: BlogsPageData = rawBlogsData as BlogsPageData;
+  const data: HomeBlogData = rawBlogData as HomeBlogData;
+
+  if (!data.active) {
+    return null;
+  }
+
+  const activeBlogs = data.blogs.filter((blog) => blog.active !== false);
+
+  if (activeBlogs.length === 0) {
+    return null;
+  }
 
   const handleClick = () => {
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-      router.push("/blog");
+      router.push(data.viewAllHref || "/blog");
     }, 400);
   };
 
-  const blog1 = data.blogs[0];
-  const blog2 = data.blogs[1];
-  const blog3 = data.blogs[2];
-  const blog4 = data.blogs[3];
+  const blog1 = activeBlogs[0];
+  const blog2 = activeBlogs[1];
+  const blog3 = activeBlogs[2];
+  const blog4 = activeBlogs[3];
 
   return (
     <section className="py-16 md:py-24 bg-white overflow-hidden">
       <div className="site-container">
         {/* Main Section Heading - Matching About and PriceCards style */}
         <div className="pb-4 text-center md:text-left">
-          <Link href="/blog">
+          <Link href={data.titleHref || "/blog"}>
             <h2 className="relative text-5xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.75 after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
-              Blogs & News
+              {data.title}
             </h2>
           </Link>
         </div>
@@ -41,7 +50,7 @@ export default function BlogsAndNews() {
         {/* Subtitle */}
         <div className="mb-10 text-center md:text-left">
           <p className="text-gray-600 text-lg md:text-xl font-light">
-            Keep up with the latest news
+            {data.subtitle}
           </p>
         </div>
 
@@ -197,7 +206,7 @@ export default function BlogsAndNews() {
                 isClicked ? "text-white!" : ""
               }`}
             >
-              VIEW ALL
+              {data.viewAllText}
             </span>
 
             {/* Red Right Arrow */}

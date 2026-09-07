@@ -8,16 +8,18 @@ import Testimonials from "@/components/home/Testimonials";
 import pricingData from "@/data/home/pricing.json";
 import serviceData from "@/data/home/service.json";
 import testimonialsData from "@/data/home/testimonials.json";
+import heroData from "@/data/home/hero.json";
+import blogData from "@/data/home/blog.json";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
+      {heroData.active && <Hero />}
       {pricingData.active && <PriceCards />}
       {serviceData.active && <Service />}
       <ContactUs />
       {testimonialsData.active && <Testimonials />}
-      <BlogsAndNews />
+      {blogData.active && <BlogsAndNews />}
       <Faq />
     </main>
   );

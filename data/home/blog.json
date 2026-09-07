@@ -1,0 +1,38 @@
+{
+  "active": true,
+  "title": "Blogs & News",
+  "titleHref": "/blog",
+  "subtitle": "Keep up with the latest news",
+  "viewAllText": "VIEW ALL",
+  "viewAllHref": "/blog",
+  "blogs": [
+    {
+      "id": "vat-registration-dubai-2026",
+      "title": "VAT Registration in Dubai 2026: A Practical Guide for UAE Businesses",
+      "excerpt": "If you are starting or growing a business in Dubai, VAT (Value Added Tax) registration is one of the most critical compliance milestones you must navigate to avoid severe penalties.",
+      "image": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop",
+      "active": true
+    },
+    {
+      "id": "compliance-obligations-uae",
+      "title": "When Your Business Changes, Your Compliance Obligations May Change Too",
+      "excerpt": "When launching or scaling a business in the UAE, the excitement of growth can often overshadow subtle regulatory triggers such as Ultimate Beneficial Ownership (UBO), ESR, and AML filings.",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop",
+      "active": true
+    },
+    {
+      "id": "emirate-hub-aim-partnership",
+      "title": "Emirate Hub and AIM Launch Strategic Partnership to Accelerate Cross-Border Investment & Business Growth",
+      "excerpt": "This strategic partnership will strengthen international business engagement and connect innovation-led companies with global investors and regional stakeholders through AIM Congress 2026.",
+      "image": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop",
+      "active": true
+    },
+    {
+      "id": "uae-corporate-tax-small-business-relief",
+      "title": "UAE Corporate Tax: Small Business Relief Explained",
+      "excerpt": "The UAE introduced Small Business Relief (SBR) to support small businesses during the initial implementation of the Corporate Tax regime. Learn how your company can benefit from 0% taxable income status.",
+      "image": "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=1200&auto=format&fit=crop",
+      "active": true
+    }
+  ]
+}
