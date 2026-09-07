@@ -6,16 +6,17 @@ import PriceCards from "@/components/home/PriceCards";
 import Service from "@/components/home/Service";
 import Testimonials from "@/components/home/Testimonials";
 import pricingData from "@/data/home/pricing.json";
-import Image from "next/image";
+import serviceData from "@/data/home/service.json";
+import testimonialsData from "@/data/home/testimonials.json";
 
 export default function Home() {
   return (
     <main>
       <Hero />
       {pricingData.active && <PriceCards />}
-      <Service />
+      {serviceData.active && <Service />}
       <ContactUs />
-      <Testimonials />
+      {testimonialsData.active && <Testimonials />}
       <BlogsAndNews />
       <Faq />
     </main>

@@ -1,0 +1,45 @@
+{
+  "active": true,
+  "badge": "SERVICES",
+  "titlePrefix": "What ",
+  "highlightedTitle": "Emirate Hub",
+  "titleSuffix": " can do for you",
+  "description": "Emirate Hub provides premium standards of business setup solutions for SMEs through our wide network of Professional Partners and Business Communities.",
+  "viewAllButtonText": "VIEW ALL SERVICES",
+  "viewAllButtonHref": "/services",
+  "services": [
+    {
+      "id": 1,
+      "slug": "business-incorporation",
+      "number": "01",
+      "tag": "COMPANY FORMATION",
+      "image": "/images/service-2.jpg",
+      "title": "Business Incorporation",
+      "description": "We have streamlined the complexities of incorporating a company in Dubai so entrepreneurs and businesses can quickly establish their presence. From initial name reservation to final trade license issuance, our specialists deliver seamless guidance.",
+      "buttonText": "LEARN MORE",
+      "active": true
+    },
+    {
+      "id": 2,
+      "slug": "visa-services",
+      "number": "02",
+      "tag": "VISA & IMMIGRATION",
+      "image": "/images/service-1.jpg",
+      "title": "Visa Services",
+      "description": "We offer end‑to‑end visa and immigration services for companies in UAE mainland and free zones, handling employment visas, family sponsorship, visit visas, Emirates ID, medical coordination and establishment card renewals. Our team manages all government liaison with GDRFA, ICP, MOHRE...",
+      "buttonText": "LEARN MORE",
+      "active": true
+    },
+    {
+      "id": 3,
+      "slug": "tax-readiness",
+      "number": "03",
+      "tag": "TAX & COMPLIANCE",
+      "image": "/images/service-3.jpg",
+      "title": "Tax Readiness",
+      "description": "We provide comprehensive corporate tax consulting services tailored for businesses operating in UAE mainland and free zones, guiding you through corporate tax registration, return filings, compliance assessments, and strategic planning to ensure full regulatory alignment.",
+      "buttonText": "LEARN MORE",
+      "active": true
+    }
+  ]
+}

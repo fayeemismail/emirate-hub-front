@@ -1,0 +1,100 @@
+{
+  "active": true,
+  "title": "What Our Customers Say",
+  "description": "Real stories from real people! See how our services have transformed their experiences.",
+  "buttonText": "Book Now",
+  "buttonHref": "/coming-soon",
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Shabeeb Khan",
+      "role": "Founder",
+      "company": "Bloom Digital",
+      "image": "https://images.unsplash.com/photo-1604494747044-2e080876c5f1?w=600&auto=format&fit=crop",
+      "quote": "Setting up our digital agency in Dubai was completely frictionless. Emirate Hub handled every visa and license requirement with total precision.",
+      "rating": 5,
+      "leftPercent": 6,
+      "topPercent": 32,
+      "sizeClass": "w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Carlos Mendez",
+      "role": "Co-Founder",
+      "company": "Horizon Logistics",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
+      "quote": "The efficiency and transparency exceeded all expectations. They saved us months of bureaucratic legwork and guided us through corporate banking seamlessly.",
+      "rating": 5,
+      "leftPercent": 20,
+      "topPercent": 73,
+      "sizeClass": "w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Ameen Hyder",
+      "role": "Managing Director",
+      "company": "Apex Capital",
+      "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=500&auto=format&fit=crop",
+      "quote": "Their mainland setup expertise is unparalleled in the UAE. From corporate structuring to residency visas, the entire process was swift and professional.",
+      "rating": 5,
+      "leftPercent": 35,
+      "topPercent": 25,
+      "sizeClass": "w-15 h-15 sm:w-18 sm:h-18 md:w-22 md:h-22 lg:w-26 lg:h-26",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Faslu Rahman",
+      "role": "CEO & Founder",
+      "company": "Novus Global Tech",
+      "image": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=500&auto=format&fit=crop",
+      "quote": "This platform made my experience seamless and enjoyable. The quality of service exceeded my expectations!",
+      "rating": 5,
+      "leftPercent": 50,
+      "topPercent": 53,
+      "sizeClass": "w-18 h-18 sm:w-22 sm:h-22 md:w-26 md:h-26 lg:w-30 lg:h-30",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Dr. Julian Weiss",
+      "role": "Principal Scientist",
+      "company": "Apex BioTech",
+      "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=500&auto=format&fit=crop",
+      "quote": "Outstanding corporate guidance with absolute clarity on freezone regulations. Highly recommended for international enterprises establishing in Dubai.",
+      "rating": 5,
+      "leftPercent": 65,
+      "topPercent": 23,
+      "sizeClass": "w-15 h-15 sm:w-18 sm:h-18 md:w-22 md:h-22 lg:w-26 lg:h-26",
+      "active": true
+    },
+    {
+      "id": 6,
+      "name": "Faheem Ismail",
+      "role": "Creative Director",
+      "company": "Aura Design Studio",
+      "image": "https://images.unsplash.com/photo-1687817320995-96a10d084cc6?w=600&auto=format&fit=crop",
+      "quote": "The lifetime visa package and license setup were completed in record time. Transparent pricing with zero hidden fees — truly best-in-class support.",
+      "rating": 5,
+      "leftPercent": 80,
+      "topPercent": 75,
+      "sizeClass": "w-15 h-15 sm:w-18 sm:h-18 md:w-22 md:h-22 lg:w-26 lg:h-26",
+      "active": true
+    },
+    {
+      "id": 7,
+      "name": "Shamil Goesling",
+      "role": "Partner",
+      "company": "Omnia Consulting",
+      "image": "https://images.unsplash.com/photo-1671116559951-916ea2dba662?w=600&auto=format&fit=crop",
+      "quote": "Emirate Hub is our trusted business incorporation partner. Their dedicated advisors made our regional expansion smooth, rapid, and fully compliant.",
+      "rating": 5,
+      "leftPercent": 94,
+      "topPercent": 28,
+      "sizeClass": "w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24",
+      "active": true
+    }
+  ]
+}

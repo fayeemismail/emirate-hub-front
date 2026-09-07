@@ -4,42 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiArrowRight } from "react-icons/fi";
-
-const services = [
-  {
-    id: 1,
-    slug: "business-incorporation",
-    number: "01",
-    tag: "COMPANY FORMATION",
-    image: "/images/service-2.jpg",
-    title: "Business Incorporation",
-    description:
-      "We have streamlined the complexities of incorporating a company in Dubai so entrepreneurs and businesses can quickly establish their presence. From initial name reservation to final trade license issuance, our specialists deliver seamless guidance.",
-  },
-  {
-    id: 2,
-    slug: "visa-services",
-    number: "02",
-    tag: "VISA & IMMIGRATION",
-    image: "/images/service-1.jpg",
-    title: "Visa Services",
-    description:
-      "We offer end‑to‑end visa and immigration services for companies in UAE mainland and free zones, handling employment visas, family sponsorship, visit visas, Emirates ID, medical coordination and establishment card renewals. Our team manages all government liaison with GDRFA, ICP, MOHRE...",
-  },
-  {
-    id: 3,
-    slug: "tax-readiness",
-    number: "03",
-    tag: "TAX & COMPLIANCE",
-    image: "/images/service-3.jpg",
-    title: "Tax Readiness",
-    description:
-      "We provide comprehensive corporate tax consulting services tailored for businesses operating in UAE mainland and free zones, guiding you through corporate tax registration, return filings, compliance assessments, and strategic planning to ensure full regulatory alignment.",
-  },
-];
+import rawServiceData from "@/data/home/service.json";
+import { HomeServiceData } from "@/types/home/service";
 
 export default function Service() {
   const router = useRouter();
+  const data: HomeServiceData = rawServiceData as HomeServiceData;
+
+  if (!data.active) {
+    return null;
+  }
+
+  const activeServices = data.services.filter(
+    (service) => service.active !== false
+  );
+
+  if (activeServices.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-16 md:py-24 lg:py-28 bg-[#F2F3EE]/50 overflow-hidden">
@@ -47,38 +29,44 @@ export default function Service() {
         {/* Subtitle Header Section */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14 px-4">
           {/* Small Top Subtitle */}
-          <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
-            SERVICES
-          </span>
+          {data.badge && (
+            <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
+              {data.badge}
+            </span>
+          )}
 
           {/* Main Title with Emirate Hub in Red */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
-            What <span className="text-primary">Emirate Hub</span> can do for you
+            {data.titlePrefix}
+            <span className="text-primary">{data.highlightedTitle}</span>
+            {data.titleSuffix}
           </h2>
 
           {/* Descriptive Subtitle Text */}
           <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
-            Emirate Hub provides premium standards of business setup solutions for SMEs through our wide network of Professional Partners and Business Communities.
+            {data.description}
           </p>
         </div>
 
         {/* View All Services Top Right Button (Desktop / Tablet) */}
-        <div className="hidden md:flex justify-end items-center mb-8 md:mb-10">
-          <button
-            type="button"
-            onClick={() => router.push("/services")}
-            className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
-          >
-            <span>VIEW ALL SERVICES</span>
-            <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
-          </button>
-        </div>
+        {data.viewAllButtonText && (
+          <div className="hidden md:flex justify-end items-center mb-8 md:mb-10">
+            <button
+              type="button"
+              onClick={() => router.push(data.viewAllButtonHref || "/services")}
+              className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
+            >
+              <span>{data.viewAllButtonText}</span>
+              <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
+            </button>
+          </div>
+        )}
 
         {/* Alternating Services Rows */}
         <div className="space-y-14 md:space-y-16 lg:space-y-24">
-          {services.map((service, index) => {
+          {activeServices.map((service, index) => {
             const isEven = index % 2 === 1; // 2nd row: Image Left, Details Right
-            const isLast = index === services.length - 1;
+            const isLast = index === activeServices.length - 1;
 
             return (
               <div key={service.id}>
@@ -136,7 +124,7 @@ export default function Service() {
                         onClick={() => router.push(`/services/${service.slug}`)}
                         className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
                       >
-                        <span>LEARN MORE</span>
+                        <span>{service.buttonText || "LEARN MORE"}</span>
                         <FiArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300 ease-in-out" />
                       </button>
                     </div>
@@ -153,18 +141,19 @@ export default function Service() {
         </div>
 
         {/* Mobile View All Services Bottom Button */}
-        <div className="flex md:hidden justify-center items-center mt-12 sm:mt-14">
-          <button
-            type="button"
-            onClick={() => router.push("/services")}
-            className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
-          >
-            <span>VIEW ALL SERVICES</span>
-            <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
-          </button>
-        </div>
+        {data.viewAllButtonText && (
+          <div className="flex md:hidden justify-center items-center mt-12 sm:mt-14">
+            <button
+              type="button"
+              onClick={() => router.push(data.viewAllButtonHref || "/services")}
+              className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
+            >
+              <span>{data.viewAllButtonText}</span>
+              <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
 }
-
