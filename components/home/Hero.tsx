@@ -87,36 +87,22 @@ const Hero = () => {
               {hasAnimatedWords ? (
                 <>
                   <span>{prefix}</span>{" "}
-                  <span className="relative inline-grid grid-cols-1 grid-rows-1 items-baseline align-baseline text-center">
-                    {/* Sizer: All words rendered invisibly in the same cell to permanently fix container to maximum word width */}
-                    {words.map((word) => (
-                      <span
-                        key={word}
-                        className="invisible select-none pointer-events-none font-bold col-start-1 row-start-1"
-                        aria-hidden="true"
+                  <span className="relative inline-block align-baseline">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                      <motion.span
+                        key={currentWord}
+                        initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
+                        transition={{
+                          duration: 0.35,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                        className="inline-block font-bold text-white tracking-normal drop-shadow-[0_2px_12px_rgba(255,255,255,0.25)]"
                       >
-                        {word}
-                      </span>
-                    ))}
-
-                    {/* Active Animated Word */}
-                    <span className="col-start-1 row-start-1 relative w-full text-center">
-                      <AnimatePresence mode="popLayout" initial={false}>
-                        <motion.span
-                          key={currentWord}
-                          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-                          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                          exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
-                          transition={{
-                            duration: 0.35,
-                            ease: [0.16, 1, 0.3, 1],
-                          }}
-                          className="inline-block font-bold text-white tracking-normal drop-shadow-[0_2px_12px_rgba(255,255,255,0.25)]"
-                        >
-                          {currentWord}
-                        </motion.span>
-                      </AnimatePresence>
-                    </span>
+                        {currentWord}
+                      </motion.span>
+                    </AnimatePresence>
                   </span>{" "}
                   <span>{middle}</span>
                 </>
