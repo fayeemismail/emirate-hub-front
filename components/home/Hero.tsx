@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import rawHeroData from "@/data/home/hero.json";
 import { HeroData } from "@/types/home/hero";
 
@@ -10,6 +11,34 @@ const Hero = () => {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
   const data: HeroData = rawHeroData as HeroData;
+
+  const words = useMemo(() => {
+    return (
+      data.heading?.words ||
+      data.heading?.animatedWords || [
+        "Search",
+        "Quest",
+        "Pursuit",
+        "Path",
+        "Journey",
+      ]
+    );
+  }, [data.heading?.words, data.heading?.animatedWords]);
+
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
+  useEffect(() => {
+    if (!words || words.length <= 1) return;
+
+    const intervalTime =
+      data.heading?.animationInterval || data.animationInterval || 1000;
+
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prev) => (prev + 1) % words.length);
+    }, intervalTime);
+
+    return () => clearInterval(interval);
+  }, [words, data.heading?.animationInterval, data.animationInterval]);
 
   if (!data.active) {
     return null;
@@ -22,6 +51,15 @@ const Hero = () => {
       router.push(data.buttonHref || "/coming-soon");
     }, 400);
   };
+
+  const prefix = (data.heading?.prefix || "Your").trim();
+  const middle =
+    data.heading?.middle !== undefined
+      ? data.heading.middle.trim()
+      : "for The Right";
+  const suffix = (data.heading?.suffix || "Ends Here.").trim();
+  const currentWord = words[currentWordIndex] || words[0] || "Search";
+  const hasAnimatedWords = words && words.length > 0;
 
   return (
     <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
@@ -45,14 +83,52 @@ const Hero = () => {
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-start md:text-start lg:text-start">
             {/* Heading */}
-            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white  md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
-              {data.heading.prefix}
+            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
+              {hasAnimatedWords ? (
+                <>
+                  <span>{prefix}</span>{" "}
+                  <span className="relative inline-grid grid-cols-1 grid-rows-1 items-baseline align-baseline text-center">
+                    {/* Sizer: All words rendered invisibly in the same cell to permanently fix container to maximum word width */}
+                    {words.map((word) => (
+                      <span
+                        key={word}
+                        className="invisible select-none pointer-events-none font-bold col-start-1 row-start-1"
+                        aria-hidden="true"
+                      >
+                        {word}
+                      </span>
+                    ))}
+
+                    {/* Active Animated Word */}
+                    <span className="col-start-1 row-start-1 relative w-full text-center">
+                      <AnimatePresence mode="popLayout" initial={false}>
+                        <motion.span
+                          key={currentWord}
+                          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+                          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                          exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
+                          transition={{
+                            duration: 0.35,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
+                          className="inline-block font-bold text-white tracking-normal drop-shadow-[0_2px_12px_rgba(255,255,255,0.25)]"
+                        >
+                          {currentWord}
+                        </motion.span>
+                      </AnimatePresence>
+                    </span>
+                  </span>{" "}
+                  <span>{middle}</span>
+                </>
+              ) : (
+                data.heading.prefix
+              )}
               <br className="" />
               <span className="text-[#E02126] font-bold">
                 {data.heading.highlightedText}
               </span>{" "}
               <br className="block md:hidden lg:hidden " />
-              {data.heading.suffix}
+              <span>{suffix}</span>
             </h1>
 
             {/* Sub Heading & Description */}

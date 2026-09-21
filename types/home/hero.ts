@@ -1,7 +1,11 @@
 export interface HeroHeading {
   prefix: string;
+  words?: string[];
+  animatedWords?: string[];
+  middle?: string;
   highlightedText: string;
   suffix: string;
+  animationInterval?: number;
 }
 
 export interface HeroData {
@@ -12,4 +16,5 @@ export interface HeroData {
   description: string;
   buttonText: string;
   buttonHref: string;
+  animationInterval?: number;
 }
