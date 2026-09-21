@@ -43,9 +43,9 @@ const Hero = () => {
         {/* Text block: normal flow on mobile/tablet so it can never be covered;
             only becomes an absolutely-centered min-h-screen block at lg+ */}
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
-          <div className="w-full flex flex-col items-center md:items-start lg:items-start text-center md:text-start lg:text-start">
+          <div className="w-full flex flex-col items-center md:items-start lg:items-start text-start md:text-start lg:text-start">
             {/* Heading */}
-            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white sm:text-[32px] md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
+            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white  md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
               {data.heading.prefix}
               <br className="" />
               <span className="text-[#E02126] font-bold">

@@ -39,6 +39,10 @@ function TestimonialsContent({
   const [activeIndex, setActiveIndex] = useState<number>(defaultIndex);
   const avatarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const safeIndex = activeIndex >= testimonials.length ? 0 : activeIndex;
   const activeTestimonial = testimonials[safeIndex];
@@ -61,26 +65,123 @@ function TestimonialsContent({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [testimonials.length]);
 
-  // Smooth scroll active item into center view on mobile screens
-  useEffect(() => {
-    const activeEl = avatarRefs.current[safeIndex];
+  // Center the active avatar in the mobile viewport
+  const scrollToActiveAvatar = (smooth: boolean = true) => {
     const container = scrollContainerRef.current;
-    if (activeEl && container && window.innerWidth < 768) {
-      const containerWidth = container.clientWidth;
-      const elementLeft = activeEl.offsetLeft;
-      const elementWidth = activeEl.clientWidth;
-      const scrollPosition = elementLeft - containerWidth / 2 + elementWidth / 2;
-      container.scrollTo({
-        left: scrollPosition,
-        behavior: "smooth",
+    const activeEl = avatarRefs.current[safeIndex];
+    if (!container || !activeEl) return;
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = activeEl.getBoundingClientRect();
+
+    const elementCenter = activeRect.left + activeRect.width / 2;
+    const containerCenter = containerRect.left + containerRect.width / 2;
+    const diff = elementCenter - containerCenter;
+
+    if (Math.abs(diff) < 2) return;
+
+    const targetScrollLeft = container.scrollLeft + diff;
+
+    isProgrammaticScroll.current = true;
+    container.scrollTo({
+      left: targetScrollLeft,
+      behavior: smooth ? "smooth" : "instant",
+    });
+
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 450);
+  };
+
+  // Center active item on mount and on active index change
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      // Instant center on mount
+      scrollToActiveAvatar(false);
+
+      // Multi-tier fallback frames to guarantee perfect centering after hydration & layout settle
+      const raf = requestAnimationFrame(() => {
+        scrollToActiveAvatar(false);
       });
+      const t1 = setTimeout(() => {
+        scrollToActiveAvatar(false);
+      }, 50);
+      const t2 = setTimeout(() => {
+        scrollToActiveAvatar(false);
+      }, 200);
+
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    } else {
+      scrollToActiveAvatar(true);
     }
   }, [safeIndex]);
 
+  // Handle window resize or orientation changes
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== "undefined" && window.innerWidth < 768) {
+        scrollToActiveAvatar(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [safeIndex]);
+
+  // Sync active testimonial when user manually swipes/scrolls on mobile
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (isProgrammaticScroll.current) return;
+      if (typeof window !== "undefined" && window.innerWidth >= 768) return;
+
+      if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
+      scrollDebounceRef.current = setTimeout(() => {
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
+
+        let closestIdx = safeIndex;
+        let minDistance = Infinity;
+
+        avatarRefs.current.forEach((el, index) => {
+          if (!el) return;
+          const rect = el.getBoundingClientRect();
+          const elCenter = rect.left + rect.width / 2;
+          const dist = Math.abs(elCenter - containerCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestIdx = index;
+          }
+        });
+
+        if (closestIdx !== safeIndex) {
+          setActiveIndex(closestIdx);
+        } else if (minDistance > 8) {
+          scrollToActiveAvatar(true);
+        }
+      }, 150);
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, [safeIndex, testimonials.length]);
+
   return (
     <section className="py-16 md:py-24 lg:py-28 bg-white overflow-hidden select-none">
+      {/* Section Header */}
       <div className="site-container px-4 sm:px-6 md:px-8">
-        {/* Section Header */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-3 sm:mb-4">
             {data.title}
@@ -102,13 +203,15 @@ function TestimonialsContent({
             </button>
           )}
         </div>
+      </div>
 
-        {/* Sinusoidal Wave Track & Floating Avatars */}
-        <div
-          ref={scrollContainerRef}
-          className="w-full overflow-x-auto md:overflow-visible pb-12 pt-6 px-2 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        >
-          <div className="relative min-w-[680px] md:min-w-full h-[240px] sm:h-[280px] md:h-[320px] lg:h-[360px] max-w-5xl lg:max-w-6xl mx-auto">
+      {/* Sinusoidal Wave Track & Floating Avatars */}
+      <div
+        ref={scrollContainerRef}
+        className="w-full overflow-x-auto md:overflow-visible pb-12 pt-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none touch-pan-x"
+      >
+        <div className="inline-flex md:block min-w-max md:min-w-full px-[50vw] md:px-0">
+          <div className="relative w-170 md:w-full min-w-170 md:min-w-full h-60 sm:h-70 md:h-80 lg:h-90 max-w-5xl lg:max-w-6xl mx-auto shrink-0">
             {/* Background Sinusoidal Dotted SVG Path */}
             <svg
               viewBox="0 0 1000 300"
@@ -188,7 +291,7 @@ function TestimonialsContent({
                   </motion.div>
 
                   {/* Customer Name below the Avatar */}
-                  <div className="mt-2 sm:mt-2.5 max-w-[85px] sm:max-w-[110px] md:max-w-[130px] pointer-events-none">
+                  <div className="mt-2 sm:mt-2.5 max-w-26.25 sm:max-w-30 md:max-w-32.5 pointer-events-none">
                     <p
                       className={`text-[11px] sm:text-xs md:text-sm font-semibold tracking-tight transition-colors duration-300 truncate ${
                         isActive ? "text-primary font-bold scale-105" : "text-gray-600 group-hover:text-gray-900"
@@ -205,8 +308,10 @@ function TestimonialsContent({
             })}
           </div>
         </div>
+      </div>
 
-        {/* Dynamic Testimonial Display Bar with Navigation Arrows */}
+      {/* Dynamic Testimonial Display Bar with Navigation Arrows */}
+      <div className="site-container px-4 sm:px-6 md:px-8">
         {activeTestimonial && (
           <div className="relative max-w-4xl mx-auto mt-4 sm:mt-6 md:mt-10 flex items-center justify-between gap-3 sm:gap-6 md:gap-8 px-2 sm:px-4">
             {/* Previous Button */}
@@ -220,7 +325,7 @@ function TestimonialsContent({
             </button>
 
             {/* Animated Testimonial Quote & Info */}
-            <div className="flex-1 text-center min-h-[100px] sm:min-h-[115px] flex items-center justify-center px-2">
+            <div className="flex-1 text-center min-h-25 sm:min-h-28.75 flex items-center justify-center px-2">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTestimonial.id}
