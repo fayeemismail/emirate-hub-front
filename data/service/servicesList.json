@@ -40,20 +40,20 @@
       "buttonHref": "/#contact-us"
     },
     {
-      "id": "tax-readiness",
+      "id": "pro-government-liaison",
       "number": "03",
-      "tag": "TAX & COMPLIANCE",
-      "title": "Tax Readiness",
+      "tag": "GOVERNMENT RELATIONS",
+      "title": "PRO & Government Liaison Services",
       "serviceType": "main service",
       "active": true,
       "image": "/images/service-3.jpg",
-      "description": "We provide corporate tax consulting services tailored for businesses operating in UAE mainland and free zones, guiding you through corporate tax registration, return filings, compliance assessments, and strategic planning to ensure full regulatory alignment.",
+      "description": "Dedicated corporate PRO services managing all official documentation and administrative liaison with GDRFA, MOHRE, Dubai Courts, Municipality, and Free Zone authorities with zero delays.",
       "featuresHeading": "What's Included:",
       "keyFeatures": [
-        "UAE Corporate Tax Registration & Compliance Review",
-        "Value Added Tax (VAT) Registration & Periodic Filings",
-        "Qualifying Free Zone Person (QFZP) Optimization",
-        "Bookkeeping, Financial Reporting & Audit Preparation"
+        "Establishment Card Renewals & Labor Quota Management",
+        "MOHRE & Immigration Clearances & Legal Document Attestation",
+        "Commercial Register & Trade License Amendments",
+        "VIP Government Liaison, Document Clearing & Deliveries"
       ],
       "buttonText": "ENQUIRE FOR THIS SERVICE",
       "buttonHref": "/#contact-us"

@@ -69,6 +69,30 @@ const SERVICE_METADATA: Record<
       },
     ],
   },
+  "pro-government-liaison": {
+    timeline: "2 - 4 Business Days",
+    jurisdiction: "GDRFA, MOHRE, Dubai Courts & Free Zones",
+    steps: [
+      {
+        step: "01",
+        title: "Document Verification & Attestation",
+        description:
+          "Reviewing corporate credentials, board resolutions, and legal authorizations for administrative processing.",
+      },
+      {
+        step: "02",
+        title: "Ministry & Authority Liaison",
+        description:
+          "Direct submission and follow-up with relevant government ministries, judicial departments, and municipal bodies.",
+      },
+      {
+        step: "03",
+        title: "Approval & Handover",
+        description:
+          "Securing verified approvals, updated establishment files, labor quotas, and prompt courier delivery.",
+      },
+    ],
+  },
   "tax-readiness": {
     timeline: "3 - 7 Business Days",
     jurisdiction: "Federal Tax Authority (FTA)",
