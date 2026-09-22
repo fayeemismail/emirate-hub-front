@@ -91,7 +91,7 @@ export default function Faq() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
           {/* Left Column: Image (Balanced Size) */}
           <div className="lg:col-span-5 relative">
-            <div className="relative overflow-hidden rounded-2xl md:rounded-[24px] shadow-sm aspect-[4/5] w-full bg-gray-200">
+            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-sm aspect-4/5 w-full bg-gray-200">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200&auto=format&fit=crop"
                 alt="FAQ Consultation Specialist"

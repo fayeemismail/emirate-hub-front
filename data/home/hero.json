@@ -2,17 +2,10 @@
   "active": true,
   "backgroundImage": "/images/hero-bg.png",
   "heading": {
-    "prefix": "Your",
-    "words": [
-      "Search",
-      "Quest",
-      "Pursuit"
-    ],
-    "middle": "for The Right",
+    "prefix": "Your Search for The Right ",
     "highlightedText": "UAE Business License",
-    "suffix": "Ends Here."
+    "suffix": " Ends Here."
   },
-  "animationInterval": 1500,
   "subheading": "Get the most cost-effective mainland or free zone setup with a partner you can trust.",
   "description": "We deliver comprehensive, end-to-end solutions spanning business setup, licensing, visa processing, compliance, and corporate service equipping you to establish, expand, and maintain a thriving business in the UAE.",
   "buttonText": "REQUEST INFORMATION",

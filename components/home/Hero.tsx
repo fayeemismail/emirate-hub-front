@@ -1,44 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import rawHeroData from "@/data/home/hero.json";
 import { HeroData } from "@/types/home/hero";
+import Hero3DCanvas from "./Hero3DCanvas";
 
 const Hero = () => {
   const router = useRouter();
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [isClicked, setIsClicked] = useState(false);
   const data: HeroData = rawHeroData as HeroData;
-
-  const words = useMemo(() => {
-    return (
-      data.heading?.words ||
-      data.heading?.animatedWords || [
-        "Search",
-        "Quest",
-        "Pursuit",
-        "Path",
-        "Journey",
-      ]
-    );
-  }, [data.heading?.words, data.heading?.animatedWords]);
-
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-
-  useEffect(() => {
-    if (!words || words.length <= 1) return;
-
-    const intervalTime =
-      data.heading?.animationInterval || data.animationInterval || 1000;
-
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % words.length);
-    }, intervalTime);
-
-    return () => clearInterval(interval);
-  }, [words, data.heading?.animationInterval, data.animationInterval]);
 
   if (!data.active) {
     return null;
@@ -52,17 +26,11 @@ const Hero = () => {
     }, 400);
   };
 
-  const prefix = (data.heading?.prefix || "Your").trim();
-  const middle =
-    data.heading?.middle !== undefined
-      ? data.heading.middle.trim()
-      : "for The Right";
-  const suffix = (data.heading?.suffix || "Ends Here.").trim();
-  const currentWord = words[currentWordIndex] || words[0] || "Search";
-  const hasAnimatedWords = words && words.length > 0;
-
   return (
-    <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22 select-none"
+    >
       {/* Background Image */}
       <Image
         src={data.backgroundImage || "/images/hero-bg.png"}
@@ -74,60 +42,55 @@ const Hero = () => {
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/70" />
+      <div className="absolute inset-0 bg-black/75 backdrop-blur-[1px]" />
+
+      {/* 3D Celestial Gyroscope & Interactive Particle Nexus */}
+      <Hero3DCanvas sectionRef={sectionRef} />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex min-h-screen flex-col lg:block">
+      <div className="relative z-10 flex min-h-screen flex-col lg:block pointer-events-none">
         {/* Text block: normal flow on mobile/tablet so it can never be covered;
             only becomes an absolutely-centered min-h-screen block at lg+ */}
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-start md:text-start lg:text-start">
             {/* Heading */}
-            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
-              {hasAnimatedWords ? (
-                <>
-                  <span>{prefix}</span>{" "}
-                  <span className="relative inline-block align-baseline">
-                    <AnimatePresence mode="popLayout" initial={false}>
-                      <motion.span
-                        key={currentWord}
-                        initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
-                        transition={{
-                          duration: 0.35,
-                          ease: [0.16, 1, 0.3, 1],
-                        }}
-                        className="inline-block font-bold text-white tracking-normal drop-shadow-[0_2px_12px_rgba(255,255,255,0.25)]"
-                      >
-                        {currentWord}
-                      </motion.span>
-                    </AnimatePresence>
-                  </span>{" "}
-                  <span>{middle}</span>
-                </>
-              ) : (
-                data.heading.prefix
-              )}
+            <motion.h1
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+            >
+              {data.heading.prefix}
               <br className="" />
               <span className="text-[#E02126] font-bold">
                 {data.heading.highlightedText}
               </span>{" "}
               <br className="block md:hidden lg:hidden " />
-              <span>{suffix}</span>
-            </h1>
+              {data.heading.suffix}
+            </motion.h1>
 
             {/* Sub Heading & Description */}
-            <div className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3">
-              <p className="text-[15px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-bold lg:font-medium text-white/95 leading-snug">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3"
+            >
+              <p className="text-[15px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-bold lg:font-medium text-white/95 leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                 {data.subheading}
               </p>
-              <p className="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/80 font-medium lg:font-light">
+              <p className="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/80 font-medium lg:font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                 {data.description}
               </p>
-            </div>
+            </motion.div>
 
             {/* Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="pointer-events-auto"
+            >
             <button
               type="button"
               onClick={handleClick}
@@ -158,6 +121,7 @@ const Hero = () => {
                 →
               </span>
             </button>
+            </motion.div>
           </div>
         </div>
       </div>
