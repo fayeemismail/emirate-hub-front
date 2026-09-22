@@ -97,8 +97,29 @@
       "buttonHref": "/#contact-us"
     },
     {
-      "id": "digital-marketing",
+      "id": "family-golden-visa",
       "number": "06",
+      "tag": "VISA & RESIDENCY SERVICES",
+      "title": "Family Visa & Golden Visa",
+      "serviceType": "normal service",
+      "active": true,
+      "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200&auto=format&fit=crop",
+      "description": "We provide complete UAE family visa, tourist visa, domestic worker visa and Golden Residency services, including eligibility assessment, entry permits, status change, medical fitness, Emirates ID, residence visa issuance, renewal, amendment and cancellation. Our support covers sponsorship for eligible spouses, children, parents and domestic workers, as well as tourist visa applications, extensions and status changes where applicable. We also assist eligible investors, professionals and exceptional talents with Golden Residency applications and related dependent visa processing, subject to UAE immigration regulations and authority approval.",
+      "featuresHeading": "What's Included:",
+      "keyFeatures": [
+        "Family Residence Visa for Eligible Spouses, Children & Parents",
+        "Domestic Worker & Maid Visa Services",
+        "Tourist Visa Applications, Extensions & Status Changes",
+        "Golden Residency Applications for Eligible Investors, Professionals & Exceptional Talents",
+        "Entry Permits, Status Change & Medical Fitness Processing",
+        "Emirates ID & Residence Visa Issuance, Renewal, Amendment & Cancellation"
+      ],
+      "buttonText": "ENQUIRE FOR THIS SERVICE",
+      "buttonHref": "/#contact-us"
+    },
+    {
+      "id": "digital-marketing",
+      "number": "07",
       "tag": "DIGITAL & MEDIA",
       "title": "Digital Marketing",
       "serviceType": "normal service",
