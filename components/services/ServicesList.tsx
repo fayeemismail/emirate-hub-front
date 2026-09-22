@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -44,7 +44,50 @@ export default function ServicesList() {
     return () => window.removeEventListener("hashchange", scrollToHash);
   }, []);
 
+  const pillsContainerRef = useRef<HTMLDivElement>(null);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const dragInfo = useRef({
+    isDown: false,
+    startX: 0,
+    scrollLeft: 0,
+    hasDragged: false,
+  });
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!pillsContainerRef.current) return;
+    dragInfo.current.isDown = true;
+    setIsMouseDown(true);
+    dragInfo.current.startX = e.pageX - pillsContainerRef.current.offsetLeft;
+    dragInfo.current.scrollLeft = pillsContainerRef.current.scrollLeft;
+    dragInfo.current.hasDragged = false;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!dragInfo.current.isDown || !pillsContainerRef.current) return;
+    const x = e.pageX - pillsContainerRef.current.offsetLeft;
+    const walk = (x - dragInfo.current.startX) * 1.35;
+    if (Math.abs(walk) > 4) {
+      dragInfo.current.hasDragged = true;
+    }
+    pillsContainerRef.current.scrollLeft = dragInfo.current.scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    dragInfo.current.isDown = false;
+    setIsMouseDown(false);
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (!pillsContainerRef.current) return;
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && e.deltaY !== 0) {
+      pillsContainerRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
   const handlePillClick = (id: string) => {
+    if (dragInfo.current.hasDragged) {
+      return;
+    }
     setActiveHash(id);
     const element = document.getElementById(id);
     if (element) {
@@ -58,6 +101,18 @@ export default function ServicesList() {
       });
       window.history.pushState(null, "", `#${id}`);
     }
+
+    const pillBtn = document.getElementById(`pill-${id}`);
+    if (pillBtn && pillsContainerRef.current) {
+      const container = pillsContainerRef.current;
+      const pillLeft = pillBtn.offsetLeft;
+      const pillWidth = pillBtn.offsetWidth;
+      const containerWidth = container.offsetWidth;
+      container.scrollTo({
+        left: pillLeft - containerWidth / 2 + pillWidth / 2,
+        behavior: "smooth",
+      });
+    }
   };
 
   if (!data.active || activeServices.length === 0) {
@@ -69,15 +124,26 @@ export default function ServicesList() {
       <div className="site-container">
         {/* Category Pills Navigation Bar */}
         <div className="mb-8 sm:mb-10 md:mb-12">
-          <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-2 gap-2.5 sm:gap-3 no-scrollbar">
+          <div
+            ref={pillsContainerRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onWheel={handleWheel}
+            className={`flex items-center justify-start overflow-x-auto py-2 px-1 sm:px-2 gap-2.5 sm:gap-3 no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x select-none ${
+              isMouseDown ? "cursor-grabbing scroll-auto" : "cursor-grab scroll-smooth"
+            }`}
+          >
             {activeServices.map((service) => {
               const isActive = activeHash === service.id;
               return (
                 <button
+                  id={`pill-${service.id}`}
                   key={service.id}
                   type="button"
                   onClick={() => handlePillClick(service.id)}
-                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider whitespace-nowrap transition-all duration-300 border cursor-pointer select-none ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider whitespace-nowrap transition-all duration-300 border select-none shrink-0 ${
                     isActive
                       ? "bg-primary text-white border-primary shadow-md scale-105"
                       : "bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary shadow-xs"

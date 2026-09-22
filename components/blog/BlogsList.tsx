@@ -148,7 +148,7 @@ export default function BlogsList({
         {/* Category Filter Pills - Only rendered if categories exist */}
         {data.categories && data.categories.length > 0 && (
           <div className="mb-12 sm:mb-16">
-            <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 gap-2 sm:gap-3 no-scrollbar">
+            <div className="flex items-center justify-start lg:justify-center overflow-x-auto pb-4 gap-2 sm:gap-3 no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {data.categories.map((cat) => {
                 const isActive = internalCategory === cat.id;
                 // Count active articles in this category
