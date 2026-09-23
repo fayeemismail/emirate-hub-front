@@ -41,7 +41,7 @@ const Hero = () => {
               {data.heading.boldKeyword ? (
                 <>
                   <span>{data.heading.prefix?.trim()}</span>{" "}
-                  <span className="relative inline font-bold text-white">
+                  <span className="relative inline font-bold italic text-white">
                     {data.heading.boldKeyword.trim()}
                     {data.heading.hasSparkle ? (
                       <span
