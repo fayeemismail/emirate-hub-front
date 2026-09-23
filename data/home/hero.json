@@ -2,7 +2,9 @@
   "active": true,
   "backgroundImage": "/images/hero-panorama.jpg",
   "heading": {
-    "prefix": "Your Search for The Right ",
+    "prefix": "Your",
+    "boldKeyword": "Search",
+    "middle": "for The Right",
     "highlightedText": "UAE Business License",
     "suffix": " Ends Here."
   },

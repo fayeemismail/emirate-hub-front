@@ -1,5 +1,7 @@
 export interface HeroHeading {
   prefix: string;
+  boldKeyword?: string;
+  middle?: string;
   highlightedText: string;
   suffix: string;
 }

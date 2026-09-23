@@ -236,9 +236,9 @@ export default function HeroPanoramaBackground({
           - Left-side gradient for razor-sharp text contrast
           - Top & bottom edge fades for smooth blending */}
       <div className="absolute inset-0 bg-black/45 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent pointer-events-none" />
-      <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/70 to-transparent pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/70 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-black/85 to-transparent pointer-events-none" />
 
       {/* Interactive Engagement Hint */}
       <div

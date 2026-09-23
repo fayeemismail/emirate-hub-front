@@ -55,13 +55,17 @@ export default function BlogsAndNews() {
         </div>
 
         {/* News Grid / Mobile Horizontal Scroll */}
-        <div className="flex lg:grid lg:grid-cols-12 overflow-x-auto lg:overflow-visible gap-5 sm:gap-6 lg:gap-8 pb-4 lg:pb-0 -mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex lg:grid lg:grid-cols-12 overflow-x-auto lg:overflow-visible gap-5 sm:gap-6 lg:gap-8 pb-4 
+        lg:pb-0 -mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none 
+        [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
           {/* CARD 1: Top Left - Featured Dark Overlay Card */}
           {blog1 && (
-            <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-7 snap-start">
+            <div className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-100 md:max-w-100 lg:w-auto lg:max-w-none shrink-0 
+            lg:shrink lg:col-span-7 snap-start">
               <Link
                 href={`/blog#${blog1.id}`}
-                className="relative overflow-hidden rounded-2xl md:rounded-[24px] h-full min-h-[380px] md:min-h-[420px] flex flex-col justify-end p-6 md:p-8 group cursor-pointer shadow-sm block"
+                className="relative overflow-hidden rounded-2xl md:rounded-3xl h-full min-h-95 md:min-h-105 flex flex-col 
+                justify-end p-6 md:p-8 group cursor-pointer shadow-sm "
               >
                 <img
                   src={blog1.image}
@@ -69,7 +73,7 @@ export default function BlogsAndNews() {
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/15" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-black/15" />
 
                 <div className="relative z-10 max-w-xl">
                   <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white leading-snug mb-3">
@@ -78,7 +82,8 @@ export default function BlogsAndNews() {
                   <p className="text-gray-300 text-xs md:text-sm leading-relaxed mb-4 line-clamp-2">
                     {blog1.excerpt}
                   </p>
-                  <span className="inline-block text-white text-xs md:text-sm font-semibold underline underline-offset-4 decoration-primary hover:text-primary transition-colors">
+                  <span className="inline-block text-white text-xs md:text-sm font-semibold underline underline-offset-4 
+                  decoration-primary hover:text-primary transition-colors">
                     Read More
                   </span>
                 </div>
@@ -88,10 +93,12 @@ export default function BlogsAndNews() {
 
           {/* CARD 2: Top Right - Vertical Card */}
           {blog2 && (
-            <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-5 snap-start">
+            <div className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-100 md:max-w-100 lg:w-auto lg:max-w-none shrink-0 
+            lg:shrink lg:col-span-5 snap-start">
               <Link
                 href={`/blog#${blog2.id}`}
-                className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col h-full min-h-[380px] md:min-h-[420px] group cursor-pointer hover:shadow-md transition-all duration-300 block"
+                className="bg-white rounded-2xl md:rounded-3xl border border-gray-200/80 overflow-hidden shadow-sm 
+                flex flex-col h-full min-h-95 md:min-h-105 group cursor-pointer hover:shadow-md transition-all duration-300 "
               >
                 <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
                   <img
@@ -100,9 +107,10 @@ export default function BlogsAndNews() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6 md:p-7 flex flex-col justify-between flex-grow">
+                <div className="p-6 md:p-7 flex flex-col justify-between grow">
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2">
                       {blog2.title}
                     </h3>
                     <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
@@ -110,7 +118,8 @@ export default function BlogsAndNews() {
                     </p>
                   </div>
                   <div>
-                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 decoration-primary">
+                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 
+                    decoration-primary">
                       Read More
                     </span>
                   </div>
@@ -121,10 +130,13 @@ export default function BlogsAndNews() {
 
           {/* CARD 3: Bottom Left - Horizontal Split Card */}
           {blog3 && (
-            <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-7 snap-start">
+            <div className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-100 md:max-w-100 lg:w-auto lg:max-w-none shrink-0 
+            lg:shrink lg:col-span-7 snap-start">
               <Link
                 href={`/blog#${blog3.id}`}
-                className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col lg:grid lg:grid-cols-12 h-full min-h-[380px] md:min-h-[420px] group cursor-pointer hover:shadow-md transition-all duration-300 block"
+                className="bg-white rounded-2xl md:rounded-3xl border border-gray-200/80 overflow-hidden shadow-sm flex 
+                flex-col lg:grid lg:grid-cols-12 h-full min-h-95 md:min-h-105 group cursor-pointer hover:shadow-md transition-all 
+                duration-300 "
               >
                 <div className="h-48 md:h-56 lg:h-full lg:col-span-5 relative overflow-hidden shrink-0">
                   <img
@@ -133,9 +145,10 @@ export default function BlogsAndNews() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6 md:p-8 lg:col-span-7 flex flex-col justify-between flex-grow">
+                <div className="p-6 md:p-8 lg:col-span-7 flex flex-col justify-between grow">
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2">
                       {blog3.title}
                     </h3>
                     <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
@@ -143,7 +156,8 @@ export default function BlogsAndNews() {
                     </p>
                   </div>
                   <div>
-                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 decoration-primary">
+                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 
+                    decoration-primary">
                       Read More
                     </span>
                   </div>
@@ -154,10 +168,12 @@ export default function BlogsAndNews() {
 
           {/* CARD 4: Bottom Right - Vertical Card */}
           {blog4 && (
-            <div className="w-[85vw] max-w-[340px] sm:w-[360px] sm:max-w-[360px] md:w-[400px] md:max-w-[400px] lg:w-auto lg:max-w-none shrink-0 lg:shrink lg:col-span-5 snap-start">
+            <div className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-100 md:max-w-100 lg:w-auto lg:max-w-none shrink-0 lg:shrink 
+            lg:col-span-5 snap-start">
               <Link
                 href={`/blog#${blog4.id}`}
-                className="bg-white rounded-2xl md:rounded-[24px] border border-gray-200/80 overflow-hidden shadow-sm flex flex-col h-full min-h-[380px] md:min-h-[420px] group cursor-pointer hover:shadow-md transition-all duration-300 block"
+                className="bg-white rounded-2xl md:rounded-3xl border border-gray-200/80 overflow-hidden shadow-sm flex flex-col 
+                h-full min-h-95 md:min-h-105 group cursor-pointer hover:shadow-md transition-all duration-300 "
               >
                 <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
                   <img
@@ -166,9 +182,10 @@ export default function BlogsAndNews() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6 md:p-7 flex flex-col justify-between flex-grow">
+                <div className="p-6 md:p-7 flex flex-col justify-between grow">
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2">
                       {blog4.title}
                     </h3>
                     <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
@@ -176,7 +193,8 @@ export default function BlogsAndNews() {
                     </p>
                   </div>
                   <div>
-                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 decoration-primary">
+                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 
+                    decoration-primary">
                       Read More
                     </span>
                   </div>
@@ -191,11 +209,13 @@ export default function BlogsAndNews() {
           <button
             type="button"
             onClick={handleClick}
-            className="group relative z-10 h-14 md:h-16 inline-flex items-center gap-6 pl-4 pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300 active:scale-95 select-none focus:outline-none"
+            className="group relative z-10 h-14 md:h-16 inline-flex items-center gap-6 pl-4 pr-8 cursor-pointer overflow-hidden 
+            rounded-full transition-all duration-300 active:scale-95 select-none focus:outline-none"
           >
             {/* Red Round Circle background that animates on hover and click */}
             <span
-              className={`absolute left-0 top-0 rounded-full bg-primary transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
+              className={`absolute left-0 top-0 rounded-full bg-primary transition-all duration-500 ease-in-out group-hover:w-full 
+                group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
                 isClicked ? "w-full h-full" : "w-14 h-14 md:w-16 md:h-16"
               }`}
             />

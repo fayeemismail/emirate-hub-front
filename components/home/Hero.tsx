@@ -38,7 +38,20 @@ const Hero = () => {
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-start md:text-start lg:text-start pointer-events-none">
             {/* Heading */}
             <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
-              {data.heading.prefix}
+              {data.heading.boldKeyword ? (
+                <>
+                  <span>{data.heading.prefix?.trim()}</span>{" "}
+                  <span className="font-bold text-white">{data.heading.boldKeyword.trim()}</span>
+                  {data.heading.middle ? (
+                    <>
+                      {" "}
+                      <span>{data.heading.middle.trim()}</span>
+                    </>
+                  ) : null}
+                </>
+              ) : (
+                data.heading.prefix
+              )}
               <br className="" />
               <span className="text-[#E02126] font-bold">
                 {data.heading.highlightedText}
