@@ -9,6 +9,7 @@ export interface HeroHeading {
 export interface HeroData {
   active: boolean;
   backgroundImage: string;
+  backgroundImages?: string[];
   heading: HeroHeading;
   subheading: string;
   description: string;
