@@ -37,11 +37,11 @@ const Hero = () => {
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0 pointer-events-none">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-start md:text-start lg:text-start pointer-events-none">
             {/* Heading */}
-            <h1 className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            <h1 className="text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               {data.heading.boldKeyword ? (
                 <>
                   <span>{data.heading.prefix?.trim()}</span>{" "}
-                  <span className="relative inline font-bold italic text-white">
+                  <span className="relative inline font-extrabold italic text-white">
                     {data.heading.boldKeyword.trim()}
                     {data.heading.hasSparkle ? (
                       <span
@@ -83,10 +83,10 @@ const Hero = () => {
 
             {/* Sub Heading & Description */}
             <div className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3">
-              <p className="text-[15px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-bold lg:font-medium text-white/95 leading-snug">
+              <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-normal lg:font-medium text-white/90 leading-snug">
                 {data.subheading}
               </p>
-              <p className="text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/80 font-medium lg:font-light">
+              <p className="text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/75 font-medium lg:font-light">
                 {data.description}
               </p>
             </div>
