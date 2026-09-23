@@ -41,7 +41,7 @@ const Hero = () => {
               {data.heading.boldKeyword ? (
                 <>
                   <span>{data.heading.prefix?.trim()}</span>{" "}
-                  <span className="font-bold text-white">{data.heading.boldKeyword.trim()}</span>
+                  <span className="font-bold italic text-white">{data.heading.boldKeyword.trim()}</span>
                   {data.heading.middle ? (
                     <>
                       {" "}
