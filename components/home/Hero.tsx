@@ -41,27 +41,8 @@ const Hero = () => {
               {data.heading.boldKeyword ? (
                 <>
                   <span>{data.heading.prefix?.trim()}</span>{" "}
-                  <span className="relative inline font-extrabold italic text-white">
+                  <span className="font-extrabold italic text-white">
                     {data.heading.boldKeyword.trim()}
-                    {data.heading.hasSparkle ? (
-                      <span
-                        className="pointer-events-none absolute -top-1 -right-1 sm:-top-1.5 sm:-right-1.5 inline-flex items-center justify-center select-none"
-                        aria-hidden="true"
-                      >
-                        {/* Soft ambient glow */}
-                        <span className="absolute h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-white/30 blur-[2px] animate-pulse" />
-                        {/* 4-point twinkling sparkle star */}
-                        <svg
-                          className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 text-white animate-sparkle"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path d="M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8L12 0Z" />
-                        </svg>
-                        {/* Pinpoint bright core */}
-                        <span className="absolute h-1 w-1 rounded-full bg-white shadow-[0_0_4px_#ffffff]" />
-                      </span>
-                    ) : null}
                   </span>
                   {data.heading.middle ? (
                     <>
