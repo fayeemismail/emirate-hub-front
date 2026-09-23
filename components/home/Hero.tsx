@@ -24,7 +24,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
+    <section className="relative w-full overflow-hidden pt-[calc(5rem+env(safe-area-inset-top,0px))] md:pt-20 lg:pt-22">
       {/* Interactive Loop Panorama Background (Supports horizontal drag/swipe, scroll-driven parallax, and ambient drift) */}
       <HeroPanoramaBackground
         imageSrc={data.backgroundImage || "/images/hero-panorama.jpg"}

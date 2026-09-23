@@ -114,14 +114,14 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-all duration-300 ease-in-out ${
         isVisible || isMobileMenuOpen
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
       } ${
         showSolidNavbar
           ? "bg-black/85 backdrop-blur-md shadow-lg border-b border-white/10"
-          : "bg-transparent border-b border-white/20"
+          : "bg-black/35 backdrop-blur-md border-b border-white/10"
       }`}
     >
       <div className="site-container">

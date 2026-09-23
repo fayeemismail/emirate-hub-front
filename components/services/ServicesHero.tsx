@@ -19,7 +19,7 @@ export default function ServicesHero() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden pt-20 md:pt-20 lg:pt-22">
+    <section className="relative w-full overflow-hidden pt-[calc(5rem+env(safe-area-inset-top,0px))] md:pt-20 lg:pt-22">
       {/* Background Hero Image */}
       <Image
         src="/images/hero-bg.png"
