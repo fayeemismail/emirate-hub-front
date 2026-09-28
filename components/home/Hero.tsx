@@ -28,6 +28,7 @@ const Hero = () => {
       {/* Interactive Loop Panorama Background (Supports horizontal drag/swipe, scroll-driven parallax, and ambient drift) */}
       <HeroPanoramaBackground
         imageSrc={data.backgroundImage || "/images/hero-panorama.jpg"}
+        images={data.backgroundImages}
       />
 
       {/* Hero Content */}

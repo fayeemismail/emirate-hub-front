@@ -1,6 +1,12 @@
 {
   "active": true,
   "backgroundImage": "/images/hero-panorama.jpg",
+  "backgroundImages": [
+    "/images/hero-panorama.jpg",
+    "/images/hero-panorama-marina.jpg",
+    "/images/hero-panorama-abudhabi.jpg",
+    "/images/hero-panorama-creek.jpg"
+  ],
   "heading": {
     "prefix": "Your",
     "boldKeyword": "Search",
