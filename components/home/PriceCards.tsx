@@ -203,13 +203,15 @@ export default function PriceCards() {
                       isCenterOrPopular ? "border-white/20" : "border-gray-100"
                     }`}
                   >
-                    {/* <span
-                      className={`text-xs font-semibold uppercase tracking-wider block mb-1 ${
-                        isCenterOrPopular ? "text-white/75" : "text-gray-400"
-                      }`}
-                    >
-                      {card.startingAt}
-                    </span> */}
+                    {card.startingAt && (
+                      <span
+                        className={`text-xs font-medium tracking-wide block mb-1.5 ${
+                          isCenterOrPopular ? "text-white/80" : "text-gray-400"
+                        }`}
+                      >
+                        {card.startingAt}
+                      </span>
+                    )}
                     <div className="flex items-baseline gap-1.5">
                       <span
                         className={`text-sm sm:text-base font-semibold ${

@@ -75,10 +75,10 @@ export default function Footer() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-white text-xs font-semibold uppercase tracking-wider mb-1">
-                      Our Head Office
+                      Head Office
                     </h4>
                     <p className="text-gray-200 text-xs sm:text-sm font-medium leading-snug">
-                      Unit 2204, 22nd Floor, Iris Bay Tower
+                      2204, 22nd Floor, Iris Bay Tower
                     </p>
                     <p className="text-gray-400 text-xs leading-normal mt-0.5">
                       Business Bay, Dubai, United Arab Emirates
