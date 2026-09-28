@@ -1,0 +1,46 @@
+{
+  "active": true,
+  "badge": "VISIT OUR HEADQUARTERS",
+  "header": {
+    "titlePrefix": "Our Location in ",
+    "highlight": "Business Bay",
+    "description": "Conveniently situated in the iconic Iris Bay Tower, right in the heart of Dubai's central business district. Visit us for in-person advisory, license processing, and corporate consultation."
+  },
+  "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Iris+Bay+Tower+Business+Bay+Dubai",
+  "mapEmbedUrl": "https://maps.google.com/maps?q=Iris+Bay+Tower,+Business+Bay,+Dubai&t=&z={zoom}&ie=UTF8&iwloc=&output=embed",
+  "defaultZoom": 16,
+  "minZoom": 12,
+  "maxZoom": 19,
+  "buttonText": "Open in Google Maps",
+  "cards": {
+    "headOffice": {
+      "badge": "HEAD OFFICE ADDRESS",
+      "unit": "Unit 2204, 22nd Floor",
+      "building": "Iris Bay Tower",
+      "location": "Business Bay, Dubai, United Arab Emirates"
+    },
+    "accessibility": {
+      "badge": "ACCESSIBILITY & TRANSIT",
+      "title": "3 mins from Business Bay Metro Station",
+      "description": "Direct access from Sheikh Zayed Road (E11) and Al Sa'ada Street. Dedicated visitor parking available."
+    },
+    "workingHours": {
+      "badge": "WORKING HOURS",
+      "schedule": [
+        {
+          "days": "Mon – Fri:",
+          "hours": "9:00 AM – 6:00 PM"
+        },
+        {
+          "days": "Saturday:",
+          "hours": "10:00 AM – 3:00 PM"
+        },
+        {
+          "days": "Sunday:",
+          "hours": "Closed",
+          "isClosed": true
+        }
+      ]
+    }
+  }
+}

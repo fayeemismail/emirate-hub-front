@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import AboutHero from "@/components/about/AboutHero";
 import OurVision from "@/components/about/OurVision";
-import ServicesCta from "@/components/services/ServicesCta";
+import OfficeLocationMap from "@/components/about/OfficeLocationMap";
 import aboutHeroData from "@/data/about/aboutHero.json";
 import visionData from "@/data/about/vision.json";
+import locationData from "@/data/about/location.json";
 
 export const metadata: Metadata = {
   title: "About Us | Emirate Hub Dubai",
@@ -16,7 +17,7 @@ export default function AboutPage() {
     <main>
       {aboutHeroData.active && <AboutHero />}
       {visionData.active && <OurVision />}
-      {/* <ServicesCta /> */}
+      {locationData.active && <OfficeLocationMap />}
     </main>
   );
 }
