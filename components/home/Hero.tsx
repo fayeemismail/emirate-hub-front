@@ -48,9 +48,9 @@ const Hero = () => {
         {/* Text block: normal flow on mobile/tablet so it can never be covered;
             only becomes an absolutely-centered min-h-screen block at lg+ */}
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0 pointer-events-none">
-          <div className="w-full flex flex-col items-center md:items-start lg:items-start text-start md:text-start lg:text-start pointer-events-none">
+          <div className="w-full flex flex-col items-start text-start pointer-events-none">
             {/* Heading */}
-            <h1 className="text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            <h1 className="w-full text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               {data.heading.boldKeyword ? (
                 <>
                   <span>{data.heading.prefix?.trim()}</span>{" "}
