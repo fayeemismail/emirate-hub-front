@@ -117,16 +117,17 @@ export default function Service() {
                       {service.description}
                     </p>
 
-                    {/* Action Button */}
+                    {/* Action Link */}
                     <div>
-                      <button
-                        type="button"
-                        onClick={() => router.push(`/services/${service.slug}`)}
-                        className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-xs hover:shadow-md cursor-pointer active:scale-95"
+                      <Link
+                        href={`/services/${service.slug}`}
+                        className="group inline-flex items-center gap-2.5 text-primary hover:text-[#c8191e] font-bold text-xs sm:text-sm tracking-wider uppercase transition-colors duration-200 cursor-pointer"
                       >
-                        <span>{service.buttonText || "LEARN MORE"}</span>
+                        <span className="relative pb-0.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary group-hover:after:w-full after:transition-all after:duration-300">
+                          {service.buttonText || "LEARN MORE"}
+                        </span>
                         <FiArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300 ease-in-out" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
