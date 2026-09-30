@@ -7,22 +7,13 @@ import blogHeroData from "@/data/blog/blogHero.json";
 import blogsData from "@/data/blog/blogsData.json";
 
 export default function BlogFeed() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   return (
     <>
-      {blogHeroData.active && (
-        <BlogHero
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
-      )}
+      {blogHeroData.active && <BlogHero />}
       {blogsData.active && (
         <BlogsList
-          searchQuery={searchQuery}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />

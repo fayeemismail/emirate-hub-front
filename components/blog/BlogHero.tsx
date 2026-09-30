@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FiChevronRight, FiTrendingUp, FiSearch, FiX, FiCheckCircle } from "react-icons/fi";
+import { FiChevronRight, FiTrendingUp } from "react-icons/fi";
 import rawBlogHeroData from "@/data/blog/blogHero.json";
 import { BlogHeroData } from "@/types/blog/blogHero";
 
@@ -12,39 +12,12 @@ interface BlogHeroProps {
   onSelectCategory?: (category: string) => void;
 }
 
-export default function BlogHero({
-  searchQuery = "",
-  onSearchChange,
-  selectedCategory = "all",
-  onSelectCategory,
-}: BlogHeroProps) {
+export default function BlogHero({}: BlogHeroProps = {}) {
   const data: BlogHeroData = rawBlogHeroData as BlogHeroData;
 
   if (!data || !data.active) {
     return null;
   }
-
-  const handleQuickTagClick = (category: string) => {
-    if (onSelectCategory) {
-      onSelectCategory(category);
-    }
-    const element = document.getElementById("blogs-feed");
-    if (element) {
-      const navOffset = 90;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handleClearSearch = () => {
-    if (onSearchChange) {
-      onSearchChange("");
-    }
-  };
 
   return (
     <section className="relative w-full overflow-hidden bg-[#0A0D14] text-white pt-28 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24">
@@ -120,64 +93,9 @@ export default function BlogHero({
 
           {/* Description */}
           {data.description && (
-            <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-10 font-light">
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-light">
               {data.description}
             </p>
-          )}
-
-          {/* Modern Floating Search Bar */}
-          <div className="w-full max-w-2xl mx-auto mb-6">
-            <div className="relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 via-red-500/20 to-primary/30 rounded-full blur-sm opacity-50 group-focus-within:opacity-100 transition duration-500" />
-              <div className="relative flex items-center bg-[#131722]/90 border border-white/15 rounded-full backdrop-blur-xl shadow-2xl transition-all duration-300 group-focus-within:border-primary/60 group-focus-within:bg-[#161B26]">
-                <div className="pl-4 sm:pl-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
-                  <FiSearch className="w-4 h-4 sm:w-5 sm:h-5" />
-                </div>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
-                  placeholder="Search articles by topic, keyword, or tax regulation..."
-                  className="w-full pl-3 pr-10 py-3.5 sm:py-4 bg-transparent text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={handleClearSearch}
-                    aria-label="Clear search query"
-                    className="absolute right-3.5 sm:right-4 p-1 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                  >
-                    <FiX className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Filter Tags - Rendered only if quickTags array exists and has items */}
-          {data.quickTags && data.quickTags.length > 0 && (
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
-              <span className="text-xs text-gray-400 font-medium mr-1 uppercase tracking-wider text-[11px]">
-                Trending:
-              </span>
-              {data.quickTags.map((tag, idx) => {
-                const isSelected = selectedCategory === tag.category;
-                return (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => handleQuickTagClick(tag.category)}
-                    className={`text-xs sm:text-[13px] px-3.5 py-1.5 rounded-full transition-all duration-300 cursor-pointer font-medium border select-none ${
-                      isSelected
-                        ? "bg-primary text-white border-primary shadow-lg shadow-primary/25 scale-105"
-                        : "bg-white/[0.05] text-gray-300 border-white/10 hover:bg-white/15 hover:border-white/20 hover:text-white"
-                    }`}
-                  >
-                    {tag.label}
-                  </button>
-                );
-              })}
-            </div>
           )}
 
           {/* Optional Stats Highlights - Only rendered if stats exist */}

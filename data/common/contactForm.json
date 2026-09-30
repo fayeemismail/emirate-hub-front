@@ -1,33 +1,33 @@
 {
-  "selectPlaceholder": "Select",
+  "selectPlaceholder": "Select Service",
   "options": [
     {
-      "value": "e-commerce",
-      "label": "E-Commerce & Digital Trade"
+      "value": "business-incorporation",
+      "label": "Business Incorporation"
     },
     {
-      "value": "it-software",
-      "label": "IT, Tech & Software Services"
+      "value": "visa-services",
+      "label": "Visa Services"
     },
     {
-      "value": "consulting",
-      "label": "Management & Business Consulting"
+      "value": "pro-government-liaison",
+      "label": "PRO & Government Liaison"
     },
     {
-      "value": "trading",
-      "label": "General Trading & Commercial"
+      "value": "corporate-bank-account",
+      "label": "Corporate Bank Account Opening"
     },
     {
-      "value": "marketing",
-      "label": "Advertising & Digital Media"
+      "value": "corporate-tax-vat",
+      "label": "Corporate Tax & VAT Compliance"
     },
     {
-      "value": "real-estate",
-      "label": "Real Estate & Property"
+      "value": "office-rentals",
+      "label": "Office Rentals & Commercial Space"
     },
     {
       "value": "other",
-      "label": "Other Business Activity"
+      "label": "Other Services"
     }
   ]
 }

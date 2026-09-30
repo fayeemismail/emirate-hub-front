@@ -301,44 +301,60 @@ export default function BlogsList({
                 </div>
 
                 {/* Footer: Author & Read CTA */}
-                <div className="pt-6 border-t border-gray-100 flex items-center justify-between">
+                <div className="pt-5 sm:pt-6 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4">
                   {featuredBlog.author && (
-                    <div className="flex items-center gap-3">
-                      {featuredBlog.author.avatar && (
-                        <div className="relative w-10 h-10 rounded-full overflow-hidden border border-gray-200 shrink-0">
-                          <Image
-                            src={featuredBlog.author.avatar}
-                            alt={featuredBlog.author.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <div>
-                        <p className="text-xs sm:text-sm font-bold text-gray-900 leading-tight">
-                          {featuredBlog.author.name}
-                        </p>
-                        {featuredBlog.author.role && (
-                          <p className="text-[11px] text-gray-400 font-normal leading-tight mt-0.5">
-                            {featuredBlog.author.role}
-                          </p>
+                    <div className="flex items-center justify-between gap-3 min-w-0">
+                      <div className="flex items-center gap-3 min-w-0">
+                        {featuredBlog.author.avatar && (
+                          <div className="relative w-10 h-10 rounded-full overflow-hidden border border-gray-200 shrink-0">
+                            <Image
+                              src={featuredBlog.author.avatar}
+                              alt={featuredBlog.author.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
                         )}
+                        <div className="min-w-0">
+                          <p className="text-xs sm:text-sm font-bold text-gray-900 leading-tight truncate">
+                            {featuredBlog.author.name}
+                          </p>
+                          {featuredBlog.author.role && (
+                            <p className="text-[11px] text-gray-400 font-normal leading-tight mt-0.5 truncate">
+                              {featuredBlog.author.role}
+                            </p>
+                          )}
+                        </div>
                       </div>
+
+                      {/* Share Button (mobile only - aligned right of author) */}
+                      <button
+                        type="button"
+                        onClick={(e) => handleShare(e, featuredBlog.id)}
+                        title="Copy link"
+                        aria-label="Share article"
+                        className="sm:hidden p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-800 transition-colors cursor-pointer shrink-0"
+                      >
+                        <FiShare2 className="w-4 h-4" />
+                      </button>
                     </div>
                   )}
 
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2.5 sm:shrink-0">
+                    {/* Share Button (desktop / sm+) */}
                     <button
                       type="button"
                       onClick={(e) => handleShare(e, featuredBlog.id)}
                       title="Copy link"
-                      className="p-2.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-800 transition-colors cursor-pointer"
+                      aria-label="Share article"
+                      className="hidden sm:flex p-2.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-800 transition-colors cursor-pointer shrink-0"
                     >
                       <FiShare2 className="w-4 h-4" />
                     </button>
-                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-bold group-hover:bg-primary group-hover:text-white transition-all">
+
+                    <span className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-2.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-bold whitespace-nowrap shrink-0 group-hover:bg-primary group-hover:text-white transition-all shadow-xs sm:shadow-none">
                       <span>Read Article</span>
-                      <FiArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
                     </span>
                   </div>
                 </div>
@@ -418,9 +434,9 @@ export default function BlogsList({
                   </div>
 
                   {/* Card Footer: Author & Share/Read Actions */}
-                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto gap-2">
                     {blog.author ? (
-                      <div className="flex items-center gap-2.5">
+                      <div className="flex items-center gap-2.5 min-w-0">
                         {blog.author.avatar && (
                           <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-200 shrink-0">
                             <Image
@@ -431,12 +447,12 @@ export default function BlogsList({
                             />
                           </div>
                         )}
-                        <div>
-                          <p className="text-xs font-bold text-gray-900 leading-tight">
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-gray-900 leading-tight truncate">
                             {blog.author.name}
                           </p>
                           {blog.author.role && (
-                            <p className="text-[10px] text-gray-400 font-normal leading-tight mt-0.5">
+                            <p className="text-[10px] text-gray-400 font-normal leading-tight mt-0.5 truncate">
                               {blog.author.role}
                             </p>
                           )}
@@ -446,16 +462,17 @@ export default function BlogsList({
                       <div />
                     )}
 
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         type="button"
                         onClick={(e) => handleShare(e, blog.id)}
                         title="Copy article link"
+                        aria-label="Share article"
                         className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
                       >
                         <FiShare2 className="w-4 h-4" />
                       </button>
-                      <span className="inline-flex items-center gap-1 text-primary text-xs font-bold group-hover:translate-x-1 transition-transform">
+                      <span className="inline-flex items-center gap-1 text-primary text-xs font-bold group-hover:translate-x-1 transition-transform whitespace-nowrap">
                         <span>Read</span>
                         <FiArrowRight className="w-3.5 h-3.5" />
                       </span>
