@@ -100,19 +100,19 @@ export default function Footer() {
             {/* Direct Contact Details */}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-300 font-light pt-1 sm:pt-2">
               <a
-                href="tel:+971000000"
+                href="tel:+971509432297"
                 className="inline-flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <FiPhone className="w-3.5 h-3.5 text-primary shrink-0" />
-                <span>+971 000 000</span>
+                <span>+971 50 943 2297</span>
               </a>
               <span className="hidden sm:inline text-gray-700">•</span>
               <a
-                href="mailto:info@emiratehub.com"
+                href="mailto:info@emiratehub.ae"
                 className="inline-flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <FiMail className="w-3.5 h-3.5 text-primary shrink-0" />
-                <span>info@emiratehub.com</span>
+                <span>info@emiratehub.ae</span>
               </a>
             </div>
           </div>

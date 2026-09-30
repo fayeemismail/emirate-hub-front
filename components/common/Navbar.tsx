@@ -171,7 +171,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
             {/* WhatsApp Link - Always visible (Desktop & Mobile before menu) */}
             <a
-              href="https://wa.me/971000000"
+              href="https://wa.me/971509432297"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Contact on WhatsApp"
@@ -182,11 +182,11 @@ export default function Navbar() {
 
             {/* Phone Link - Desktop only */}
             <a
-              href="tel:+971000000"
+              href="tel:+971509432297"
               className="hidden lg:flex text-[13px] text-white hover:text-primary transition-colors font-medium items-center gap-2"
             >
               <FiPhone className="w-3.5 h-3.5 text-primary" />
-              <span>+971 000 000</span>
+              <span>+971 50 943 2297</span>
             </a>
 
             {/* Mobile Menu Button */}
@@ -245,13 +245,13 @@ export default function Navbar() {
               {/* Bottom Details for Mobile */}
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
                 <a
-                  href="tel:+971000000"
+                  href="tel:+971509432297"
                   className="flex items-center gap-3 text-sm text-white/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                 >
                   <div className="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center">
                     <FiPhone className="w-3.5 h-3.5" />
                   </div>
-                  <span className="font-medium">+971 000 000</span>
+                  <span className="font-medium">+971 50 943 2297</span>
                 </a>
               </div>
             </div>
