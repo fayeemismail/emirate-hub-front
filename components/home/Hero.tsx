@@ -17,9 +17,21 @@ const Hero = () => {
 
   const handleClick = () => {
     setIsClicked(true);
+    const rawTopic = data.heading?.highlightedText?.trim() || "UAE Business License";
+    const serviceTopic = rawTopic.replace(/\b\w/g, (char) => char.toUpperCase());
+
+    window.dispatchEvent(
+      new CustomEvent("select-contact-service", { detail: serviceTopic })
+    );
+
     setTimeout(() => {
       setIsClicked(false);
-      router.push(data.buttonHref || "/coming-soon");
+      const targetHref = `/?service=${encodeURIComponent(serviceTopic)}#contact-us`;
+      router.push(targetHref, { scroll: false });
+      const contactSection = document.getElementById("contact-us");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
     }, 400);
   };
 

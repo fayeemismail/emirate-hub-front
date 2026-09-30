@@ -23,7 +23,7 @@
         "Bank Account Opening Assistance"
       ],
       "buttonText": "ENQUIRE NOW",
-      "buttonHref": "/coming-soon"
+      "buttonHref": "/#contact-us"
     },
     {
       "id": 2,
@@ -43,7 +43,7 @@
         "Unlimited Employment Visa Quotas"
       ],
       "buttonText": "ENQUIRE NOW",
-      "buttonHref": "/coming-soon"
+      "buttonHref": "/#contact-us"
     },
     {
       "id": 3,
@@ -63,7 +63,7 @@
         "Fast-Track Emirates ID & Medicals"
       ],
       "buttonText": "ENQUIRE NOW",
-      "buttonHref": "/coming-soon"
+      "buttonHref": "/#contact-us"
     }
   ]
 }

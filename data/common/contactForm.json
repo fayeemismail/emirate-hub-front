@@ -1,0 +1,33 @@
+{
+  "selectPlaceholder": "Select",
+  "options": [
+    {
+      "value": "e-commerce",
+      "label": "E-Commerce & Digital Trade"
+    },
+    {
+      "value": "it-software",
+      "label": "IT, Tech & Software Services"
+    },
+    {
+      "value": "consulting",
+      "label": "Management & Business Consulting"
+    },
+    {
+      "value": "trading",
+      "label": "General Trading & Commercial"
+    },
+    {
+      "value": "marketing",
+      "label": "Advertising & Digital Media"
+    },
+    {
+      "value": "real-estate",
+      "label": "Real Estate & Property"
+    },
+    {
+      "value": "other",
+      "label": "Other Business Activity"
+    }
+  ]
+}

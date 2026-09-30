@@ -89,11 +89,27 @@ export default function PriceCards() {
     return null;
   }
 
-  const handleEnquire = (href?: string, id?: number | string) => {
+  const handleEnquire = (
+    href?: string,
+    id?: number | string,
+    title?: string
+  ) => {
     if (id !== undefined) setClickedId(id);
+    if (title) {
+      window.dispatchEvent(
+        new CustomEvent("select-contact-service", { detail: title })
+      );
+    }
     setTimeout(() => {
       setClickedId(null);
-      router.push(href || "/coming-soon");
+      const targetHref = title
+        ? `/?service=${encodeURIComponent(title)}#contact-us`
+        : href || "/#contact-us";
+      router.push(targetHref, { scroll: false });
+      const contactSection = document.getElementById("contact-us");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
     }, 250);
   };
 
@@ -266,7 +282,9 @@ export default function PriceCards() {
                 <div className="pt-2">
                   <button
                     type="button"
-                    onClick={() => handleEnquire(card.buttonHref, card.id)}
+                    onClick={() =>
+                      handleEnquire(card.buttonHref, card.id, card.title)
+                    }
                     className={`group/btn w-full py-3.5 px-6 rounded-xl font-semibold text-xs tracking-wider uppercase border transition-all duration-300 ease-in-out flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md select-none active:scale-[0.98] ${
                       isCenterOrPopular
                         ? "bg-white text-primary border-black hover:bg-white/90 hover:text-primary font-bold"
