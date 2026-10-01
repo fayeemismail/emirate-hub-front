@@ -174,6 +174,8 @@ export const BLOG_POST_BY_SLUG_QUERY = `*[_type == "emirateBlogPost" && (slug.cu
 // COMMON / GLOBAL GROQ QUERIES
 // ==========================================
 
+export const NAVBAR_QUERY = `*[_type == "emirateNavbar"][0]`;
+
 export const FOOTER_QUERY = `*[_type == "emirateFooter"][0]`;
 
 export const CONTACT_CONFIG_QUERY = `*[_type == "emirateContactConfig"][0]`;

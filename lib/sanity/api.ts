@@ -19,6 +19,7 @@ import {
   BLOG_SETTINGS_QUERY,
   BLOG_POSTS_QUERY,
   BLOG_POST_BY_SLUG_QUERY,
+  NAVBAR_QUERY,
   FOOTER_QUERY,
   CONTACT_CONFIG_QUERY,
 } from "./queries";
@@ -49,6 +50,8 @@ import { VisionData } from "@/types/about/vision";
 import { LocationData } from "@/types/about/location";
 import { BlogHeroData } from "@/types/blog/blogHero";
 import { BlogPost, BlogsPageData } from "@/types/blog/blog";
+import { NavbarData } from "@/types/common/navbar";
+import { FooterData } from "@/types/common/footer";
 import { ServiceDetailData } from "@/lib/services";
 
 // ==========================================
@@ -242,6 +245,21 @@ export async function getBlogHeroData(): Promise<BlogHeroData> {
   return defaultBlogHeroData as unknown as BlogHeroData;
 }
 
+const localBlogPosts = defaultBlogsData.blogs as unknown as BlogPost[];
+
+function backfillArticleSections(post: BlogPost): BlogPost {
+  if (post.sections && post.sections.length > 0) return post;
+
+  const local = localBlogPosts.find(
+    (item) =>
+      item.id === post.id ||
+      item.title.trim().toLowerCase() === post.title?.trim().toLowerCase()
+  );
+
+  if (!local?.sections?.length) return post;
+  return { ...post, sections: local.sections };
+}
+
 export async function getBlogPageData(): Promise<BlogsPageData> {
   const [settings, posts] = await Promise.all([
     sanityFetch<{ active?: boolean; categories?: { id: string; label: string }[]; backgroundColor?: string }>({
@@ -257,8 +275,9 @@ export async function getBlogPageData(): Promise<BlogsPageData> {
   if (posts && posts.length > 0) {
     return {
       active: settings?.active ?? true,
+      backgroundColor: settings?.backgroundColor,
       categories: settings?.categories || (defaultBlogsData.categories as any),
-      blogs: posts,
+      blogs: posts.map(backfillArticleSections),
     };
   }
 
@@ -271,11 +290,9 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     params: { slug },
     tags: ["emirateBlogPost"],
   });
-  if (post) return post;
+  if (post && post.active !== false) return backfillArticleSections(post);
 
-  const local = (defaultBlogsData.blogs as unknown as BlogPost[]).find(
-    (b) => b.id === slug && b.active !== false
-  );
+  const local = localBlogPosts.find((b) => b.id === slug && b.active !== false);
   return local || null;
 }
 
@@ -283,12 +300,18 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 // COMMON FETCHERS
 // ==========================================
 
-export async function getFooterData() {
-  const data = await sanityFetch({
+export async function getNavbarData(): Promise<NavbarData | null> {
+  return sanityFetch<NavbarData>({
+    query: NAVBAR_QUERY,
+    tags: ["emirateNavbar"],
+  });
+}
+
+export async function getFooterData(): Promise<FooterData | null> {
+  return sanityFetch<FooterData>({
     query: FOOTER_QUERY,
     tags: ["emirateFooter"],
   });
-  return data;
 }
 
 export async function getContactConfigData() {

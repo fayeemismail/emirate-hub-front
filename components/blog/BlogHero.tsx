@@ -6,21 +6,28 @@ import rawBlogHeroData from "@/data/blog/blogHero.json";
 import { BlogHeroData } from "@/types/blog/blogHero";
 
 interface BlogHeroProps {
+  data?: BlogHeroData | null;
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
   selectedCategory?: string;
   onSelectCategory?: (category: string) => void;
 }
 
-export default function BlogHero({}: BlogHeroProps = {}) {
-  const data: BlogHeroData = rawBlogHeroData as BlogHeroData;
+export default function BlogHero({ data: propData }: BlogHeroProps = {}) {
+  const data: BlogHeroData =
+    propData && propData.active !== false && propData.title
+      ? propData
+      : (rawBlogHeroData as BlogHeroData);
 
   if (!data || !data.active) {
     return null;
   }
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#0A0D14] text-white pt-28 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24">
+    <section
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+      className="relative w-full overflow-hidden bg-[#0A0D14] text-white pt-28 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24"
+    >
       {/* Dynamic Ambient Background Glows */}
       <div className="absolute top-0 right-1/4 -mt-32 w-96 h-96 bg-primary/15 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 -mb-32 w-96 h-96 bg-red-600/10 rounded-full blur-[140px] pointer-events-none" />
@@ -74,7 +81,10 @@ export default function BlogHero({}: BlogHeroProps = {}) {
 
           {/* Main Heading */}
           {data.title && (
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12] mb-5">
+            <h1
+              style={data.titleColor ? { color: data.titleColor } : undefined}
+              className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12] mb-5"
+            >
               {data.title}{" "}
               {data.highlightedTitle && (
                 <span className="bg-gradient-to-r from-red-500 via-primary to-rose-400 bg-clip-text text-transparent">
@@ -86,14 +96,20 @@ export default function BlogHero({}: BlogHeroProps = {}) {
 
           {/* Subtitle */}
           {data.subtitle && (
-            <p className="text-gray-200 text-base sm:text-lg md:text-xl font-medium max-w-2xl mx-auto mb-3 leading-snug">
+            <p
+              style={data.subtitleColor ? { color: data.subtitleColor } : undefined}
+              className="text-gray-200 text-base sm:text-lg md:text-xl font-medium max-w-2xl mx-auto mb-3 leading-snug"
+            >
               {data.subtitle}
             </p>
           )}
 
           {/* Description */}
           {data.description && (
-            <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-light">
+            <p
+              style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+              className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-light"
+            >
               {data.description}
             </p>
           )}

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import PageLoader from "@/components/common/PageLoader";
+import { getFooterData, getNavbarData } from "@/lib/sanity/api";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +43,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const [navbarData, footerData] = await Promise.all([
+    getNavbarData(),
+    getFooterData(),
+  ]);
+
   return (
     <html
       lang="en"
@@ -55,11 +61,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col bg-white">
         <PageLoader />
-        <Navbar />
+        <Navbar data={navbarData} />
         <main>
           {children}
         </main>
-        <Footer />
+        <Footer data={footerData} />
       </body>
     </html>
   );

@@ -7,8 +7,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { FiMenu, FiX, FiPhone, FiArrowRight } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { NavbarData } from "@/types/common/navbar";
 
-const navLinks = [
+const defaultNavLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
@@ -16,7 +17,28 @@ const navLinks = [
   { label: "Contact Us", href: "/#contact-us" },
 ];
 
-export default function Navbar() {
+const DEFAULT_PHONE = "+971 50 943 2297";
+const DEFAULT_WHATSAPP_URL = "https://wa.me/971509432297";
+
+interface NavbarProps {
+  data?: NavbarData | null;
+}
+
+export default function Navbar({ data }: NavbarProps) {
+  const navLinks = data?.navLinks?.length
+    ? data.navLinks
+        .filter((link) => link.name && link.href)
+        .map((link) => ({ label: link.name, href: link.href }))
+    : defaultNavLinks;
+  const phone = data?.phone || DEFAULT_PHONE;
+  const phoneHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  const whatsappUrl = data?.whatsappUrl || DEFAULT_WHATSAPP_URL;
+  const colorVars = {
+    "--nav-bg": data?.backgroundColor || "#000000",
+    "--nav-link": data?.linkColor || "#FFFFFF",
+    "--nav-phone": data?.phoneColor || "#FFFFFF",
+  } as React.CSSProperties;
+
   const pathname = usePathname();
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
@@ -114,14 +136,15 @@ export default function Navbar() {
 
   return (
     <nav
+      style={colorVars}
       className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-all duration-300 ease-in-out ${
         isVisible || isMobileMenuOpen
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
       } ${
         showSolidNavbar
-          ? "bg-black/85 backdrop-blur-md shadow-lg border-b border-white/10"
-          : "bg-black/35 backdrop-blur-md border-b border-white/10"
+          ? "bg-[var(--nav-bg)]/85 backdrop-blur-md shadow-lg border-b border-white/10"
+          : "bg-[var(--nav-bg)]/35 backdrop-blur-md border-b border-white/10"
       }`}
     >
       <div className="site-container">
@@ -158,7 +181,7 @@ export default function Navbar() {
                   className={`text-[13px] tracking-wide transition-colors ${
                     isActive
                       ? "text-[#E02126] font-semibold"
-                      : "text-white/80 hover:text-white"
+                      : "text-[var(--nav-link)]/80 hover:text-[var(--nav-link)]"
                   }`}
                 >
                   {link.label}
@@ -171,7 +194,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
             {/* WhatsApp Link - Always visible (Desktop & Mobile before menu) */}
             <a
-              href="https://wa.me/971509432297"
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Contact on WhatsApp"
@@ -182,11 +205,11 @@ export default function Navbar() {
 
             {/* Phone Link - Desktop only */}
             <a
-              href="tel:+971509432297"
-              className="hidden lg:flex text-[13px] text-white hover:text-primary transition-colors font-medium items-center gap-2"
+              href={phoneHref}
+              className="hidden lg:flex text-[13px] text-[var(--nav-phone)] hover:text-primary transition-colors font-medium items-center gap-2"
             >
               <FiPhone className="w-3.5 h-3.5 text-primary" />
-              <span>+971 50 943 2297</span>
+              <span>{phone}</span>
             </a>
 
             {/* Mobile Menu Button */}
@@ -211,7 +234,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.28, ease: "easeInOut" }}
-            className="lg:hidden bg-black/90 backdrop-blur-xl border-t border-white/10 overflow-hidden shadow-2xl"
+            className="lg:hidden bg-[var(--nav-bg)]/90 backdrop-blur-xl border-t border-white/10 overflow-hidden shadow-2xl"
           >
             <div className="site-container py-5 flex flex-col space-y-2">
               {navLinks.map((link, index) => {
@@ -233,7 +256,7 @@ export default function Navbar() {
                     className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${
                       isActive
                         ? "text-primary font-semibold bg-white/5"
-                        : "text-white/85 hover:text-white hover:bg-white/5"
+                        : "text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] hover:bg-white/5"
                     }`}
                   >
                     <span>{link.label}</span>
@@ -245,13 +268,13 @@ export default function Navbar() {
               {/* Bottom Details for Mobile */}
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
                 <a
-                  href="tel:+971509432297"
-                  className="flex items-center gap-3 text-sm text-white/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                  href={phoneHref}
+                  className="flex items-center gap-3 text-sm text-[var(--nav-phone)]/90 py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                 >
                   <div className="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center">
                     <FiPhone className="w-3.5 h-3.5" />
                   </div>
-                  <span className="font-medium">+971 50 943 2297</span>
+                  <span className="font-medium">{phone}</span>
                 </a>
               </div>
             </div>

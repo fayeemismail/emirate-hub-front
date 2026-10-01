@@ -24,6 +24,11 @@ export interface BlogHeroStat {
 
 export interface BlogHeroData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  highlightColor?: string;
+  subtitleColor?: string;
+  descriptionColor?: string;
   breadcrumb?: BlogHeroBreadcrumb;
   badge?: string;
   title: string;

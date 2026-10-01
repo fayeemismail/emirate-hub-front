@@ -39,6 +39,7 @@ export interface BlogCategory {
 
 export interface BlogsPageData {
   active: boolean;
+  backgroundColor?: string;
   categories?: BlogCategory[];
   blogs: BlogItem[];
 }

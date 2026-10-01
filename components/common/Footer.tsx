@@ -16,11 +16,21 @@ import {
   FiClock,
   FiExternalLink,
 } from "react-icons/fi";
+import type { IconType } from "react-icons";
+import {
+  FooterData,
+  FooterLink,
+  FooterSocialLink,
+  FooterSocialPlatform,
+} from "@/types/common/footer";
 
 const GOOGLE_MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Iris+Bay+Tower+Business+Bay+Dubai";
 
-const quickLinks = [
+const DEFAULT_DESCRIPTION =
+  "Dubai's leading corporate advisory and business setup firm. Empowering entrepreneurs and global enterprises to establish and scale across the UAE.";
+
+const defaultQuickLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
@@ -28,7 +38,7 @@ const quickLinks = [
   { name: "Contact Us", href: "/#contact-us" },
 ];
 
-const coreServices = [
+const defaultCoreServices = [
   { name: "Business Incorporation", href: "/services/business-incorporation" },
   { name: "Visa Services", href: "/services/visa-services" },
   { name: "PRO & Government Liaison", href: "/services/pro-government-liaison" },
@@ -42,9 +52,77 @@ const coreServices = [
   },
 ];
 
-export default function Footer() {
+const defaultSocialLinks: FooterSocialLink[] = [
+  { platform: "instagram", url: "#" },
+  { platform: "youtube", url: "#" },
+  { platform: "linkedin", url: "#" },
+  { platform: "facebook", url: "#" },
+  { platform: "twitter", url: "#" },
+];
+
+const socialIcons: Record<FooterSocialPlatform, { icon: IconType; label: string }> = {
+  instagram: { icon: FaInstagram, label: "Instagram" },
+  youtube: { icon: FaYoutube, label: "YouTube" },
+  linkedin: { icon: FaLinkedinIn, label: "LinkedIn" },
+  facebook: { icon: FaFacebookF, label: "Facebook" },
+  twitter: { icon: FaXTwitter, label: "X Twitter" },
+};
+
+function normalizeHref(href: string) {
+  if (/^(https?:|mailto:|tel:|\/|#)/.test(href)) return href;
+  return `/${href}`;
+}
+
+function toLinks(links: FooterLink[] | undefined, fallback: FooterLink[]) {
+  const valid = (links || []).filter((link) => link.name && link.href);
+  if (valid.length === 0) return fallback;
+  return valid.map((link) => ({ name: link.name, href: normalizeHref(link.href) }));
+}
+
+function splitHours(value?: string) {
+  const index = value?.indexOf(": ") ?? -1;
+  if (!value || index === -1) return null;
+  return { label: value.slice(0, index + 1), hours: value.slice(index + 2) };
+}
+
+interface FooterProps {
+  data?: FooterData | null;
+}
+
+export default function Footer({ data }: FooterProps) {
+  const quickLinks = toLinks(data?.quickLinks, defaultQuickLinks);
+  const coreServices = toLinks(data?.coreServices, defaultCoreServices);
+  const socialLinks = data?.socialLinks?.filter(
+    (link) => link.url && socialIcons[link.platform]
+  ).length
+    ? data.socialLinks.filter((link) => link.url && socialIcons[link.platform])
+    : defaultSocialLinks;
+
+  const description = data?.description || DEFAULT_DESCRIPTION;
+  const officeTitle = data?.headOffice?.title || "Head Office";
+  const officeUnit = data?.headOffice?.unit || "2204, 22nd Floor, Iris Bay Tower";
+  const officeLocation =
+    data?.headOffice?.location || "Business Bay, Dubai, United Arab Emirates";
+  const mapsUrl = data?.headOffice?.mapsUrl || GOOGLE_MAPS_URL;
+  const phone = data?.phone || "+971 50 943 2297";
+  const phoneHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  const email = data?.email || "info@emiratehub.ae";
+  const weekdayHours = splitHours(data?.workingHours) || {
+    label: "Mon – Fri:",
+    hours: "9:00 AM – 6:00 PM",
+  };
+  const copyrightText =
+    data?.copyrightText || "© 2026 Emirate Hub. All Rights Reserved.";
+
+  const headingStyle = data?.headingColor ? { color: data.headingColor } : undefined;
+  const textStyle = data?.textColor ? { color: data.textColor } : undefined;
+  const linkStyle = data?.linkColor ? { color: data.linkColor } : undefined;
+
   return (
-    <footer className="bg-black text-white pt-12 sm:pt-14 md:pt-16 pb-8 sm:pb-10 border-t border-gray-900">
+    <footer
+      style={data?.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+      className="bg-black text-white pt-12 sm:pt-14 md:pt-16 pb-8 sm:pb-10 border-t border-gray-900"
+    >
       <div className="site-container">
         {/* Main Grid: Split 2-col on mobile, 4 columns on desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 pb-10 sm:pb-14 border-b border-gray-800/80">
@@ -61,10 +139,11 @@ export default function Footer() {
                   className="h-auto w-32 sm:w-36 md:w-44"
                 />
               </Link>
-              <p className="text-gray-400 text-xs sm:text-sm font-light leading-relaxed max-w-sm mb-4 sm:mb-6">
-                Dubai&apos;s leading corporate advisory and business setup firm.
-                Empowering entrepreneurs and global enterprises to establish and
-                scale across the UAE.
+              <p
+                style={textStyle}
+                className="text-gray-400 text-xs sm:text-sm font-light leading-relaxed max-w-sm mb-4 sm:mb-6"
+              >
+                {description}
               </p>
 
               {/* Office Location Card */}
@@ -74,17 +153,23 @@ export default function Footer() {
                     <FiMapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-white text-xs font-semibold uppercase tracking-wider mb-0.5 sm:mb-1">
-                      Head Office
+                    <h4
+                      style={headingStyle}
+                      className="text-white text-xs font-semibold uppercase tracking-wider mb-0.5 sm:mb-1"
+                    >
+                      {officeTitle}
                     </h4>
                     <p className="text-gray-200 text-xs sm:text-sm font-medium leading-snug">
-                      2204, 22nd Floor, Iris Bay Tower
+                      {officeUnit}
                     </p>
-                    <p className="text-gray-400 text-xs leading-normal mt-0.5">
-                      Business Bay, Dubai, United Arab Emirates
+                    <p
+                      style={textStyle}
+                      className="text-gray-400 text-xs leading-normal mt-0.5"
+                    >
+                      {officeLocation}
                     </p>
                     <a
-                      href={GOOGLE_MAPS_URL}
+                      href={mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 text-xs text-primary font-medium mt-1.5 sm:mt-2 hover:underline group"
@@ -100,19 +185,19 @@ export default function Footer() {
             {/* Direct Contact Details */}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-300 font-light pt-1 sm:pt-2">
               <a
-                href="tel:+971509432297"
+                href={phoneHref}
                 className="inline-flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <FiPhone className="w-3.5 h-3.5 text-primary shrink-0" />
-                <span>+971 50 943 2297</span>
+                <span>{phone}</span>
               </a>
               <span className="hidden sm:inline text-gray-700">•</span>
               <a
-                href="mailto:info@emiratehub.ae"
+                href={`mailto:${email}`}
                 className="inline-flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <FiMail className="w-3.5 h-3.5 text-primary shrink-0" />
-                <span>info@emiratehub.ae</span>
+                <span>{email}</span>
               </a>
             </div>
           </div>
@@ -129,6 +214,7 @@ export default function Footer() {
                   <li key={idx}>
                     <Link
                       href={link.href}
+                      style={linkStyle}
                       className="inline-block text-xs sm:text-sm text-gray-300 hover:text-white hover:translate-x-1.5 transition-all duration-200 font-light"
                     >
                       {link.name}
@@ -148,6 +234,7 @@ export default function Footer() {
                   <li key={idx}>
                     <Link
                       href={service.href}
+                      style={linkStyle}
                       className="inline-block text-xs sm:text-sm text-gray-300 hover:text-white hover:translate-x-1.5 transition-all duration-200 font-light"
                     >
                       {service.name}
@@ -166,22 +253,27 @@ export default function Footer() {
               </h3>
               <div className="space-y-2.5 text-xs sm:text-sm text-gray-300 font-light mb-6">
                 <div>
-                  <p className="text-white font-medium">Mon – Fri:</p>
-                  <p className="text-gray-400">9:00 AM – 6:00 PM</p>
+                  <p style={headingStyle} className="text-white font-medium">
+                    {weekdayHours.label}
+                  </p>
+                  <p className="text-gray-400">{weekdayHours.hours}</p>
                 </div>
                 <div>
-                  <p className="text-white font-medium">Saturday:</p>
+                  <p style={headingStyle} className="text-white font-medium">Saturday:</p>
                   <p className="text-gray-400">10:00 AM – 3:00 PM</p>
                 </div>
                 <div>
-                  <p className="text-white font-medium">Sunday:</p>
+                  <p style={headingStyle} className="text-white font-medium">Sunday:</p>
                   <p className="text-gray-500">Closed</p>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="text-white text-xs font-semibold uppercase tracking-wider mb-2">
+              <h4
+                style={headingStyle}
+                className="text-white text-xs font-semibold uppercase tracking-wider mb-2"
+              >
                 Legal
               </h4>
               <div className="flex flex-col space-y-1.5 text-xs text-gray-400 font-light">
@@ -206,7 +298,7 @@ export default function Footer() {
         <div className="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-xs sm:text-sm text-gray-400 font-light">
           {/* Copyright & Mobile Legal Links */}
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center md:text-left">
-            <p>© 2026 Emirate Hub. All Rights Reserved.</p>
+            <p>{copyrightText}</p>
             <div className="flex lg:hidden items-center gap-3 text-xs text-gray-400">
               <Link
                 href="/coming-soon"
@@ -230,41 +322,23 @@ export default function Footer() {
               Connect with us:
             </span>
             <div className="flex items-center gap-4">
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
-              >
-                <FaInstagram className="w-4 h-4 md:w-4.5 md:h-4.5" />
-              </a>
-              <a
-                href="#"
-                aria-label="YouTube"
-                className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
-              >
-                <FaYoutube className="w-4 h-4 md:w-4.5 md:h-4.5" />
-              </a>
-              <a
-                href="#"
-                aria-label="LinkedIn"
-                className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
-              >
-                <FaLinkedinIn className="w-4 h-4 md:w-4.5 md:h-4.5" />
-              </a>
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
-              >
-                <FaFacebookF className="w-4 h-4 md:w-4.5 md:h-4.5" />
-              </a>
-              <a
-                href="#"
-                aria-label="X Twitter"
-                className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
-              >
-                <FaXTwitter className="w-4 h-4 md:w-4.5 md:h-4.5" />
-              </a>
+              {socialLinks.map((social, idx) => {
+                const { icon: Icon, label } = socialIcons[social.platform];
+                const isExternal = social.url.startsWith("http");
+                return (
+                  <a
+                    key={idx}
+                    href={social.url}
+                    aria-label={label}
+                    {...(isExternal
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
+                  >
+                    <Icon className="w-4 h-4 md:w-4.5 md:h-4.5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

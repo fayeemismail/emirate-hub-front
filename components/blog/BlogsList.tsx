@@ -17,18 +17,23 @@ import rawBlogsData from "@/data/blog/blogsData.json";
 import { BlogsPageData, BlogItem } from "@/types/blog/blog";
 
 interface BlogsListProps {
+  data?: BlogsPageData | null;
   selectedCategory?: string;
   onSelectCategory?: (category: string) => void;
   searchQuery?: string;
 }
 
 export default function BlogsList({
+  data: propData,
   selectedCategory = "all",
   onSelectCategory,
   searchQuery = "",
 }: BlogsListProps) {
   const router = useRouter();
-  const data: BlogsPageData = rawBlogsData as BlogsPageData;
+  const data: BlogsPageData =
+    propData && propData.active !== false && propData.blogs?.length
+      ? propData
+      : (rawBlogsData as BlogsPageData);
 
   const [internalCategory, setInternalCategory] = useState<string>(selectedCategory);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -143,7 +148,11 @@ export default function BlogsList({
     : filteredBlogs;
 
   return (
-    <section id="blogs-feed" className="py-16 sm:py-20 md:py-28 bg-[#F8FAFC] text-gray-900">
+    <section
+      id="blogs-feed"
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+      className="py-16 sm:py-20 md:py-28 bg-[#F8FAFC] text-gray-900"
+    >
       <div className="site-container">
         {/* Category Filter Pills - Only rendered if categories exist */}
         {data.categories && data.categories.length > 0 && (

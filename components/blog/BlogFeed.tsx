@@ -3,17 +3,23 @@
 import { useState } from "react";
 import BlogHero from "@/components/blog/BlogHero";
 import BlogsList from "@/components/blog/BlogsList";
-import blogHeroData from "@/data/blog/blogHero.json";
-import blogsData from "@/data/blog/blogsData.json";
+import { BlogHeroData } from "@/types/blog/blogHero";
+import { BlogsPageData } from "@/types/blog/blog";
 
-export default function BlogFeed() {
+interface BlogFeedProps {
+  heroData: BlogHeroData;
+  blogsData: BlogsPageData;
+}
+
+export default function BlogFeed({ heroData, blogsData }: BlogFeedProps) {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   return (
     <>
-      {blogHeroData.active && <BlogHero />}
-      {blogsData.active && (
+      {heroData?.active !== false && <BlogHero data={heroData} />}
+      {blogsData?.active !== false && (
         <BlogsList
+          data={blogsData}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />
