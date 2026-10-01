@@ -6,10 +6,17 @@ import rawHeroData from "@/data/home/hero.json";
 import { HeroData } from "@/types/home/hero";
 import HeroPanoramaBackground from "./HeroPanoramaBackground";
 
-const Hero = () => {
+interface HeroProps {
+  data?: HeroData | null;
+}
+
+const Hero = ({ data: propData }: HeroProps) => {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
-  const data: HeroData = rawHeroData as HeroData;
+  const data: HeroData =
+    propData && propData.active !== false && propData.heading
+      ? propData
+      : (rawHeroData as unknown as HeroData);
 
   if (!data.active) {
     return null;
@@ -35,12 +42,26 @@ const Hero = () => {
     }, 400);
   };
 
+  // Safe background images resolution
+  const heroBackgroundImage =
+    data.backgroundImage || rawHeroData.backgroundImage || "/images/hero-panorama.jpg";
+  const heroBackgroundImages =
+    data.backgroundImages && data.backgroundImages.length > 0
+      ? data.backgroundImages
+      : rawHeroData.backgroundImages;
+
+  const buttonBg = data.buttonBackgroundColor || "#E02126";
+  const buttonText = data.buttonTextColor || "#FFFFFF";
+
   return (
-    <section className="relative w-full overflow-hidden pt-[calc(5rem+env(safe-area-inset-top,0px))] md:pt-20 lg:pt-22">
+    <section
+      className="relative w-full overflow-hidden pt-[calc(5rem+env(safe-area-inset-top,0px))] md:pt-20 lg:pt-22"
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+    >
       {/* Interactive Loop Panorama Background (Supports horizontal drag/swipe, scroll-driven parallax, and ambient drift) */}
       <HeroPanoramaBackground
-        imageSrc={data.backgroundImage || "/images/hero-panorama.jpg"}
-        images={data.backgroundImages}
+        imageSrc={heroBackgroundImage}
+        images={heroBackgroundImages}
       />
 
       {/* Hero Content */}
@@ -51,36 +72,56 @@ const Hero = () => {
           <div className="w-full flex flex-col items-start text-start pointer-events-none">
             {/* Heading */}
             <h1 className="w-full text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
-              {data.heading.boldKeyword ? (
+              {data.heading?.boldKeyword ? (
                 <>
-                  <span>{data.heading.prefix?.trim()}</span>{" "}
-                  <span className="font-extrabold italic text-white">
+                  <span style={data.headingColor ? { color: data.headingColor } : undefined}>
+                    {data.heading.prefix?.trim()}
+                  </span>{" "}
+                  <span
+                    className="font-extrabold italic text-white"
+                    style={data.headingColor ? { color: data.headingColor } : undefined}
+                  >
                     {data.heading.boldKeyword.trim()}
                   </span>
                   {data.heading.middle ? (
                     <>
                       {" "}
-                      <span>{data.heading.middle.trim()}</span>
+                      <span style={data.headingColor ? { color: data.headingColor } : undefined}>
+                        {data.heading.middle.trim()}
+                      </span>
                     </>
                   ) : null}
                 </>
               ) : (
-                data.heading.prefix
+                <span style={data.headingColor ? { color: data.headingColor } : undefined}>
+                  {data.heading?.prefix}
+                </span>
               )}
               <br className="" />
-              <span className="text-[#E02126] font-bold">
-                {data.heading.highlightedText}
+              <span
+                className="text-[#E02126] font-bold"
+                style={data.highlightColor ? { color: data.highlightColor } : undefined}
+              >
+                {data.heading?.highlightedText}
               </span>{" "}
               <br className="block md:hidden lg:hidden " />
-              {data.heading.suffix}
+              <span style={data.headingColor ? { color: data.headingColor } : undefined}>
+                {data.heading?.suffix}
+              </span>
             </h1>
 
             {/* Sub Heading & Description */}
             <div className="mt-4 max-w-[95%] sm:max-w-[90%] md:mt-5 md:max-w-[85%] lg:mt-6 lg:max-w-212.5 space-y-3">
-              <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-normal lg:font-medium text-white/90 leading-snug">
+              <p
+                className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[19px] font-normal lg:font-medium text-white/90 leading-snug"
+                style={data.subheadingColor ? { color: data.subheadingColor } : undefined}
+              >
                 {data.subheading}
               </p>
-              <p className="text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/75 font-medium lg:font-light">
+              <p
+                className="text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] leading-[1.6] text-white/75 font-medium lg:font-light"
+                style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+              >
                 {data.description}
               </p>
             </div>
@@ -89,18 +130,23 @@ const Hero = () => {
             <button
               type="button"
               onClick={handleClick}
+              style={{
+                "--hero-btn-bg": buttonBg,
+                "--hero-btn-text": buttonText,
+              } as React.CSSProperties}
               className="group relative z-10 mt-6 h-11 sm:h-12 md:h-13 inline-flex items-center gap-4 sm:gap-5 md:gap-7 lg:gap-8 pl-3 pr-6 sm:pl-4 sm:pr-7 md:pl-4 md:pr-8 cursor-pointer overflow-hidden rounded-full transition-all duration-300 active:scale-95 select-none focus:outline-none pointer-events-auto"
             >
-              {/* Red Round Circle background that animates on hover and click */}
+              {/* Round Circle background that animates on hover and click */}
               <span
-                className={`absolute left-0 top-0 rounded-full bg-[#E02126] transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
+                style={{ backgroundColor: "var(--hero-btn-bg)" }}
+                className={`absolute left-0 top-0 rounded-full transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
                   isClicked ? "w-full h-full" : "w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13"
                 }`}
               />
 
               {/* Button Text */}
               <span
-                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-white group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
+                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
                   isClicked ? "text-black!" : ""
                 }`}
               >
@@ -109,7 +155,7 @@ const Hero = () => {
 
               {/* Right Arrow */}
               <span
-                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-white group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
+                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
                   isClicked ? "text-black! translate-x-2" : ""
                 }`}
               >

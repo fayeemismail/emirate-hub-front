@@ -80,10 +80,17 @@ const headerVariants: Variants = {
   },
 };
 
-export default function PriceCards() {
+interface PriceCardsProps {
+  data?: PricingData | null;
+}
+
+export default function PriceCards({ data: propData }: PriceCardsProps) {
   const router = useRouter();
   const [clickedId, setClickedId] = useState<number | string | null>(null);
-  const data: PricingData = rawPricingData as PricingData;
+  const data: PricingData =
+    propData && propData.active !== false && propData.cards?.length
+      ? propData
+      : (rawPricingData as unknown as PricingData);
 
   if (!data.active) {
     return null;
@@ -114,7 +121,10 @@ export default function PriceCards() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#F8F6FB] overflow-hidden">
+    <section
+      className="py-16 md:py-24 bg-[#F8F6FB] overflow-hidden"
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+    >
       <div className="site-container">
         {/* Subtitle Header Section */}
         <motion.div
@@ -129,14 +139,25 @@ export default function PriceCards() {
               {data.badge}
             </span>
           )}
-          <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
+          <h3
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4"
+            style={data.titleColor ? { color: data.titleColor } : undefined}
+          >
             {data.title}{" "}
             {data.highlightedTitle && (
-              <span className="text-primary">{data.highlightedTitle}</span>
+              <span
+                className="text-primary"
+                style={data.highlightColor ? { color: data.highlightColor } : undefined}
+              >
+                {data.highlightedTitle}
+              </span>
             )}
           </h3>
           {data.description && (
-            <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
+            <p
+              className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light"
+              style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+            >
               {data.description}
             </p>
           )}
@@ -151,26 +172,44 @@ export default function PriceCards() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch"
         >
           {data.cards.map((card, index) => {
-            const IconComponent = ICON_MAP[card.icon] || LuBriefcaseBusiness;
+            const cleanIcon = (card.icon || "").trim();
+            const IconComponent =
+              ICON_MAP[cleanIcon] || ICON_MAP[card.icon] || LuBriefcaseBusiness;
             const isLastCard = index === data.cards.length - 1;
             const isClicked = clickedId === card.id;
-            const isCenterOrPopular = card.isPopular;
+            const isCenterOrPopular =
+              card.isPopular === true ||
+              index === 1 ||
+              Boolean(card.badge?.toLowerCase().includes("popular"));
+
+            const cardBg =
+              card.cardBackgroundColor || (isCenterOrPopular ? "#E02126" : "#FFFFFF");
+            const btnBg =
+              card.buttonBackgroundColor || (isCenterOrPopular ? "#FFFFFF" : "transparent");
+            const btnText =
+              card.buttonTextColor || (isCenterOrPopular ? "#E02126" : "#000000");
+            const btnBorder =
+              card.buttonBorderColor || (isCenterOrPopular ? "#000000" : "#000000");
 
             return (
               <motion.div
-                key={card.id}
+                key={card.id || card._key || index}
                 variants={itemVariants}
+                style={{
+                  backgroundColor: cardBg,
+                  borderColor: isCenterOrPopular ? cardBg : undefined,
+                }}
                 className={`group relative rounded-3xl p-7 md:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between border ${
                   isCenterOrPopular
-                    ? "bg-primary text-white border-primary shadow-xl hover:shadow-[0_20px_50px_rgba(224,33,38,0.28)]"
-                    : "bg-white text-gray-900 border-gray-100/90 hover:border-secondary/30 hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
+                    ? "text-white shadow-xl hover:shadow-[0_20px_50px_rgba(224,33,38,0.28)]"
+                    : "text-gray-900 border-gray-100/90 hover:border-secondary/30 hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
                 } ${isLastCard ? "md:col-span-2 lg:col-span-1" : ""}`}
               >
                 {/* Popular / Recommended Floating Tag */}
-                {card.isPopular && (
+                {isCenterOrPopular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 bg-white text-primary text-[11px] font-extrabold tracking-widest uppercase px-4 py-1 rounded-full shadow-md flex items-center gap-1.5 select-none border border-primary/20">
                     <LuSparkles className="w-3.5 h-3.5 text-primary" />
-                    <span>{card.badge}</span>
+                    <span>{card.badge || "MOST POPULAR"}</span>
                   </div>
                 )}
 
@@ -187,7 +226,7 @@ export default function PriceCards() {
                       <IconComponent className="w-7 h-7" />
                     </div>
 
-                    {!card.isPopular && (
+                    {!isCenterOrPopular && (
                       <span className="text-[11px] font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-gray-100 text-gray-600 group-hover:bg-secondary/10 group-hover:text-secondary transition-colors duration-300">
                         {card.badge}
                       </span>
@@ -196,6 +235,7 @@ export default function PriceCards() {
 
                   {/* Title (Guaranteed Single Line) */}
                   <h4
+                    style={card.cardTitleColor ? { color: card.cardTitleColor } : undefined}
                     className={`text-lg sm:text-xl lg:text-[17px] xl:text-xl font-bold tracking-tight truncate whitespace-nowrap mb-2 ${
                       isCenterOrPopular ? "text-white" : "text-gray-900"
                     }`}
@@ -206,6 +246,7 @@ export default function PriceCards() {
 
                   {/* Short Tagline */}
                   <p
+                    style={card.cardTextColor ? { color: card.cardTextColor } : undefined}
                     className={`text-xs sm:text-[13px] leading-relaxed font-normal mb-6 min-h-9.5 ${
                       isCenterOrPopular ? "text-white/85" : "text-gray-500"
                     }`}
@@ -237,6 +278,7 @@ export default function PriceCards() {
                         {card.currency}
                       </span>
                       <span
+                        style={card.priceColor ? { color: card.priceColor } : undefined}
                         className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
                           isCenterOrPopular ? "text-white" : "text-gray-900"
                         }`}
@@ -267,6 +309,7 @@ export default function PriceCards() {
                           <LuCheck className="w-2.5 h-2.5 stroke-3 text-current" />
                         </div>
                         <span
+                          style={card.featuresTextColor ? { color: card.featuresTextColor } : undefined}
                           className={`text-xs sm:text-sm font-normal leading-tight ${
                             isCenterOrPopular ? "text-white/95" : "text-gray-600"
                           }`}
@@ -283,12 +326,17 @@ export default function PriceCards() {
                   <button
                     type="button"
                     onClick={() =>
-                      handleEnquire(card.buttonHref, card.id, card.title)
+                      handleEnquire(card.buttonHref, card.id || card._key, card.title)
                     }
+                    style={{
+                      "--card-btn-bg": btnBg,
+                      "--card-btn-text": btnText,
+                      "--card-btn-border": btnBorder,
+                    } as React.CSSProperties}
                     className={`group/btn w-full py-3.5 px-6 rounded-xl font-semibold text-xs tracking-wider uppercase border transition-all duration-300 ease-in-out flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-md select-none active:scale-[0.98] ${
                       isCenterOrPopular
-                        ? "bg-white text-primary border-black hover:bg-white/90 hover:text-primary font-bold"
-                        : "bg-transparent border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
+                        ? "bg-[var(--card-btn-bg)] text-[var(--card-btn-text)] border-[var(--card-btn-border)] hover:bg-white/90 hover:text-primary font-bold"
+                        : "bg-[var(--card-btn-bg)] text-[var(--card-btn-text)] border-[var(--card-btn-border)] hover:bg-secondary hover:text-secondary-foreground"
                     } ${isClicked ? "opacity-75 scale-95" : ""}`}
                   >
                     <span>{card.buttonText || "ENQUIRE NOW"}</span>

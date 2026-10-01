@@ -19,6 +19,10 @@ export interface AdditionalServicesSectionHeader {
 
 export interface AdditionalServicesData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  highlightColor?: string;
+  descriptionColor?: string;
   sectionHeader: AdditionalServicesSectionHeader;
   services: AdditionalServiceItem[];
 }

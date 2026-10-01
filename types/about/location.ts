@@ -30,7 +30,14 @@ export interface LocationCards {
 
 export interface LocationData {
   active: boolean;
-  badge: string;
+  backgroundColor?: string;
+  badge?: string;
+  titleColor?: string;
+  highlightColor?: string;
+  descriptionColor?: string;
+  cardBackgroundColor?: string;
+  cardTitleColor?: string;
+  cardTextColor?: string;
   header: {
     titlePrefix: string;
     highlight: string;

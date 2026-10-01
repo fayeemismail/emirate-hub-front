@@ -24,6 +24,13 @@ export interface AboutHeroImages {
 
 export interface AboutHeroData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  highlightColor?: string;
+  descriptionColor?: string;
+  cardBackgroundColor?: string;
+  cardTitleColor?: string;
+  cardTextColor?: string;
   breadcrumb: AboutHeroBreadcrumb;
   title: string;
   highlightedTitle?: string;

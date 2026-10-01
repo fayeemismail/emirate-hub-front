@@ -3,19 +3,23 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
 import rawServicesListData from "@/data/service/servicesList.json";
-import { ServicesListData } from "@/types/service/servicesList";
+import { ServicesListData, ServiceItem } from "@/types/service/servicesList";
 
-export default function ServicesList() {
-  const router = useRouter();
-  const data: ServicesListData = rawServicesListData as ServicesListData;
+interface ServicesListProps {
+  services?: any[];
+  data?: ServicesListData | null;
+}
+
+export default function ServicesList({ services: propServices, data: propData }: ServicesListProps) {
+  const data: ServicesListData = propData || (rawServicesListData as ServicesListData);
   const [activeHash, setActiveHash] = useState<string>("");
 
   const activeServices = useMemo(() => {
-    return data.services.filter((service) => service.active);
-  }, [data.services]);
+    const rawList = propServices && propServices.length > 0 ? propServices : data.services;
+    return rawList.filter((service: any) => service.active !== false);
+  }, [propServices, data.services]);
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -115,7 +119,7 @@ export default function ServicesList() {
     }
   };
 
-  if (!data.active || activeServices.length === 0) {
+  if (activeServices.length === 0) {
     return null;
   }
 
@@ -135,14 +139,15 @@ export default function ServicesList() {
               isMouseDown ? "cursor-grabbing scroll-auto" : "cursor-grab scroll-smooth"
             }`}
           >
-            {activeServices.map((service) => {
-              const isActive = activeHash === service.id;
+            {activeServices.map((service: any) => {
+              const serviceId = service.slug?.current || service.slug || service.id;
+              const isActive = activeHash === serviceId;
               return (
                 <button
-                  id={`pill-${service.id}`}
-                  key={service.id}
+                  id={`pill-${serviceId}`}
+                  key={serviceId}
                   type="button"
-                  onClick={() => handlePillClick(service.id)}
+                  onClick={() => handlePillClick(serviceId)}
                   className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider whitespace-nowrap transition-all duration-300 border select-none shrink-0 ${
                     isActive
                       ? "bg-primary text-white border-primary shadow-md scale-105"
@@ -159,14 +164,20 @@ export default function ServicesList() {
 
         {/* Alternating Services Cards List */}
         <div className="space-y-10 sm:space-y-12 md:space-y-14 lg:space-y-16">
-          {activeServices.map((service, index) => {
+          {activeServices.map((service: any, index: number) => {
             const isEven = index % 2 === 1; // 2nd, 4th, 6th rows: Image Left, Details Right
-            const isTargeted = activeHash === service.id;
+            const serviceId = service.slug?.current || service.slug || service.id;
+            const isTargeted = activeHash === serviceId;
+            const features = service.keyFeatures || service.features || [];
+            const serviceImage =
+              typeof service.image === "string" && service.image.trim().length > 0
+                ? service.image.trim()
+                : `/images/service-${(index % 3) + 1}.jpg`;
 
             return (
               <div
-                key={service.id}
-                id={service.id}
+                key={serviceId}
+                id={serviceId}
                 className={`scroll-mt-24 md:scroll-mt-28 rounded-3xl p-4 sm:p-6 md:p-8 transition-all duration-500 ${
                   isTargeted
                     ? "bg-white ring-2 ring-primary/40 shadow-xl"
@@ -181,11 +192,11 @@ export default function ServicesList() {
                     }`}
                   >
                     <Link
-                      href={`/services/${service.id}`}
+                      href={`/services/${serviceId}`}
                       className="block relative w-full max-w-lg mx-auto lg:max-w-none aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/10] lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_12px_35px_rgba(0,0,0,0.08)] group bg-gray-200 cursor-pointer"
                     >
                       <Image
-                        src={service.image}
+                        src={serviceImage}
                         alt={service.title}
                         fill
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -216,7 +227,7 @@ export default function ServicesList() {
                     </div>
 
                     {/* Title */}
-                    <Link href={`/services/${service.id}`}>
+                    <Link href={`/services/${serviceId}`}>
                       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-3 sm:mb-4 hover:text-primary transition-colors cursor-pointer">
                         {service.title}
                       </h2>
@@ -228,29 +239,31 @@ export default function ServicesList() {
                     </p>
 
                     {/* Key Features Bullet List */}
-                    <div className="space-y-2 mb-6 sm:mb-7">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                        {service.featuresHeading}
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {service.keyFeatures.map((feature, fIdx) => (
-                          <div
-                            key={fIdx}
-                            className="flex items-start gap-2 text-xs sm:text-sm text-gray-700"
-                          >
-                            <span className="w-4 h-4 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-                              <FiCheck className="w-2.5 h-2.5 stroke-[3]" />
-                            </span>
-                            <span>{feature}</span>
-                          </div>
-                        ))}
+                    {features.length > 0 && (
+                      <div className="space-y-2 mb-6 sm:mb-7">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                          {service.featuresHeading || "Key Highlights:"}
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {features.map((feature: string, fIdx: number) => (
+                            <div
+                              key={fIdx}
+                              className="flex items-start gap-2 text-xs sm:text-sm text-gray-700"
+                            >
+                              <span className="w-4 h-4 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                                <FiCheck className="w-2.5 h-2.5 stroke-[3]" />
+                              </span>
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Action Buttons: View Details & Enquire */}
                     <div className="flex flex-wrap items-center gap-3">
                       <Link
-                        href={`/services/${service.id}`}
+                        href={`/services/${serviceId}`}
                         className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full border border-primary bg-primary text-white hover:bg-[#c8191e] font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer active:scale-95"
                       >
                         <span>VIEW DETAILS</span>

@@ -24,7 +24,13 @@ export interface BlogItem {
   sections?: BlogSection[];
   keyTakeaways?: string[];
   summaryQuote?: string;
+  backgroundColor?: string;
+  titleColor?: string;
+  textColor?: string;
+  quoteColor?: string;
 }
+
+export type BlogPost = BlogItem;
 
 export interface BlogCategory {
   id: string;

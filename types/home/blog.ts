@@ -4,10 +4,17 @@ export interface HomeBlogCard {
   excerpt: string;
   image: string;
   active?: boolean;
+  cardTitleColor?: string;
+  cardTextColor?: string;
 }
 
 export interface HomeBlogData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  subtitleColor?: string;
+  cardTitleColor?: string;
+  cardTextColor?: string;
   title: string;
   titleHref?: string;
   subtitle: string;
@@ -15,3 +22,4 @@ export interface HomeBlogData {
   viewAllHref: string;
   blogs: HomeBlogCard[];
 }
+

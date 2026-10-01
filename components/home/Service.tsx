@@ -7,9 +7,16 @@ import { FiArrowRight } from "react-icons/fi";
 import rawServiceData from "@/data/home/service.json";
 import { HomeServiceData } from "@/types/home/service";
 
-export default function Service() {
+interface ServiceProps {
+  data?: HomeServiceData | null;
+}
+
+export default function Service({ data: propData }: ServiceProps) {
   const router = useRouter();
-  const data: HomeServiceData = rawServiceData as HomeServiceData;
+  const data: HomeServiceData =
+    propData && propData.active !== false && propData.services?.length
+      ? propData
+      : (rawServiceData as unknown as HomeServiceData);
 
   if (!data.active) {
     return null;
@@ -24,7 +31,10 @@ export default function Service() {
   }
 
   return (
-    <section className="py-16 md:py-24 lg:py-28 bg-[#F2F3EE]/50 overflow-hidden">
+    <section
+      className="py-16 md:py-24 lg:py-28 bg-[#F2F3EE]/50 overflow-hidden"
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+    >
       <div className="site-container">
         {/* Subtitle Header Section */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14 px-4">
@@ -36,14 +46,25 @@ export default function Service() {
           )}
 
           {/* Main Title with Emirate Hub in Red */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-4"
+            style={data.titleColor ? { color: data.titleColor } : undefined}
+          >
             {data.titlePrefix}
-            <span className="text-primary">{data.highlightedTitle}</span>
+            <span
+              className="text-primary"
+              style={data.highlightColor ? { color: data.highlightColor } : undefined}
+            >
+              {data.highlightedTitle}
+            </span>
             {data.titleSuffix}
           </h2>
 
           {/* Descriptive Subtitle Text */}
-          <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light">
+          <p
+            className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl font-light"
+            style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+          >
             {data.description}
           </p>
         </div>
@@ -67,9 +88,11 @@ export default function Service() {
           {activeServices.map((service, index) => {
             const isEven = index % 2 === 1; // 2nd row: Image Left, Details Right
             const isLast = index === activeServices.length - 1;
+            const serviceImage =
+              service.image || `/images/service-${(index % 3) + 1}.jpg`;
 
             return (
-              <div key={service.id}>
+              <div key={service.id || service.slug || index}>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
                   {/* Image Column - First on small screens (order-1), Alternating on desktop */}
                   <div
@@ -82,7 +105,7 @@ export default function Service() {
                       className="relative w-full max-w-lg mx-auto lg:max-w-none aspect-4/3 sm:aspect-16/10 md:aspect-16/10 lg:aspect-4/3 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)] group bg-gray-100 cursor-pointer"
                     >
                       <Image
-                        src={service.image}
+                        src={serviceImage}
                         alt={service.title}
                         fill
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -102,18 +125,29 @@ export default function Service() {
                         {service.number}
                       </span>
                       <span className="h-px w-8 bg-primary/40" />
-                      <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                      <span
+                        className="text-xs font-semibold uppercase tracking-widest text-gray-400"
+                        style={service.cardTagColor ? { color: service.cardTagColor } : undefined}
+                      >
                         {service.tag}
                       </span>
                     </div>
 
                     <Link href={`/services/${service.slug}`}>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-4 hover:text-primary transition-colors cursor-pointer">
+                      <h3
+                        style={{
+                          "--service-title-color": service.cardTitleColor || "#111827",
+                        } as React.CSSProperties}
+                        className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--service-title-color)] tracking-tight leading-tight mb-4 hover:text-primary transition-colors cursor-pointer"
+                      >
                         {service.title}
                       </h3>
                     </Link>
 
-                    <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed font-light mb-6 max-w-xl">
+                    <p
+                      className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed font-light mb-6 max-w-xl"
+                      style={service.cardTextColor ? { color: service.cardTextColor } : undefined}
+                    >
                       {service.description}
                     </p>
 

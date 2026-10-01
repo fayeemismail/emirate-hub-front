@@ -5,7 +5,10 @@ import {
   getServiceById,
   getRelatedServices,
 } from "@/lib/services";
+import { getCorporateServiceBySlug } from "@/lib/sanity/api";
 import ServiceDetail from "@/components/services/ServiceDetail";
+
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{
@@ -22,7 +25,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const service = getServiceById(id);
+  const sanityService = await getCorporateServiceBySlug(id);
+  const service = sanityService || getServiceById(id);
 
   if (!service) {
     return {
@@ -44,7 +48,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const service = getServiceById(id);
+  const sanityService = await getCorporateServiceBySlug(id);
+  const fallbackService = getServiceById(id);
+
+  const service = sanityService
+    ? {
+        ...fallbackService,
+        ...sanityService,
+        timeline: fallbackService?.timeline || "2 - 5 Business Days",
+        jurisdiction:
+          fallbackService?.jurisdiction || "Dubai Mainland & Free Zones",
+        steps: fallbackService?.steps || [],
+      }
+    : fallbackService;
 
   if (!service) {
     notFound();
@@ -54,7 +70,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   return (
     <main>
-      <ServiceDetail service={service} relatedServices={relatedServices} />
+      <ServiceDetail service={service as any} relatedServices={relatedServices} />
     </main>
   );
 }

@@ -7,16 +7,23 @@ import { FiArrowRight } from "react-icons/fi";
 import rawBlogData from "@/data/home/blog.json";
 import { HomeBlogData } from "@/types/home/blog";
 
-export default function BlogsAndNews() {
+interface BlogsAndNewsProps {
+  data?: HomeBlogData | null;
+}
+
+export default function BlogsAndNews({ data: propData }: BlogsAndNewsProps) {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
-  const data: HomeBlogData = rawBlogData as HomeBlogData;
+  const data: HomeBlogData =
+    propData && propData.active !== false && propData.blogs?.length
+      ? propData
+      : (rawBlogData as unknown as HomeBlogData);
 
   if (!data.active) {
     return null;
   }
 
-  const activeBlogs = data.blogs.filter((blog) => blog.active !== false);
+  const activeBlogs = (data.blogs || []).filter((blog) => blog.active !== false);
 
   if (activeBlogs.length === 0) {
     return null;
@@ -36,12 +43,18 @@ export default function BlogsAndNews() {
   const blog4 = activeBlogs[3];
 
   return (
-    <section className="py-16 md:py-24 bg-white overflow-hidden">
+    <section
+      className="py-16 md:py-24 bg-white overflow-hidden"
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+    >
       <div className="site-container">
         {/* Main Section Heading - Matching About and PriceCards style */}
         <div className="pb-4 text-center md:text-left">
           <Link href={data.titleHref || "/blog"}>
-            <h2 className="relative text-5xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.75 after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out">
+            <h2
+              style={data.titleColor ? { color: data.titleColor } : undefined}
+              className="relative text-5xl md:text-6xl lg:text-6xl font-bold font-sans text-primary cursor-pointer inline-block pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.75 after:bg-primary hover:after:w-full after:transition-all after:duration-300 after:ease-in-out"
+            >
               {data.title}
             </h2>
           </Link>
@@ -49,7 +62,10 @@ export default function BlogsAndNews() {
 
         {/* Subtitle */}
         <div className="mb-10 text-center md:text-left">
-          <p className="text-gray-600 text-lg md:text-xl font-light">
+          <p
+            style={data.subtitleColor ? { color: data.subtitleColor } : undefined}
+            className="text-gray-600 text-lg md:text-xl font-light"
+          >
             {data.subtitle}
           </p>
         </div>
@@ -68,7 +84,7 @@ export default function BlogsAndNews() {
                 justify-end p-6 md:p-8 group cursor-pointer shadow-sm "
               >
                 <img
-                  src={blog1.image}
+                  src={blog1.image || "/images/blog-1.jpg"}
                   alt={blog1.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -102,18 +118,26 @@ export default function BlogsAndNews() {
               >
                 <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
                   <img
-                    src={blog2.image}
+                    src={blog2.image || "/images/blog-2.jpg"}
                     alt={blog2.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-6 md:p-7 flex flex-col justify-between grow">
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary 
-                    transition-colors line-clamp-2">
+                    <h3
+                      style={{
+                        "--blog-title-color": data.cardTitleColor || "#111827",
+                      } as React.CSSProperties}
+                      className="text-lg md:text-xl font-bold text-[var(--blog-title-color)] leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2"
+                    >
                       {blog2.title}
                     </h3>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p
+                      style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                      className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3"
+                    >
                       {blog2.excerpt}
                     </p>
                   </div>
@@ -140,18 +164,26 @@ export default function BlogsAndNews() {
               >
                 <div className="h-48 md:h-56 lg:h-full lg:col-span-5 relative overflow-hidden shrink-0">
                   <img
-                    src={blog3.image}
+                    src={blog3.image || "/images/blog-3.jpg"}
                     alt={blog3.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-6 md:p-8 lg:col-span-7 flex flex-col justify-between grow">
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary 
-                    transition-colors line-clamp-2">
+                    <h3
+                      style={{
+                        "--blog-title-color": data.cardTitleColor || "#111827",
+                      } as React.CSSProperties}
+                      className="text-lg md:text-xl font-bold text-[var(--blog-title-color)] leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2"
+                    >
                       {blog3.title}
                     </h3>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p
+                      style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                      className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3"
+                    >
                       {blog3.excerpt}
                     </p>
                   </div>
@@ -177,18 +209,26 @@ export default function BlogsAndNews() {
               >
                 <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
                   <img
-                    src={blog4.image}
+                    src={blog4.image || "/images/blog-4.jpg"}
                     alt={blog4.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-6 md:p-7 flex flex-col justify-between grow">
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-primary 
-                    transition-colors line-clamp-2">
+                    <h3
+                      style={{
+                        "--blog-title-color": data.cardTitleColor || "#111827",
+                      } as React.CSSProperties}
+                      className="text-lg md:text-xl font-bold text-[var(--blog-title-color)] leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2"
+                    >
                       {blog4.title}
                     </h3>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p
+                      style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                      className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3"
+                    >
                       {blog4.excerpt}
                     </p>
                   </div>

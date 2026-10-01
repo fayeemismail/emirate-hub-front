@@ -22,6 +22,11 @@ export interface VisionImages {
 
 export interface VisionData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  subtitleColor?: string;
+  cardTitleColor?: string;
+  cardTextColor?: string;
   header: VisionHeader;
   vision: VisionBlock;
   mission: VisionBlock;

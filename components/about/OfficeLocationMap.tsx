@@ -13,9 +13,16 @@ import { LuSparkles, LuBuilding2 } from "react-icons/lu";
 import rawLocationData from "@/data/about/location.json";
 import { LocationData } from "@/types/about/location";
 
-const data: LocationData = rawLocationData as LocationData;
+interface OfficeLocationMapProps {
+  data?: LocationData | null;
+}
 
-export default function OfficeLocationMap() {
+export default function OfficeLocationMap({ data: propData }: OfficeLocationMapProps) {
+  const data: LocationData =
+    propData && propData.active !== false && propData.header
+      ? propData
+      : (rawLocationData as unknown as LocationData);
+
   const [zoom, setZoom] = useState(data.defaultZoom || 16);
 
   if (!data.active) {
@@ -34,10 +41,25 @@ export default function OfficeLocationMap() {
     setZoom(data.defaultZoom || 16);
   };
 
-  const mapSrc = data.mapEmbedUrl.replace("{zoom}", zoom.toString());
+  const mapSrc = (data.mapEmbedUrl || rawLocationData.mapEmbedUrl).replace(
+    "{zoom}",
+    zoom.toString()
+  );
+
+  const cards = data.cards || rawLocationData.cards;
+  const headOffice = cards.headOffice || rawLocationData.cards.headOffice;
+  const accessibility =
+    cards.accessibility || rawLocationData.cards.accessibility;
+  const workingHours =
+    cards.workingHours || rawLocationData.cards.workingHours;
+  const schedule =
+    workingHours.schedule || rawLocationData.cards.workingHours.schedule;
 
   return (
-    <section className="py-16 md:py-24 bg-[#FAFAFC] border-t border-gray-100 overflow-hidden">
+    <section
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+      className="py-16 md:py-24 bg-[#FAFAFC] border-t border-gray-100 overflow-hidden"
+    >
       <div className="site-container">
         {/* Section Header */}
         <div className="max-w-3xl mb-12 md:mb-16">
@@ -50,13 +72,24 @@ export default function OfficeLocationMap() {
 
           <div className="flex items-center gap-3 sm:gap-4 mb-3">
             <span className="w-1.5 h-7 sm:h-9 bg-primary rounded-full shrink-0" />
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+            <h2
+              style={data.titleColor ? { color: data.titleColor } : undefined}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-tight"
+            >
               {data.header.titlePrefix}
-              <span className="text-primary">{data.header.highlight}</span>
+              <span
+                style={data.highlightColor ? { color: data.highlightColor } : undefined}
+                className="text-primary"
+              >
+                {data.header.highlight}
+              </span>
             </h2>
           </div>
 
-          <p className="text-gray-500 text-sm sm:text-base md:text-lg font-light leading-relaxed pl-4.5 sm:pl-5.5">
+          <p
+            style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+            className="text-gray-500 text-sm sm:text-base md:text-lg font-light leading-relaxed pl-4.5 sm:pl-5.5"
+          >
             {data.header.description}
           </p>
         </div>
@@ -66,60 +99,84 @@ export default function OfficeLocationMap() {
           {/* Left Column: Office Details Cards */}
           <div className="lg:col-span-4 flex flex-col justify-between space-y-4">
             {/* 1. Head Office Address Card */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow">
+            <div
+              style={data.cardBackgroundColor ? { backgroundColor: data.cardBackgroundColor } : undefined}
+              className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow"
+            >
               <div className="flex items-start gap-4">
                 <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
                   <FiMapPin className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                    {data.cards.headOffice.badge}
+                  <h3
+                    style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                    className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1"
+                  >
+                    {headOffice.badge}
                   </h3>
-                  <p className="text-gray-900 font-bold text-base sm:text-lg leading-snug">
-                    {data.cards.headOffice.unit}
+                  <p
+                    style={data.cardTitleColor ? { color: data.cardTitleColor } : undefined}
+                    className="text-gray-900 font-bold text-base sm:text-lg leading-snug"
+                  >
+                    {headOffice.unit}
                   </p>
                   <p className="text-gray-700 text-sm font-medium">
-                    {data.cards.headOffice.building}
+                    {headOffice.building}
                   </p>
                   <p className="text-gray-500 text-xs sm:text-sm mt-0.5">
-                    {data.cards.headOffice.location}
+                    {headOffice.location}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* 2. Accessibility & Transit Card */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow">
+            <div
+              style={data.cardBackgroundColor ? { backgroundColor: data.cardBackgroundColor } : undefined}
+              className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow"
+            >
               <div className="flex items-start gap-4">
                 <div className="w-11 h-11 rounded-xl bg-gray-100 flex items-center justify-center text-gray-800 shrink-0">
                   <LuBuilding2 className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                    {data.cards.accessibility.badge}
+                  <h3
+                    style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                    className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1"
+                  >
+                    {accessibility.badge}
                   </h3>
-                  <p className="text-gray-900 text-sm sm:text-base font-semibold">
-                    {data.cards.accessibility.title}
+                  <p
+                    style={data.cardTitleColor ? { color: data.cardTitleColor } : undefined}
+                    className="text-gray-900 text-sm sm:text-base font-semibold"
+                  >
+                    {accessibility.title}
                   </p>
                   <p className="text-gray-500 text-xs sm:text-sm mt-1 leading-relaxed">
-                    {data.cards.accessibility.description}
+                    {accessibility.description}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* 3. Working Hours Card */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow">
+            <div
+              style={data.cardBackgroundColor ? { backgroundColor: data.cardBackgroundColor } : undefined}
+              className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow"
+            >
               <div className="flex items-start gap-4">
                 <div className="w-11 h-11 rounded-xl bg-gray-100 flex items-center justify-center text-gray-800 shrink-0">
                   <FiClock className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                    {data.cards.workingHours.badge}
+                  <h3
+                    style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                    className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2"
+                  >
+                    {workingHours.badge}
                   </h3>
                   <div className="text-xs sm:text-sm space-y-1.5">
-                    {data.cards.workingHours.schedule.map((item, idx) => (
+                    {schedule.map((item, idx) => (
                       <p key={idx} className="flex justify-between items-center">
                         <span className="font-semibold text-gray-900">{item.days}</span>
                         <span
@@ -141,13 +198,13 @@ export default function OfficeLocationMap() {
             {/* CTA Button: Open in Google Maps */}
             <div className="pt-2">
               <a
-                href={data.googleMapsUrl}
+                href={data.googleMapsUrl || rawLocationData.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-white font-medium text-sm hover:bg-[#c8191e] transition-all shadow-md hover:shadow-lg transform active:scale-[0.98]"
               >
                 <FiExternalLink className="w-4 h-4" />
-                <span>{data.buttonText}</span>
+                <span>{data.buttonText || rawLocationData.buttonText}</span>
               </a>
             </div>
           </div>

@@ -1,5 +1,6 @@
 export interface FaqItem {
-  id: number;
+  id?: number | string;
+  _key?: string;
   number: string;
   category: string;
   question: string;
@@ -26,6 +27,12 @@ export interface FaqHelpBox {
 
 export interface FaqData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  highlightColor?: string;
+  descriptionColor?: string;
+  questionColor?: string;
+  answerColor?: string;
   sectionHeader: FaqSectionHeader;
   helpBox: FaqHelpBox;
   items: FaqItem[];

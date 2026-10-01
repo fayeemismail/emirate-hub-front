@@ -6,19 +6,44 @@ import { LuSparkles } from "react-icons/lu";
 import additionalServicesData from "@/data/service/additionalServices.json";
 import { AdditionalServicesData } from "@/types/service/additionalServices";
 
-export default function AdditionalServices() {
-  const data: AdditionalServicesData = additionalServicesData;
+interface AdditionalServicesProps {
+  data?: AdditionalServicesData | any | null;
+}
 
-  if (!data.active) {
+export default function AdditionalServices({ data: propData }: AdditionalServicesProps) {
+  const data: AdditionalServicesData = propData || additionalServicesData;
+
+  if (data && data.active === false) {
     return null;
   }
 
-  const { sectionHeader, services } = data;
+  const sectionHeader =
+    data.sectionHeader || {
+      badge: (data as any).badge || additionalServicesData.sectionHeader.badge,
+      titlePrefix:
+        (data as any).titlePrefix ||
+        additionalServicesData.sectionHeader.titlePrefix,
+      highlightedTitle:
+        (data as any).highlightedTitle ||
+        additionalServicesData.sectionHeader.highlightedTitle,
+      description:
+        (data as any).description ||
+        additionalServicesData.sectionHeader.description,
+    };
+
+  const services = data.services || additionalServicesData.services;
+
+  if (!services || services.length === 0) {
+    return null;
+  }
 
   return (
-    <section className="py-16 md:py-24 bg-white border-t border-gray-200/70 overflow-hidden">
+    <section
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+      className="py-16 md:py-24 bg-white border-t border-gray-200/70 overflow-hidden"
+    >
       <div className="site-container">
-        {/* Section Header - pulled entirely from JSON */}
+        {/* Section Header */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16 px-4">
           {sectionHeader.badge && (
             <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-primary uppercase mb-3 flex items-center gap-1.5">
@@ -27,21 +52,32 @@ export default function AdditionalServices() {
             </span>
           )}
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-4">
+          <h2
+            style={data.titleColor ? { color: data.titleColor } : undefined}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-4"
+          >
             {sectionHeader.titlePrefix}{" "}
-            <span className="text-primary">{sectionHeader.highlightedTitle}</span>
+            <span
+              style={data.highlightColor ? { color: data.highlightColor } : undefined}
+              className="text-primary"
+            >
+              {sectionHeader.highlightedTitle}
+            </span>
           </h2>
 
-          <p className="text-gray-500 text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-2xl">
+          <p
+            style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+            className="text-gray-500 text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-2xl"
+          >
             {sectionHeader.description}
           </p>
         </div>
 
         {/* Services Cards Container: Mobile Horizontal Scroll / Desktop 3-Col Grid */}
         <div className="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-visible gap-5 sm:gap-6 lg:gap-8 pb-4 lg:pb-0 -mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-width:none">
-          {services.map((item) => (
+          {services.map((item: any) => (
             <div
-              key={item.id}
+              key={item.id || item._key}
               className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-95 md:max-w-95 lg:w-auto lg:max-w-none shrink-0 lg:shrink snap-start group bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/90 hover:border-primary/40 shadow-xs hover:shadow-xl transition-all duration-300 ease-out flex flex-col justify-between"
             >
               <div>
@@ -56,7 +92,7 @@ export default function AdditionalServices() {
                 </div>
 
                 {/* Title */}
-                <Link href={`/services/${item.id}`}>
+                <Link href={`/services/${item.id || item._key}`}>
                   <h3 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug mb-3 hover:text-primary transition-colors duration-300 cursor-pointer">
                     {item.title}
                   </h3>
@@ -68,28 +104,30 @@ export default function AdditionalServices() {
                 </p>
 
                 {/* Feature Bullet Points */}
-                <div className="space-y-2.5 pb-6 border-t border-gray-100 pt-5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block mb-1">
-                    {item.featuresHeading}
-                  </span>
-                  {item.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-start gap-2 text-xs sm:text-sm text-gray-700">
-                      <span className="w-4 h-4 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-                        <FiCheck className="w-2.5 h-2.5 stroke-3" />
-                      </span>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
+                {item.features && item.features.length > 0 && (
+                  <div className="space-y-2.5 pb-6 border-t border-gray-100 pt-5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block mb-1">
+                      {item.featuresHeading || "Key Highlights:"}
+                    </span>
+                    {item.features.map((feature: string, fIdx: number) => (
+                      <div key={fIdx} className="flex items-start gap-2 text-xs sm:text-sm text-gray-700">
+                        <span className="w-4 h-4 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                          <FiCheck className="w-2.5 h-2.5 stroke-3" />
+                        </span>
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Bottom CTA Action Button */}
               <div className="pt-2">
                 <Link
-                  href={`/services/${item.id}`}
+                  href={item.buttonHref || `/?service=${encodeURIComponent(item.title)}#contact-us`}
                   className="group/btn w-full py-3 px-5 rounded-xl font-semibold text-xs tracking-wider uppercase border border-gray-200 group-hover:border-primary text-gray-700 group-hover:text-primary hover:bg-primary hover:text-white! transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-[0.98]"
                 >
-                  <span>VIEW DETAILS</span>
+                  <span>{item.buttonText || "ENQUIRE SERVICE"}</span>
                   <FiArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300 ease-in-out" />
                 </Link>
               </div>

@@ -4,9 +4,15 @@ import ServicesList from "@/components/services/ServicesList";
 import AdditionalServices from "@/components/services/AdditionalServices";
 import ServicesFaq from "@/components/services/Faq";
 import ServicesCta from "@/components/services/ServicesCta";
-import servicesListData from "@/data/service/servicesList.json";
-import additionalServicesData from "@/data/service/additionalServices.json";
-import faqData from "@/data/service/faq.json";
+import {
+  getServicesHeroData,
+  getCorporateServicesData,
+  getAdditionalServicesData,
+  getServicesFaqData,
+  getServicesCtaData,
+} from "@/lib/sanity/api";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Corporate Services in Dubai & UAE | Emirate Hub",
@@ -14,19 +20,25 @@ export const metadata: Metadata = {
     "Explore our complete range of corporate services in the UAE: Company Formation, Visa Services, Corporate Tax, Office Rentals, Banking, and Digital Marketing.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [heroData, corporateServices, additionalServices, faqData, ctaData] =
+    await Promise.all([
+      getServicesHeroData(),
+      getCorporateServicesData(),
+      getAdditionalServicesData(),
+      getServicesFaqData(),
+      getServicesCtaData(),
+    ]);
+
   return (
     <main>
-      <ServicesHero />
-      {servicesListData.active && <ServicesList />}
-      {additionalServicesData.active && <AdditionalServices />}
-      {faqData.active && <ServicesFaq />}
-      <ServicesCta />
+      <ServicesHero data={heroData as any} />
+      <ServicesList services={corporateServices} />
+      {(additionalServices as any)?.active !== false && (
+        <AdditionalServices data={additionalServices} />
+      )}
+      {(faqData as any)?.active !== false && <ServicesFaq data={faqData} />}
+      {ctaData?.active !== false && <ServicesCta data={ctaData} />}
     </main>
   );
 }
-
-
-
-
-

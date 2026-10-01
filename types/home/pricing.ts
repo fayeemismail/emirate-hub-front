@@ -1,7 +1,8 @@
 export interface PricingCardItem {
-  id: number;
+  id?: number | string;
+  _key?: string;
   badge: string;
-  isPopular: boolean;
+  isPopular?: boolean;
   icon: string;
   title: string;
   tagline: string;
@@ -12,13 +13,28 @@ export interface PricingCardItem {
   features: string[];
   buttonText?: string;
   buttonHref?: string;
+  cardBackgroundColor?: string;
+  cardTextColor?: string;
+  cardTitleColor?: string;
+  featuresTextColor?: string;
+  priceColor?: string;
+  buttonBackgroundColor?: string;
+  buttonTextColor?: string;
+  buttonBorderColor?: string;
 }
 
 export interface PricingData {
   active: boolean;
+  backgroundColor?: string;
+  titleColor?: string;
+  highlightColor?: string;
+  descriptionColor?: string;
+  highlightedCardColor?: string;
+  highlightedCardTextColor?: string;
   badge: string;
   title: string;
   highlightedTitle?: string;
   description: string;
   cards: PricingCardItem[];
 }
+

@@ -8,6 +8,13 @@ export interface HeroHeading {
 
 export interface HeroData {
   active: boolean;
+  backgroundColor?: string;
+  headingColor?: string;
+  highlightColor?: string;
+  subheadingColor?: string;
+  descriptionColor?: string;
+  buttonBackgroundColor?: string;
+  buttonTextColor?: string;
   backgroundImage: string;
   backgroundImages?: string[];
   heading: HeroHeading;
