@@ -153,8 +153,8 @@ export default function Navbar({ data }: NavbarProps) {
           <div>
             <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
               <Image
-                src="/images/logo.png"
-                alt="Emirate Hub"
+                src={data?.logo || "/images/logo.png"}
+                alt={data?.logoAlt || "Emirate Hub"}
                 width={150}
                 height={50}
                 priority

@@ -4,6 +4,8 @@ export interface NavLinkItem {
 }
 
 export interface NavbarData {
+  logo?: string;
+  logoAlt?: string;
   backgroundColor?: string;
   linkColor?: string;
   phoneColor?: string;

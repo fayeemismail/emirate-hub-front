@@ -197,7 +197,7 @@ export default function BlogDetail({ blog, relatedBlogs }: BlogDetailProps) {
       <div className="site-container py-10 sm:py-16 max-w-6xl mx-auto">
         {/* Large Featured Image */}
         {blog.image && (
-          <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl mb-12 sm:mb-16 border border-gray-200/80 bg-gray-100">
+          <div className="relative w-full aspect-video sm:aspect-21/9 rounded-2xl sm:rounded-xl overflow-hidden shadow-xl mb-12 sm:mb-16 border border-gray-200/80 bg-gray-100">
             <Image
               src={blog.image}
               alt={blog.title}
@@ -227,7 +227,7 @@ export default function BlogDetail({ blog, relatedBlogs }: BlogDetailProps) {
 
             {/* Key Takeaways Box - Only if present */}
             {blog.keyTakeaways && blog.keyTakeaways.length > 0 && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-200/90 shadow-xs">
+              <div className="p-6 sm:p-8 rounded-3xl bg-linear-to-br from-white to-gray-50 border border-gray-200/90 shadow-xs">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="w-2.5 h-2.5 rounded-full bg-primary" />
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary">
@@ -504,7 +504,7 @@ export default function BlogDetail({ blog, relatedBlogs }: BlogDetailProps) {
                     </div>
                   )}
 
-                  <div className="p-6 flex flex-col justify-between flex-grow">
+                  <div className="p-6 flex flex-col justify-between grow">
                     <div>
                       <div className="flex items-center gap-3 text-xs text-gray-400 font-medium mb-2.5">
                         {item.date && <span>{item.date}</span>}
