@@ -8,6 +8,7 @@ export interface NavbarData {
   logoAlt?: string;
   backgroundColor?: string;
   linkColor?: string;
+  activeLinkColor?: string;
   phoneColor?: string;
   phone?: string;
   whatsappUrl?: string;

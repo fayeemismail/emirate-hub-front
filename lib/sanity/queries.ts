@@ -32,6 +32,12 @@ export const HOME_CONTACT_QUERY = `*[_type == "emirateHomeContact"][0]{
 
 export const HOME_BLOGS_QUERY = `*[_type == "emirateHomeBlogSection"][0]{
   ...,
+  featuredBlogs[]->{
+    ...,
+    "id": coalesce(slug.current, slug, _id),
+    "slug": coalesce(slug.current, slug),
+    "image": coalesce(image.asset->url, image)
+  },
   blogs[]{
     ...,
     "image": coalesce(image.asset->url, image)
@@ -146,9 +152,31 @@ export const SERVICES_CTA_QUERY = `*[_type == "emirateServicesCta"][0]{
 
 export const BLOG_HERO_QUERY = `*[_type == "emirateBlogHero"][0]`;
 
-export const BLOG_SETTINGS_QUERY = `*[_type == "emirateBlogSettings"][0]`;
+export const BLOG_SETTINGS_QUERY = `*[_type == "emirateBlogSettings"][0]{
+  ...,
+  highlightedBlog->{
+    ...,
+    "id": coalesce(slug.current, slug, _id),
+    "slug": coalesce(slug.current, slug),
+    "image": coalesce(image.asset->url, image),
+    author{
+      ...,
+      "avatar": coalesce(avatar.asset->url, avatar)
+    }
+  },
+  orderedBlogs[]->{
+    ...,
+    "id": coalesce(slug.current, slug, _id),
+    "slug": coalesce(slug.current, slug),
+    "image": coalesce(image.asset->url, image),
+    author{
+      ...,
+      "avatar": coalesce(avatar.asset->url, avatar)
+    }
+  }
+}`;
 
-export const BLOG_POSTS_QUERY = `*[_type == "emirateBlogPost" && active != false] | order(_createdAt desc){
+export const BLOG_POSTS_QUERY = `*[_type == "emirateBlogPost" && active != false] | order(coalesce(order, 9999) asc, _createdAt desc){
   ...,
   "id": coalesce(slug.current, slug, _id),
   "slug": coalesce(slug.current, slug),

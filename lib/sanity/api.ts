@@ -42,7 +42,7 @@ import defaultBlogsData from "@/data/blog/blogsData.json";
 import { HeroData } from "@/types/home/hero";
 import { PricingData } from "@/types/home/pricing";
 import { HomeServiceData } from "@/types/home/service";
-import { HomeBlogData } from "@/types/home/blog";
+import { HomeBlogData, HomeBlogCard } from "@/types/home/blog";
 import { HomeContactData } from "@/types/home/contact";
 import { HomeFaqData } from "@/types/home/faq";
 import { AboutHeroData } from "@/types/about/aboutHero";
@@ -100,12 +100,34 @@ export async function getHomeContactData(): Promise<HomeContactData | null> {
 }
 
 export async function getHomeBlogSectionData(): Promise<HomeBlogData> {
-  const data = await sanityFetch<HomeBlogData>({
+  const data = await sanityFetch<any>({
     query: HOME_BLOGS_QUERY,
     tags: ["emirateHomeBlogSection"],
   });
-  if (data && data.active !== false && data.blogs?.length) {
-    return data;
+  if (data && data.active !== false) {
+    let cards: HomeBlogCard[] = [];
+    if (Array.isArray(data.featuredBlogs) && data.featuredBlogs.length > 0) {
+      cards = data.featuredBlogs
+        .filter((b: any) => b && b.active !== false)
+        .map((b: any) => ({
+          id: b.id || b.slug || b._id,
+          title: b.title,
+          excerpt: b.excerpt,
+          image: b.image,
+          active: b.active !== false,
+          cardTitleColor: b.cardTitleColor || data.cardTitleColor,
+          cardTextColor: b.cardTextColor || data.cardTextColor,
+        }));
+    } else if (Array.isArray(data.blogs) && data.blogs.length > 0) {
+      cards = data.blogs;
+    }
+
+    if (cards.length > 0) {
+      return {
+        ...data,
+        blogs: cards,
+      };
+    }
   }
   return defaultBlogData as unknown as HomeBlogData;
 }
@@ -262,7 +284,13 @@ function backfillArticleSections(post: BlogPost): BlogPost {
 
 export async function getBlogPageData(): Promise<BlogsPageData> {
   const [settings, posts] = await Promise.all([
-    sanityFetch<{ active?: boolean; categories?: { id: string; label: string }[]; backgroundColor?: string }>({
+    sanityFetch<{
+      active?: boolean;
+      categories?: { id: string; label: string }[];
+      backgroundColor?: string;
+      highlightedBlog?: BlogPost | null;
+      orderedBlogs?: BlogPost[] | null;
+    }>({
       query: BLOG_SETTINGS_QUERY,
       tags: ["emirateBlogSettings"],
     }),
@@ -272,12 +300,67 @@ export async function getBlogPageData(): Promise<BlogsPageData> {
     }),
   ]);
 
-  if (posts && posts.length > 0) {
+  if ((posts && posts.length > 0) || settings?.highlightedBlog || (settings?.orderedBlogs && settings.orderedBlogs.length > 0)) {
+    const rawPosts = posts || [];
+    const finalBlogs: BlogPost[] = [];
+    const seenIds = new Set<string>();
+
+    // 1. Highlighted Blog: Selected in Sanity as the primary hero article
+    if (settings?.highlightedBlog && settings.highlightedBlog.active !== false) {
+      const hl: any = {
+        ...settings.highlightedBlog,
+        featured: true,
+        active: true,
+      };
+      finalBlogs.push(hl);
+      if (hl.id) seenIds.add(String(hl.id));
+      if (hl.slug) seenIds.add(typeof hl.slug === "string" ? hl.slug : String(hl.slug?.current || ""));
+    }
+
+    // 2. Dragged & Ordered Blogs: Sequence determined directly by Sanity drag & drop
+    if (Array.isArray(settings?.orderedBlogs)) {
+      for (const rawB of settings.orderedBlogs) {
+        const b: any = rawB;
+        if (!b || b.active === false) continue;
+        const idKey = b.id || (typeof b.slug === "string" ? b.slug : b.slug?.current);
+        if (idKey && seenIds.has(String(idKey))) continue;
+
+        finalBlogs.push({
+          ...b,
+          featured: false,
+          active: true,
+        });
+        if (b.id) seenIds.add(String(b.id));
+        if (b.slug) seenIds.add(typeof b.slug === "string" ? b.slug : String(b.slug?.current || ""));
+      }
+    }
+
+    // 3. Fallback: Append any remaining published articles not explicitly ordered in Sanity
+    for (const rawP of rawPosts) {
+      const p: any = rawP;
+      if (!p || p.active === false) continue;
+      const idKey = p.id || (typeof p.slug === "string" ? p.slug : p.slug?.current);
+      if (idKey && seenIds.has(String(idKey))) continue;
+
+      finalBlogs.push({
+        ...p,
+        active: true,
+        featured: settings?.highlightedBlog ? false : (p.featured ?? false),
+      });
+      if (p.id) seenIds.add(String(p.id));
+      if (p.slug) seenIds.add(typeof p.slug === "string" ? p.slug : String(p.slug?.current || ""));
+    }
+
+    // 4. Guarantee that at least the first blog has featured: true if no other has it
+    if (finalBlogs.length > 0 && !finalBlogs.some((b) => b.featured)) {
+      finalBlogs[0].featured = true;
+    }
+
     return {
       active: settings?.active ?? true,
       backgroundColor: settings?.backgroundColor,
       categories: settings?.categories || (defaultBlogsData.categories as any),
-      blogs: posts.map(backfillArticleSections),
+      blogs: finalBlogs.map(backfillArticleSections),
     };
   }
 

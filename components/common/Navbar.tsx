@@ -36,11 +36,43 @@ export default function Navbar({ data }: NavbarProps) {
   const colorVars = {
     "--nav-bg": data?.backgroundColor || "#000000",
     "--nav-link": data?.linkColor || "#FFFFFF",
+    "--nav-link-active": data?.activeLinkColor || "#E02126",
     "--nav-phone": data?.phoneColor || "#FFFFFF",
   } as React.CSSProperties;
 
   const pathname = usePathname();
   const router = useRouter();
+  const [activePath, setActivePath] = useState<string>("/");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setActivePath(window.location.pathname || pathname || "/");
+    }
+  }, [pathname]);
+
+  const isLinkActive = (href: string) => {
+    if (!href) return false;
+    if (href.startsWith("/#") || href.startsWith("#")) return false;
+
+    let target = href;
+    try {
+      if (href.startsWith("http://") || href.startsWith("https://")) {
+        target = new URL(href).pathname;
+      }
+    } catch {
+      // keep target
+    }
+
+    const cleanTarget = target.length > 1 && target.endsWith("/") ? target.slice(0, -1) : target;
+    const current = (activePath || pathname || (typeof window !== "undefined" ? window.location.pathname : "/")) || "/";
+    const cleanCurrent = current.length > 1 && current.endsWith("/") ? current.slice(0, -1) : current;
+
+    if (cleanTarget === "/" || cleanTarget === "") {
+      return cleanCurrent === "/" || cleanCurrent === "";
+    }
+
+    return cleanCurrent === cleanTarget || cleanCurrent.startsWith(`${cleanTarget}/`);
+  };
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -219,21 +251,17 @@ export default function Navbar({ data }: NavbarProps) {
               {/* Desktop Navigation */}
               <div className="hidden items-center gap-7 xl:gap-9 lg:flex">
                 {navLinks.map((link, index) => {
-                  const isActive =
-                    link.href === "/"
-                      ? pathname === "/"
-                      : link.href.startsWith("/#")
-                      ? false
-                      : pathname.startsWith(link.href);
+                  const isActive = isLinkActive(link.href);
 
                   return (
                     <Link
                       key={index}
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
+                      style={isActive ? { color: "var(--nav-link-active, #E02126)" } : undefined}
                       className={`text-[13px] tracking-wide transition-colors ${
                         isActive
-                          ? "text-[#E02126] font-semibold"
+                          ? "font-semibold"
                           : "text-[var(--nav-link)]/80 hover:text-[var(--nav-link)]"
                       }`}
                     >
@@ -271,12 +299,7 @@ export default function Navbar({ data }: NavbarProps) {
               >
                 <div className="site-container py-5 flex flex-col space-y-2">
                   {navLinks.map((link, index) => {
-                    const isActive =
-                      link.href === "/"
-                        ? pathname === "/"
-                        : link.href.startsWith("/#")
-                        ? false
-                        : pathname.startsWith(link.href);
+                    const isActive = isLinkActive(link.href);
 
                     return (
                       <Link
@@ -286,9 +309,10 @@ export default function Navbar({ data }: NavbarProps) {
                           setIsMobileMenuOpen(false);
                           handleNavClick(e, link.href);
                         }}
+                        style={isActive ? { color: "var(--nav-link-active, #E02126)" } : undefined}
                         className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${
                           isActive
-                            ? "text-primary font-semibold bg-white/5"
+                            ? "font-semibold bg-white/5"
                             : "text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] hover:bg-white/5"
                         }`}
                       >
