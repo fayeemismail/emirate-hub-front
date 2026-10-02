@@ -12,7 +12,8 @@ export const HOME_PRICING_QUERY = `*[_type == "emirateHomePricing"][0]{
   ...,
   cards[]{
     ...,
-    "id": coalesce(_key, title)
+    "id": coalesce(_key, title),
+    "serviceSlug": coalesce(serviceSlug, slug)
   }
 }`;
 
@@ -210,3 +211,10 @@ export const NAVBAR_QUERY = `*[_type == "emirateNavbar"][0]{
 export const FOOTER_QUERY = `*[_type == "emirateFooter"][0]`;
 
 export const CONTACT_CONFIG_QUERY = `*[_type == "emirateContactConfig"][0]`;
+ 
+export const SERVICES_SELECT_OPTIONS_QUERY = `*[_type == "emirateCorporateService" && active != false] | order(coalesce(number, "99") asc, _createdAt asc){
+  "label": title,
+  "title": title,
+  "value": coalesce(slug.current, slug, _id),
+  "slug": coalesce(slug.current, slug, _id)
+}`;

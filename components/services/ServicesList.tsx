@@ -270,7 +270,7 @@ export default function ServicesList({ services: propServices, data: propData }:
                         <FiArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300 ease-in-out" />
                       </Link>
                       <Link
-                        href={`/?service=${encodeURIComponent(service.title)}#contact-us`}
+                        href={`/?slug=${encodeURIComponent(serviceId)}&service=${encodeURIComponent(service.title)}#contact-us`}
                         className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900 font-semibold text-xs tracking-wider uppercase transition-all duration-300 cursor-pointer active:scale-95"
                       >
                         <span>ENQUIRE NOW</span>

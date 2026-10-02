@@ -99,18 +99,29 @@ export default function PriceCards({ data: propData }: PriceCardsProps) {
   const handleEnquire = (
     href?: string,
     id?: number | string,
-    title?: string
+    title?: string,
+    serviceSlug?: string
   ) => {
     if (id !== undefined) setClickedId(id);
-    if (title) {
+    const slug = (serviceSlug || (title ? title.toLowerCase().replace(/[^a-z0-9]+/g, "-") : "")).trim();
+
+    if (title || slug) {
       window.dispatchEvent(
-        new CustomEvent("select-contact-service", { detail: title })
+        new CustomEvent("select-contact-service", {
+          detail: {
+            slug: slug || "",
+            title: title || "",
+          },
+        })
       );
     }
     setTimeout(() => {
       setClickedId(null);
-      const targetHref = title
-        ? `/?service=${encodeURIComponent(title)}#contact-us`
+      const params = new URLSearchParams();
+      if (slug) params.set("slug", slug);
+      if (title) params.set("service", title);
+      const targetHref = params.toString()
+        ? `/?${params.toString()}#contact-us`
         : href || "/#contact-us";
       router.push(targetHref, { scroll: false });
       const contactSection = document.getElementById("contact-us");
@@ -326,7 +337,12 @@ export default function PriceCards({ data: propData }: PriceCardsProps) {
                   <button
                     type="button"
                     onClick={() =>
-                      handleEnquire(card.buttonHref, card.id || card._key, card.title)
+                      handleEnquire(
+                        card.buttonHref,
+                        card.id || card._key,
+                        card.title,
+                        card.serviceSlug || card.slug
+                      )
                     }
                     style={{
                       "--card-btn-bg": btnBg,

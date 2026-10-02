@@ -123,13 +123,37 @@ export default function AdditionalServices({ data: propData }: AdditionalService
 
               {/* Bottom CTA Action Button */}
               <div className="pt-2">
-                <Link
-                  href={item.buttonHref || `/?service=${encodeURIComponent(item.title)}#contact-us`}
-                  className="group/btn w-full py-3 px-5 rounded-xl font-semibold text-xs tracking-wider uppercase border border-gray-200 group-hover:border-primary text-gray-700 group-hover:text-primary hover:bg-primary hover:text-white! transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-[0.98]"
-                >
-                  <span>{item.buttonText || "ENQUIRE SERVICE"}</span>
-                  <FiArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300 ease-in-out" />
-                </Link>
+                {(() => {
+                  const serviceSlug =
+                    item.id ||
+                    (item.title ? item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") : String(item._key || ""));
+                  const serviceTitle = item.title || "";
+
+                  const params = new URLSearchParams();
+                  if (serviceSlug) params.set("slug", serviceSlug);
+                  if (serviceTitle) params.set("service", serviceTitle);
+
+                  const enquiryHref = `/?${params.toString().replace(/\+/g, "%20")}#contact-us`;
+
+                  return (
+                    <Link
+                      href={enquiryHref}
+                      onClick={() => {
+                        if (typeof window !== "undefined") {
+                          window.dispatchEvent(
+                            new CustomEvent("select-contact-service", {
+                              detail: { slug: serviceSlug, title: serviceTitle },
+                            })
+                          );
+                        }
+                      }}
+                      className="group/btn w-full py-3 px-5 rounded-xl font-semibold text-xs tracking-wider uppercase border border-gray-200 group-hover:border-primary text-gray-700 group-hover:text-primary hover:bg-primary hover:text-white! transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-[0.98]"
+                    >
+                      <span>{item.buttonText || "ENQUIRE SERVICE"}</span>
+                      <FiArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300 ease-in-out" />
+                    </Link>
+                  );
+                })()}
               </div>
             </div>
           ))}

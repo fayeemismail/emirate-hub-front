@@ -22,4 +22,5 @@ export interface HeroData {
   description: string;
   buttonText: string;
   buttonHref: string;
+  serviceSlug?: string;
 }

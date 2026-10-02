@@ -13,27 +13,38 @@ import {
   getHomeContactData,
   getHomeBlogSectionData,
   getHomeFaqData,
+  getServicesSelectOptions,
 } from "@/lib/sanity/api";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const [heroData, pricingData, serviceData, contactData, blogData, faqData] =
-    await Promise.all([
-      getHomeHeroData(),
-      getHomePricingData(),
-      getHomeServicesData(),
-      getHomeContactData(),
-      getHomeBlogSectionData(),
-      getHomeFaqData(),
-    ]);
+  const [
+    heroData,
+    pricingData,
+    serviceData,
+    contactData,
+    blogData,
+    faqData,
+    serviceOptions,
+  ] = await Promise.all([
+    getHomeHeroData(),
+    getHomePricingData(),
+    getHomeServicesData(),
+    getHomeContactData(),
+    getHomeBlogSectionData(),
+    getHomeFaqData(),
+    getServicesSelectOptions(),
+  ]);
 
   return (
     <main>
       {heroData?.active !== false && <Hero data={heroData} />}
       {pricingData?.active !== false && <PriceCards data={pricingData} />}
       {serviceData?.active !== false && <Service data={serviceData} />}
-      {contactData?.active !== false && <ContactUs data={contactData} />}
+      {contactData?.active !== false && (
+        <ContactUs data={contactData} serviceOptions={serviceOptions} />
+      )}
       {/* Testimonials remains commented until active */}
       {blogData?.active !== false && <BlogsAndNews data={blogData} />}
       {faqData?.active !== false && <Faq data={faqData} />}

@@ -3,6 +3,8 @@ export interface SubmitLeadPayload {
   email: string;
   phone?: string;
   service: string;
+  serviceSlug?: string;
+  slug?: string;
   message?: string;
 }
 

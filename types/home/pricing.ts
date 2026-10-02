@@ -13,6 +13,8 @@ export interface PricingCardItem {
   features: string[];
   buttonText?: string;
   buttonHref?: string;
+  serviceSlug?: string;
+  slug?: string;
   cardBackgroundColor?: string;
   cardTextColor?: string;
   cardTitleColor?: string;

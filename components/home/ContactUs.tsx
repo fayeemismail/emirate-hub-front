@@ -5,6 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { LuSparkles, LuClock, LuShieldCheck } from "react-icons/lu";
 import ContactForm from "@/components/common/ContactForm";
 import { HomeContactData } from "@/types/home/contact";
+import { ServiceSelectOption } from "@/lib/sanity/api";
 
 const headerVariants: Variants = {
   hidden: { opacity: 0, y: -20 },
@@ -20,9 +21,10 @@ const headerVariants: Variants = {
 
 interface ContactUsProps {
   data?: HomeContactData | null;
+  serviceOptions?: ServiceSelectOption[];
 }
 
-export default function ContactUs({ data }: ContactUsProps) {
+export default function ContactUs({ data, serviceOptions }: ContactUsProps) {
   if (data && data.active === false) {
     return null;
   }
@@ -122,7 +124,7 @@ export default function ContactUs({ data }: ContactUsProps) {
                 {formDescription}
               </p>
             </div>
-            <ContactForm subtitle="" />
+            <ContactForm serviceOptions={serviceOptions} subtitle="" />
           </div>
 
           {/* Photo Column (Second on mobile, Left side on desktop) */}

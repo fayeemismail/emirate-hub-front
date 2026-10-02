@@ -24,16 +24,22 @@ const Hero = ({ data: propData }: HeroProps) => {
 
   const handleClick = () => {
     setIsClicked(true);
+    const serviceSlug = (data.serviceSlug || "business-incorporation").trim();
     const rawTopic = data.heading?.highlightedText?.trim() || "UAE Business License";
     const serviceTopic = rawTopic.replace(/\b\w/g, (char) => char.toUpperCase());
 
     window.dispatchEvent(
-      new CustomEvent("select-contact-service", { detail: serviceTopic })
+      new CustomEvent("select-contact-service", {
+        detail: {
+          slug: serviceSlug,
+          title: serviceTopic,
+        },
+      })
     );
 
     setTimeout(() => {
       setIsClicked(false);
-      const targetHref = `/?service=${encodeURIComponent(serviceTopic)}#contact-us`;
+      const targetHref = `/?slug=${encodeURIComponent(serviceSlug)}&service=${encodeURIComponent(serviceTopic)}#contact-us`;
       router.push(targetHref, { scroll: false });
       const contactSection = document.getElementById("contact-us");
       if (contactSection) {

@@ -214,7 +214,7 @@ export default function ServiceDetail({
                   type="button"
                   onClick={() =>
                     router.push(
-                      `/?service=${encodeURIComponent(service.title)}#contact-us`
+                      `/?slug=${encodeURIComponent(service.id)}&service=${encodeURIComponent(service.title)}#contact-us`
                     )
                   }
                   className="w-full py-3.5 px-5 rounded-xl bg-primary hover:bg-[#c8191e] text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-primary/30 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
@@ -241,7 +241,7 @@ export default function ServiceDetail({
                 Our Dubai-based corporate specialists are ready to guide you through licenses, visas, and banking setups.
               </p>
               <Link
-                href={`/?service=${encodeURIComponent(service.title)}#contact-us`}
+                href={`/?slug=${encodeURIComponent(service.id)}&service=${encodeURIComponent(service.title)}#contact-us`}
                 className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:text-white transition-colors"
               >
                 <span>Speak with an advisor</span>

@@ -22,6 +22,7 @@ import {
   NAVBAR_QUERY,
   FOOTER_QUERY,
   CONTACT_CONFIG_QUERY,
+  SERVICES_SELECT_OPTIONS_QUERY,
 } from "./queries";
 
 // Fallback static JSON imports
@@ -97,6 +98,29 @@ export async function getHomeContactData(): Promise<HomeContactData | null> {
     tags: ["emirateHomeContact"],
   });
   return data;
+}
+
+export interface ServiceSelectOption {
+  label: string;
+  title: string;
+  value: string;
+  slug: string;
+}
+
+export async function getServicesSelectOptions(): Promise<ServiceSelectOption[]> {
+  const data = await sanityFetch<ServiceSelectOption[]>({
+    query: SERVICES_SELECT_OPTIONS_QUERY,
+    tags: ["emirateCorporateService"],
+  });
+  if (data && data.length > 0) {
+    return data;
+  }
+  return defaultServicesListData.services.map((s: any) => ({
+    label: s.title,
+    title: s.title,
+    value: s.slug || s.id,
+    slug: s.slug || s.id,
+  }));
 }
 
 export async function getHomeBlogSectionData(): Promise<HomeBlogData> {

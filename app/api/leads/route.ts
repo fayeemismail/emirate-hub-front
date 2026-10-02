@@ -85,6 +85,9 @@ export async function POST(req: NextRequest) {
     const service = String(
       body.service || body.businessActivity || "General Inquiry"
     ).trim();
+    const serviceSlug = String(
+      body.serviceSlug || body.slug || ""
+    ).trim() || undefined;
     const message =
       body.message || body.request
         ? String(body.message || body.request).trim()
@@ -112,7 +115,12 @@ export async function POST(req: NextRequest) {
       email,
       ...(phone && { phone }),
       service,
+      ...(serviceSlug && { serviceSlug, slug: serviceSlug }),
       ...(message && { message }),
+      formData: {
+        ...(typeof body.formData === "object" && body.formData ? body.formData : {}),
+        ...(serviceSlug && { serviceSlug, slug: serviceSlug }),
+      },
     };
 
     const endpoint = getBackendLeadsEndpoint();

@@ -26,8 +26,8 @@
       "label": "Office Rentals & Commercial Space"
     },
     {
-      "value": "other",
-      "label": "Other Services"
+      "value": "other-business",
+      "label": "Other Business"
     }
   ]
 }

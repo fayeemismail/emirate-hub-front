@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   FiArrowRight,
@@ -13,10 +13,12 @@ import rawContactFormData from "@/data/common/contactForm.json";
 import { ContactFormData, SelectOption } from "@/types/common/contactForm";
 import { ALL_COUNTRIES, CountryOption } from "@/lib/countries";
 import { submitContactLead } from "@/lib/api/leads";
+import { ServiceSelectOption } from "@/lib/sanity/api";
 
 interface ContactFormProps {
   subtitle?: string;
   className?: string;
+  serviceOptions?: ServiceSelectOption[];
 }
 
 const contactFormData: ContactFormData = rawContactFormData as ContactFormData;
@@ -26,14 +28,16 @@ const COUNTRY_OPTIONS: CountryOption[] = ALL_COUNTRIES;
 function ServiceParamListener({
   onSelectService,
 }: {
-  onSelectService: (service: string) => void;
+  onSelectService: (service: string | { slug?: string; title?: string }) => void;
 }) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    const slugParam = searchParams.get("slug");
     const serviceParam = searchParams.get("service");
-    if (serviceParam) {
-      onSelectService(serviceParam);
+    const target = slugParam || serviceParam;
+    if (target) {
+      onSelectService(slugParam ? { slug: slugParam, title: serviceParam || undefined } : target);
       setTimeout(() => {
         const contactSection = document.getElementById("contact-us");
         if (contactSection) {
@@ -49,6 +53,7 @@ function ServiceParamListener({
 export default function ContactForm({
   subtitle = "Let us know how we can help! Fill out our contact form and we will get back to you as soon as possible.",
   className = "",
+  serviceOptions,
 }: ContactFormProps) {
   const [formData, setFormData] = useState({
     businessActivity: "",
@@ -91,39 +96,94 @@ export default function ContactForm({
       c.code.toLowerCase().includes(countrySearch.toLowerCase())
   );
 
-  const applyServiceSelection = useCallback((rawService: string) => {
-    const trimmed = rawService.trim();
-    if (!trimmed) return;
-
-    const matchedDefault = DEFAULT_OPTIONS.find(
-      (opt) =>
-        opt.value.toLowerCase() === trimmed.toLowerCase() ||
-        opt.label.toLowerCase() === trimmed.toLowerCase()
-    );
-
-    if (matchedDefault) {
-      setFormData((prev) => ({
-        ...prev,
-        businessActivity: matchedDefault.value,
+  const baseOptions = useMemo<SelectOption[]>(() => {
+    let list: SelectOption[] = [];
+    if (serviceOptions && serviceOptions.length > 0) {
+      list = serviceOptions.map((s) => ({
+        label: s.label || s.title,
+        value: s.slug || s.value,
+        slug: s.slug || s.value,
+        title: s.title || s.label,
       }));
     } else {
-      setCustomOptions((prev) => {
-        const exists = prev.some(
-          (opt) => opt.value.toLowerCase() === trimmed.toLowerCase()
-        );
-        if (exists) return prev;
-        return [{ value: trimmed, label: trimmed }, ...prev];
-      });
-      setFormData((prev) => ({
-        ...prev,
-        businessActivity: trimmed,
+      list = DEFAULT_OPTIONS.map((opt) => ({
+        label: opt.label,
+        value: opt.value,
+        slug: opt.value,
+        title: opt.label,
       }));
     }
-  }, []);
+
+    const hasOther = list.some(
+      (opt) =>
+        (opt.slug || opt.value).toLowerCase() === "other-business" ||
+        opt.label.toLowerCase() === "other business"
+    );
+
+    if (!hasOther) {
+      list.push({
+        label: "Other Business",
+        value: "other-business",
+        slug: "other-business",
+        title: "Other Business",
+      });
+    }
+
+    return list;
+  }, [serviceOptions]);
+
+  const applyServiceSelection = useCallback(
+    (detail: string | { slug?: string; title?: string }) => {
+      const targetSlug =
+        typeof detail === "string" ? detail.trim() : (detail?.slug?.trim() || "");
+      const targetTitle =
+        typeof detail === "string" ? detail.trim() : (detail?.title?.trim() || "");
+
+      if (!targetSlug && !targetTitle) return;
+
+      const matched = baseOptions.find((opt: SelectOption) => {
+        const oSlug = (opt.slug || opt.value).toLowerCase();
+        const oLabel = opt.label.toLowerCase();
+        const tSlug = targetSlug.toLowerCase();
+        const tTitle = targetTitle.toLowerCase();
+
+        return (
+          (targetSlug && (oSlug === tSlug || oSlug.replace(/-/g, " ") === tSlug.replace(/-/g, " "))) ||
+          (targetTitle && (oLabel === tTitle || oLabel.includes(tTitle) || tTitle.includes(oLabel))) ||
+          (targetSlug && oLabel === tSlug)
+        );
+      });
+
+      if (matched) {
+        setFormData((prev) => ({
+          ...prev,
+          businessActivity: matched.slug || matched.value,
+        }));
+      } else {
+        const newSlug = targetSlug || targetTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        const newLabel =
+          targetTitle ||
+          targetSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+        setCustomOptions((prev) => {
+          const filtered = prev.filter(
+            (o) => (o.slug || o.value).toLowerCase() !== newSlug.toLowerCase()
+          );
+          return [{ label: newLabel, value: newSlug, slug: newSlug, title: newLabel }, ...filtered];
+        });
+
+        setFormData((prev) => ({
+          ...prev,
+          businessActivity: newSlug,
+        }));
+      }
+    },
+    [baseOptions]
+  );
 
   useEffect(() => {
     const handleCustomSelect = (e: Event) => {
-      const customEvent = e as CustomEvent<string>;
+      const customEvent = e as CustomEvent<string | { slug?: string; title?: string }>;
       if (customEvent.detail) {
         applyServiceSelection(customEvent.detail);
       }
@@ -135,7 +195,9 @@ export default function ContactForm({
     };
   }, [applyServiceSelection]);
 
-  const allOptions = [...customOptions, ...DEFAULT_OPTIONS];
+  const allOptions = useMemo(() => {
+    return [...customOptions, ...baseOptions];
+  }, [customOptions, baseOptions]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,12 +207,17 @@ export default function ContactForm({
 
     try {
       const selectedOption = allOptions.find(
-        (opt) => opt.value === formData.businessActivity
+        (opt: SelectOption) => (opt.slug || opt.value) === formData.businessActivity
       );
       const resolvedService =
         selectedOption?.label ||
+        selectedOption?.title ||
         formData.businessActivity.trim() ||
         "General Inquiry";
+      const resolvedSlug =
+        selectedOption?.slug ||
+        selectedOption?.value ||
+        formData.businessActivity.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
       const rawPhone = formData.phone.trim();
       const formattedPhone = rawPhone
@@ -164,6 +231,8 @@ export default function ContactForm({
         email: formData.email.trim(),
         ...(formattedPhone && { phone: formattedPhone }),
         service: resolvedService,
+        serviceSlug: resolvedSlug,
+        slug: resolvedSlug,
         ...(formData.request.trim() && { message: formData.request.trim() }),
       });
 
@@ -213,15 +282,18 @@ export default function ContactForm({
               <option value="" className="whitespace-nowrap">
                 {contactFormData.selectPlaceholder || "Select"}
               </option>
-              {allOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  className="whitespace-nowrap"
-                >
-                  {option.label}
-                </option>
-              ))}
+              {allOptions.map((option: SelectOption) => {
+                const optKey = option.slug || option.value;
+                return (
+                  <option
+                    key={optKey}
+                    value={optKey}
+                    className="whitespace-nowrap"
+                  >
+                    {option.label}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
