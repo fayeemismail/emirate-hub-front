@@ -5,6 +5,10 @@
   "subtitle": "Keep up with the latest news",
   "viewAllText": "VIEW ALL",
   "viewAllHref": "/blog",
+  "buttonColor": "#E02126",
+  "buttonTextColor": "#1F2937",
+  "buttonArrowColor": "#E02126",
+  "buttonHoverTextColor": "#FFFFFF",
   "blogs": [
     {
       "id": "vat-registration-dubai-2026",

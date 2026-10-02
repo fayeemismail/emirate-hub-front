@@ -74,14 +74,55 @@ export default function BlogsAndNews({ data: propData }: BlogsAndNewsProps) {
         <div className="flex lg:grid lg:grid-cols-12 overflow-x-auto lg:overflow-visible gap-5 sm:gap-6 lg:gap-8 pb-4 
         lg:pb-0 -mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none 
         [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-          {/* CARD 1: Top Left - Featured Dark Overlay Card */}
+          {/* CARD 1: Top Left - Same as other cards on mobile, Featured Dark Overlay on desktop */}
           {blog1 && (
             <div className="w-[85vw] max-w-85 sm:w-90 sm:max-w-90 md:w-100 md:max-w-100 lg:w-auto lg:max-w-none shrink-0 
             lg:shrink lg:col-span-7 snap-start">
+              {/* Mobile View (< lg): Same card style as Card 2 */}
               <Link
                 href={`/blog#${blog1.id}`}
-                className="relative overflow-hidden rounded-2xl md:rounded-3xl h-full min-h-95 md:min-h-105 flex flex-col 
-                justify-end p-6 md:p-8 group cursor-pointer shadow-sm "
+                className="lg:hidden bg-white rounded-2xl md:rounded-3xl border border-gray-200/80 overflow-hidden shadow-sm 
+                flex flex-col h-full min-h-95 md:min-h-105 group cursor-pointer hover:shadow-md transition-all duration-300"
+              >
+                <div className="h-48 md:h-56 overflow-hidden relative shrink-0">
+                  <img
+                    src={blog1.image || "/images/blog-1.jpg"}
+                    alt={blog1.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6 md:p-7 flex flex-col justify-between grow">
+                  <div>
+                    <h3
+                      style={{
+                        "--blog-title-color": data.cardTitleColor || "#111827",
+                      } as React.CSSProperties}
+                      className="text-lg md:text-xl font-bold text-[var(--blog-title-color)] leading-snug mb-3 group-hover:text-primary 
+                    transition-colors line-clamp-2"
+                    >
+                      {blog1.title}
+                    </h3>
+                    <p
+                      style={data.cardTextColor ? { color: data.cardTextColor } : undefined}
+                      className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3"
+                    >
+                      {blog1.excerpt}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="inline-block text-primary text-xs md:text-sm font-semibold underline underline-offset-4 
+                    decoration-primary">
+                      Read More
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Desktop View (>= lg): Featured Dark Overlay Card */}
+              <Link
+                href={`/blog#${blog1.id}`}
+                className="hidden lg:flex relative overflow-hidden rounded-2xl md:rounded-3xl h-full min-h-95 md:min-h-105 flex-col 
+                justify-end p-6 md:p-8 group cursor-pointer shadow-sm"
               >
                 <img
                   src={blog1.image || "/images/blog-1.jpg"}
@@ -252,8 +293,9 @@ export default function BlogsAndNews({ data: propData }: BlogsAndNewsProps) {
             className="group relative z-10 h-14 md:h-16 inline-flex items-center gap-6 pl-4 pr-8 cursor-pointer overflow-hidden 
             rounded-full transition-all duration-300 active:scale-95 select-none focus:outline-none"
           >
-            {/* Red Round Circle background that animates on hover and click */}
+            {/* Animated Circle background that animates on hover and click */}
             <span
+              style={data.buttonColor ? { backgroundColor: data.buttonColor } : undefined}
               className={`absolute left-0 top-0 rounded-full bg-primary transition-all duration-500 ease-in-out group-hover:w-full 
                 group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
                 isClicked ? "w-full h-full" : "w-14 h-14 md:w-16 md:h-16"
@@ -262,16 +304,24 @@ export default function BlogsAndNews({ data: propData }: BlogsAndNewsProps) {
 
             {/* Button Text */}
             <span
-              className={`relative z-10 text-base md:text-lg tracking-widest font-normal text-gray-800 group-hover:text-white group-active:text-white transition-colors duration-300 uppercase pl-3 ${
+              style={{
+                "--btn-text-color": data.buttonTextColor || "#1F2937",
+                "--btn-hover-text-color": data.buttonHoverTextColor || "#FFFFFF",
+              } as React.CSSProperties}
+              className={`relative z-10 text-base md:text-lg tracking-widest font-normal text-[var(--btn-text-color)] group-hover:text-[var(--btn-hover-text-color)] group-active:text-[var(--btn-hover-text-color)] transition-colors duration-300 uppercase pl-3 ${
                 isClicked ? "text-white!" : ""
               }`}
             >
               {data.viewAllText}
             </span>
 
-            {/* Red Right Arrow */}
+            {/* Right Arrow */}
             <FiArrowRight
-              className={`relative z-10 w-7 h-7 text-primary group-hover:text-white group-active:text-white group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
+              style={{
+                "--btn-arrow-color": data.buttonArrowColor || data.buttonColor || "#E02126",
+                "--btn-hover-text-color": data.buttonHoverTextColor || "#FFFFFF",
+              } as React.CSSProperties}
+              className={`relative z-10 w-7 h-7 text-[var(--btn-arrow-color)] group-hover:text-[var(--btn-hover-text-color)] group-active:text-[var(--btn-hover-text-color)] group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
                 isClicked ? "text-white! translate-x-2" : ""
               }`}
             />

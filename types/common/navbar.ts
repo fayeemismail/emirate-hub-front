@@ -11,6 +11,8 @@ export interface NavbarData {
   phoneColor?: string;
   phone?: string;
   whatsappUrl?: string;
+  mobileIconColor?: string;
+  whatsappIconColor?: string;
   ctaText?: string;
   ctaHref?: string;
   navLinks?: NavLinkItem[];

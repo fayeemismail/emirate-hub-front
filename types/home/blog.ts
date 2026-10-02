@@ -15,6 +15,10 @@ export interface HomeBlogData {
   subtitleColor?: string;
   cardTitleColor?: string;
   cardTextColor?: string;
+  buttonColor?: string;
+  buttonTextColor?: string;
+  buttonArrowColor?: string;
+  buttonHoverTextColor?: string;
   title: string;
   titleHref?: string;
   subtitle: string;
