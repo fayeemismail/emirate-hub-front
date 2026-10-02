@@ -122,7 +122,7 @@ export default function PriceCards({ data: propData }: PriceCardsProps) {
 
   return (
     <section
-      className="py-16 md:py-24 bg-[#F8F6FB] overflow-hidden"
+      className="py-16 md:py-24 bg-[#F8F6FB] overflow-x-hidden"
       style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
     >
       <div className="site-container">
@@ -130,7 +130,7 @@ export default function PriceCards({ data: propData }: PriceCardsProps) {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={headerVariants}
           className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 md:mb-16 px-4"
         >
@@ -167,7 +167,7 @@ export default function PriceCards({ data: propData }: PriceCardsProps) {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch"
         >

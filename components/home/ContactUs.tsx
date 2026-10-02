@@ -51,14 +51,14 @@ export default function ContactUs({ data }: ContactUsProps) {
     <section
       id="contact-us"
       style={data?.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
-      className="py-16 md:py-24 bg-linear-to-b from-[#F8F6FB] via-white to-[#F8F6FB] overflow-hidden scroll-mt-20 md:scroll-mt-24"
+      className="py-16 md:py-24 bg-linear-to-b from-[#F8F6FB] via-white to-[#F8F6FB] overflow-x-hidden scroll-mt-20 md:scroll-mt-24"
     >
       <div className="site-container px-4 sm:px-6 md:px-8">
         {/* Top Heading Section */}
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={headerVariants}
           className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 md:mb-16"
         >
