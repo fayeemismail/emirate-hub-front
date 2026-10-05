@@ -48,6 +48,10 @@ export default function HeroPanoramaBackground({
     return () => window.removeEventListener("resize", checkIsLg);
   }, []);
 
+  // Track pan direction on small screens: 'ltr' (slides 0 -> -maxPan) or 'rtl' (slides -maxPan -> 0)
+  const directionRef = useRef<"ltr" | "rtl">("ltr");
+  const isInitialMountedRef = useRef(false);
+
   // Per-image pan positions for mobile so outgoing images don't snap
   const panPositionsRef = useRef<number[]>([0, 0, 0, 0]);
 
@@ -66,21 +70,64 @@ export default function HeroPanoramaBackground({
 
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // 5-second rotation timer: only switches when timer arrives (and not actively dragging)
+  // Randomly pick initial direction (ltr or rtl) on mount
+  useEffect(() => {
+    if (!isInitialMountedRef.current) {
+      isInitialMountedRef.current = true;
+      const initialDir = Math.random() < 0.5 ? "ltr" : "rtl";
+      directionRef.current = initialDir;
+
+      if (initialDir === "rtl") {
+        const maxPan = Math.max(
+          0,
+          stateRef.current.imageWidth - stateRef.current.containerWidth
+        );
+        stateRef.current.targetX = -maxPan;
+        panPositionsRef.current[0] = -maxPan;
+        const track = tracksRef.current[0];
+        if (track) {
+          track.style.transform = `translate3d(${(-maxPan).toFixed(2)}px, 0, 0)`;
+        }
+      }
+    }
+  }, []);
+
+  // 5-second rotation timer: alternates slide direction for each next image
   useEffect(() => {
     if (imageList.length <= 1) return;
 
     const timer = setInterval(() => {
       if (stateRef.current.isDragging) return;
-      setCurrentIndex((prev) => (prev + 1) % imageList.length);
+
+      const nextIndex = (currentIndexRef.current + 1) % imageList.length;
+
+      // Alternate direction for the next image (ltr -> rtl, rtl -> ltr)
+      const nextDir = directionRef.current === "ltr" ? "rtl" : "ltr";
+      directionRef.current = nextDir;
+
+      const maxPan = Math.max(
+        0,
+        stateRef.current.imageWidth - stateRef.current.containerWidth
+      );
+      const startX = nextDir === "ltr" ? 0 : -maxPan;
+
+      stateRef.current.targetX = startX;
+      stateRef.current.idleTimer = performance.now();
+      panPositionsRef.current[nextIndex] = startX;
+
+      const track = tracksRef.current[nextIndex];
+      if (track) {
+        track.style.transform = `translate3d(${startX.toFixed(2)}px, 0, 0)`;
+      }
+
+      setCurrentIndex(nextIndex);
     }, 5000);
 
     return () => clearInterval(timer);
   }, [imageList.length]);
 
-  // When active image changes on mobile, reset targetX to start of new image
+  // When active image changes on mobile, record idle timer
   useEffect(() => {
-    stateRef.current.targetX = 0;
     stateRef.current.idleTimer = performance.now();
   }, [currentIndex]);
 
@@ -104,6 +151,21 @@ export default function HeroPanoramaBackground({
     }
 
     stateRef.current.imageWidth = Math.max(width, containerWidth);
+
+    // If initial direction is rtl and user hasn't interacted, place image 0 at -maxPan
+    if (
+      !stateRef.current.userHasInteracted &&
+      directionRef.current === "rtl" &&
+      currentIndexRef.current === 0
+    ) {
+      const maxPan = Math.max(0, stateRef.current.imageWidth - containerWidth);
+      stateRef.current.targetX = -maxPan;
+      panPositionsRef.current[0] = -maxPan;
+      const track = tracksRef.current[0];
+      if (track) {
+        track.style.transform = `translate3d(${(-maxPan).toFixed(2)}px, 0, 0)`;
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -130,11 +192,28 @@ export default function HeroPanoramaBackground({
 
       // Slow, subtle auto-swipe when user is idle
       if (!state.isDragging && now - state.idleTimer > 1200) {
-        // Once completely swiped to the end (-maxPan), do NOT move further!
-        if (state.targetX > -maxPan) {
-          state.targetX -= 0.42; // Smooth, moderate cinematic auto-glide
-          if (state.targetX < -maxPan) {
-            state.targetX = -maxPan;
+        const dir = directionRef.current;
+        if (dir === "ltr") {
+          // Slide from left to right (targetX decreases towards -maxPan)
+          if (state.targetX > -maxPan) {
+            state.targetX -= 0.42; // Smooth, moderate cinematic auto-glide
+            if (state.targetX <= -maxPan) {
+              state.targetX = -maxPan;
+              if (imageList.length <= 1) {
+                directionRef.current = "rtl";
+              }
+            }
+          }
+        } else {
+          // Slide from right to left (targetX increases towards 0)
+          if (state.targetX < 0) {
+            state.targetX += 0.42; // Smooth, moderate cinematic auto-glide
+            if (state.targetX >= 0) {
+              state.targetX = 0;
+              if (imageList.length <= 1) {
+                directionRef.current = "ltr";
+              }
+            }
           }
         }
       }
@@ -161,7 +240,7 @@ export default function HeroPanoramaBackground({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [imageList.length]);
 
   // Pointer event handlers for touch swipe & mouse drag (disabled on lg screen)
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
