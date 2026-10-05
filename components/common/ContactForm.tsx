@@ -248,10 +248,17 @@ export default function ContactForm({
         consentData: false,
       });
     } catch (err) {
+      const raw =
+        err instanceof Error && err.message.trim() ? err.message.trim() : "";
+      // Last line of defense — never show technical leftovers in the UI.
+      const looksTechnical =
+        !raw ||
+        /sanity|slug|mongodb|e11000|stack|cms|internal server/i.test(raw) ||
+        raw.length > 180;
       setSubmitError(
-        err instanceof Error
-          ? err.message
-          : "Failed to submit your request. Please try again."
+        looksTechnical
+          ? "Something went wrong. Please check your details and try again."
+          : raw
       );
     } finally {
       setIsSubmitting(false);

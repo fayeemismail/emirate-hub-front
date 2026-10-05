@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  CLIENT_ERROR_GENERIC_RETRY,
+  toClientFriendlyError,
+} from "@/lib/api/clientErrors";
 
 function getBackendLeadsEndpoint(): string {
   const rawBase =
@@ -11,62 +15,6 @@ function getBackendLeadsEndpoint(): string {
     return `${trimmed}/v1/public/leads`;
   }
   return `${trimmed}/api/v1/public/leads`;
-}
-
-function extractUserFacingError(
-  status: number,
-  data: Record<string, unknown> | null
-): string {
-  const rawMessage = typeof data?.message === "string" ? data.message.trim() : "";
-
-  // Check if a duplicate key error leaked or was normalized by the backend
-  if (
-    rawMessage.toLowerCase().includes("duplicate field value") ||
-    rawMessage.toLowerCase().includes("e11000")
-  ) {
-    return "You have already submitted an application with these details.";
-  }
-
-  // Never expose 5xx internal server errors to the user
-  if (status >= 500) {
-    return "Unable to process your request right now. Please try again later.";
-  }
-
-  // Extract field-level validation messages (Record<string, string> or Array)
-  if (data?.errors && typeof data.errors === "object") {
-    if (Array.isArray(data.errors)) {
-      const messages = data.errors
-        .map((err) =>
-          typeof err === "string"
-            ? err
-            : typeof err === "object" && err && "message" in err
-              ? String((err as { message: unknown }).message)
-              : ""
-        )
-        .filter(Boolean);
-      if (messages.length > 0) {
-        return messages.join(" ");
-      }
-    } else {
-      const messages = Object.values(data.errors as Record<string, unknown>)
-        .map((val) => (typeof val === "string" ? val.trim() : ""))
-        .filter(Boolean);
-      if (messages.length > 0) {
-        return messages.join(" ");
-      }
-    }
-  }
-
-  // Pass through operational 4xx messages from the backend (e.g., already submitted, conflict, rate limit)
-  if (
-    rawMessage &&
-    rawMessage.toLowerCase() !== "internal server error" &&
-    rawMessage.toLowerCase() !== "validation failed"
-  ) {
-    return rawMessage;
-  }
-
-  return "Please check your details and try again.";
 }
 
 export async function POST(req: NextRequest) {
@@ -85,9 +33,8 @@ export async function POST(req: NextRequest) {
     const service = String(
       body.service || body.businessActivity || "General Inquiry"
     ).trim();
-    const serviceSlug = String(
-      body.serviceSlug || body.slug || ""
-    ).trim() || undefined;
+    const serviceSlug =
+      String(body.serviceSlug || body.slug || "").trim() || undefined;
     const message =
       body.message || body.request
         ? String(body.message || body.request).trim()
@@ -100,9 +47,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { success: false, message: "Please enter a valid email address." },
+        { status: 400 }
+      );
+    }
+
     if (!service) {
       return NextResponse.json(
         { success: false, message: "Please select a service." },
+        { status: 400 }
+      );
+    }
+
+    if (phone && phone.length > 30) {
+      return NextResponse.json(
+        { success: false, message: "Please enter a shorter phone number." },
         { status: 400 }
       );
     }
@@ -118,7 +79,9 @@ export async function POST(req: NextRequest) {
       ...(serviceSlug && { serviceSlug, slug: serviceSlug }),
       ...(message && { message }),
       formData: {
-        ...(typeof body.formData === "object" && body.formData ? body.formData : {}),
+        ...(typeof body.formData === "object" && body.formData
+          ? body.formData
+          : {}),
         ...(serviceSlug && { serviceSlug, slug: serviceSlug }),
       },
     };
@@ -140,14 +103,13 @@ export async function POST(req: NextRequest) {
     > | null;
 
     if (!response.ok) {
-      const userMessage = extractUserFacingError(response.status, data);
+      const userMessage = toClientFriendlyError(response.status, data);
       const clientStatus = response.status >= 500 ? 500 : response.status;
 
       return NextResponse.json(
         {
           success: false,
           message: userMessage,
-          ...(clientStatus < 500 && data?.errors ? { errors: data.errors } : {}),
         },
         { status: clientStatus }
       );
@@ -165,8 +127,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message:
-          "Unable to process your request right now. Please try again later.",
+        message: CLIENT_ERROR_GENERIC_RETRY,
       },
       { status: 500 }
     );

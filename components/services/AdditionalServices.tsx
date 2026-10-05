@@ -124,13 +124,15 @@ export default function AdditionalServices({ data: propData }: AdditionalService
               {/* Bottom CTA Action Button */}
               <div className="pt-2">
                 {(() => {
-                  const serviceSlug =
-                    item.id ||
-                    (item.title ? item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") : String(item._key || ""));
+                  const serviceSlug = (item.id || "").trim();
                   const serviceTitle = item.title || "";
 
+                  if (!serviceSlug) {
+                    return null;
+                  }
+
                   const params = new URLSearchParams();
-                  if (serviceSlug) params.set("slug", serviceSlug);
+                  params.set("slug", serviceSlug);
                   if (serviceTitle) params.set("service", serviceTitle);
 
                   const enquiryHref = `/?${params.toString().replace(/\+/g, "%20")}#contact-us`;
