@@ -25,6 +25,24 @@ const contactFormData: ContactFormData = rawContactFormData as ContactFormData;
 const DEFAULT_OPTIONS: SelectOption[] = contactFormData.options || [];
 const COUNTRY_OPTIONS: CountryOption[] = ALL_COUNTRIES;
 
+const normalizeKey = (str?: string | null): string => {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
+
+const normalizeLabel = (str?: string | null): string => {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+};
+
 function ServiceParamListener({
   onSelectService,
 }: {
@@ -35,9 +53,11 @@ function ServiceParamListener({
   useEffect(() => {
     const slugParam = searchParams.get("slug");
     const serviceParam = searchParams.get("service");
-    const target = slugParam || serviceParam;
-    if (target) {
-      onSelectService(slugParam ? { slug: slugParam, title: serviceParam || undefined } : target);
+    if (slugParam || serviceParam) {
+      onSelectService({
+        slug: slugParam || undefined,
+        title: serviceParam || undefined,
+      });
       setTimeout(() => {
         const contactSection = document.getElementById("contact-us");
         if (contactSection) {
@@ -114,14 +134,29 @@ export default function ContactForm({
       }));
     }
 
-    const hasOther = list.some(
+    const seenSlugs = new Set<string>();
+    const seenLabels = new Set<string>();
+    const dedupedList: SelectOption[] = [];
+
+    for (const opt of list) {
+      const slugKey = normalizeKey(opt.slug || opt.value);
+      const labelKey = normalizeLabel(opt.label || opt.title);
+      if (!slugKey && !labelKey) continue;
+      if (!seenSlugs.has(slugKey) && !seenLabels.has(labelKey)) {
+        seenSlugs.add(slugKey);
+        seenLabels.add(labelKey);
+        dedupedList.push(opt);
+      }
+    }
+
+    const hasOther = dedupedList.some(
       (opt) =>
-        (opt.slug || opt.value).toLowerCase() === "other-business" ||
-        opt.label.toLowerCase() === "other business"
+        normalizeKey(opt.slug || opt.value) === "other-business" ||
+        normalizeLabel(opt.label || opt.title) === "other business"
     );
 
     if (!hasOther) {
-      list.push({
+      dedupedList.push({
         label: "Other Business",
         value: "other-business",
         slug: "other-business",
@@ -129,52 +164,87 @@ export default function ContactForm({
       });
     }
 
-    return list;
+    return dedupedList;
   }, [serviceOptions]);
 
   const applyServiceSelection = useCallback(
     (detail: string | { slug?: string; title?: string }) => {
-      const targetSlug =
-        typeof detail === "string" ? detail.trim() : (detail?.slug?.trim() || "");
-      const targetTitle =
-        typeof detail === "string" ? detail.trim() : (detail?.title?.trim() || "");
+      let rawSlug = "";
+      let rawTitle = "";
 
-      if (!targetSlug && !targetTitle) return;
+      if (typeof detail === "string") {
+        const trimmed = detail.trim();
+        if (/\s|[A-Z]/.test(trimmed)) {
+          rawTitle = trimmed;
+          rawSlug = normalizeKey(trimmed);
+        } else {
+          rawSlug = normalizeKey(trimmed);
+          rawTitle = trimmed.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        }
+      } else if (detail && typeof detail === "object") {
+        rawSlug = (detail.slug || "").trim();
+        rawTitle = (detail.title || "").trim();
+        if (!rawSlug && rawTitle) {
+          rawSlug = normalizeKey(rawTitle);
+        }
+        if (!rawTitle && rawSlug) {
+          rawTitle = rawSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        }
+      }
 
+      if (!rawSlug && !rawTitle) return;
+
+      const normSlug = normalizeKey(rawSlug);
+      const normTitle = normalizeLabel(rawTitle);
+
+      // 1. Try to find an existing match in baseOptions
       const matched = baseOptions.find((opt: SelectOption) => {
-        const oSlug = (opt.slug || opt.value).toLowerCase();
-        const oLabel = opt.label.toLowerCase();
-        const tSlug = targetSlug.toLowerCase();
-        const tTitle = targetTitle.toLowerCase();
+        const oSlug = normalizeKey(opt.slug || opt.value);
+        const oLabel = normalizeLabel(opt.label || opt.title);
 
         return (
-          (targetSlug && (oSlug === tSlug || oSlug.replace(/-/g, " ") === tSlug.replace(/-/g, " "))) ||
-          (targetTitle && (oLabel === tTitle || oLabel.includes(tTitle) || tTitle.includes(oLabel))) ||
-          (targetSlug && oLabel === tSlug)
+          (normSlug && oSlug === normSlug) ||
+          (normTitle && oLabel === normTitle) ||
+          (normSlug && oLabel === normalizeLabel(rawSlug)) ||
+          (normTitle && oSlug === normalizeKey(rawTitle))
         );
       });
 
       if (matched) {
+        // If matched in base options, select it and ensure no duplicate custom option exists
+        setCustomOptions((prev) =>
+          prev.filter((o) => {
+            const sKey = normalizeKey(o.slug || o.value);
+            const lKey = normalizeLabel(o.label || o.title);
+            return sKey !== normSlug && lKey !== normTitle;
+          })
+        );
         setFormData((prev) => ({
           ...prev,
           businessActivity: matched.slug || matched.value,
         }));
       } else {
-        const newSlug = targetSlug || targetTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        const newLabel =
-          targetTitle ||
-          targetSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        // 2. Service does not exist in base options; add it uniquely to custom options
+        const finalSlug = normSlug;
+        const finalLabel =
+          rawTitle ||
+          rawSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
         setCustomOptions((prev) => {
-          const filtered = prev.filter(
-            (o) => (o.slug || o.value).toLowerCase() !== newSlug.toLowerCase()
-          );
-          return [{ label: newLabel, value: newSlug, slug: newSlug, title: newLabel }, ...filtered];
+          const filtered = prev.filter((o) => {
+            const sKey = normalizeKey(o.slug || o.value);
+            const lKey = normalizeLabel(o.label || o.title);
+            return sKey !== finalSlug && lKey !== normalizeLabel(finalLabel);
+          });
+          return [
+            { label: finalLabel, value: finalSlug, slug: finalSlug, title: finalLabel },
+            ...filtered,
+          ];
         });
 
         setFormData((prev) => ({
           ...prev,
-          businessActivity: newSlug,
+          businessActivity: finalSlug,
         }));
       }
     },
@@ -195,8 +265,27 @@ export default function ContactForm({
     };
   }, [applyServiceSelection]);
 
-  const allOptions = useMemo(() => {
-    return [...customOptions, ...baseOptions];
+  // Combined options guaranteed to have NO duplicate slugs and NO duplicate labels
+  const allOptions = useMemo<SelectOption[]>(() => {
+    const combined = [...customOptions, ...baseOptions];
+    const seenSlugs = new Set<string>();
+    const seenLabels = new Set<string>();
+    const result: SelectOption[] = [];
+
+    for (const opt of combined) {
+      const slugKey = normalizeKey(opt.slug || opt.value);
+      const labelKey = normalizeLabel(opt.label || opt.title);
+
+      if (!slugKey && !labelKey) continue;
+
+      if (!seenSlugs.has(slugKey) && !seenLabels.has(labelKey)) {
+        seenSlugs.add(slugKey);
+        seenLabels.add(labelKey);
+        result.push(opt);
+      }
+    }
+
+    return result;
   }, [customOptions, baseOptions]);
 
   const handleSubmit = async (e: React.FormEvent) => {
