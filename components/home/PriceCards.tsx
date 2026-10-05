@@ -103,14 +103,16 @@ export default function PriceCards({ data: propData }: PriceCardsProps) {
     serviceSlug?: string
   ) => {
     if (id !== undefined) setClickedId(id);
-    const slug = (serviceSlug || (title ? title.toLowerCase().replace(/[^a-z0-9]+/g, "-") : "")).trim();
+    // Only use an explicit CMS slug — never invent one from the card title
+    // (title-slugify often does not match Sanity/CRM catalog slugs).
+    const slug = (serviceSlug || "").trim();
 
     if (title || slug) {
       window.dispatchEvent(
         new CustomEvent("select-contact-service", {
           detail: {
-            slug: slug || "",
-            title: title || "",
+            ...(slug ? { slug } : {}),
+            ...(title ? { title } : {}),
           },
         })
       );
