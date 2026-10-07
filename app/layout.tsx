@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import PageLoader from "@/components/common/PageLoader";
-import Analytics from "@/components/analytics/Analytics";
+import Analytics, { AnalyticsHead, AnalyticsBody } from "@/components/analytics/Analytics";
 import StructuredData from "@/components/seo/StructuredData";
 import { getFooterData, getNavbarData, getGlobalSeoData } from "@/lib/sanity/api";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/seo/schemaOrg";
@@ -113,12 +113,13 @@ export default async function RootLayout({
       className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased bg-black`}
     >
       <head>
+        <AnalyticsHead seoData={globalSeo} />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="min-h-full flex flex-col bg-white">
-        <Analytics seoData={globalSeo} />
+        <AnalyticsBody seoData={globalSeo} />
         <StructuredData data={[organizationSchema, webSiteSchema]} />
         <PageLoader />
         <Navbar data={navbarData} />
