@@ -5,8 +5,10 @@ import {
   getServiceById,
   getRelatedServices,
 } from "@/lib/services";
-import { getCorporateServiceBySlug } from "@/lib/sanity/api";
+import { getCorporateServiceBySlug, getGlobalSeoData } from "@/lib/sanity/api";
 import ServiceDetail from "@/components/services/ServiceDetail";
+import StructuredData from "@/components/seo/StructuredData";
+import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo/schemaOrg";
 
 export const revalidate = 60;
 
@@ -25,7 +27,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const sanityService = await getCorporateServiceBySlug(id);
+  const [sanityService, globalSeo] = await Promise.all([
+    getCorporateServiceBySlug(id),
+    getGlobalSeoData(),
+  ]);
   const service = sanityService || getServiceById(id);
 
   if (!service) {
@@ -34,21 +39,42 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const siteUrl = globalSeo.siteUrl || "https://emiratehub.ae";
+  const serviceSlug = (service as any).slug || service.id || id;
+  const canonicalUrl = `${siteUrl}/services/${serviceSlug}`;
+
   return {
     title: `${service.title} | Emirate Hub Dubai`,
     description: service.description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${service.title} | Emirate Hub Corporate Services`,
       description: service.description,
-      images: service.image ? [service.image] : [],
+      url: canonicalUrl,
+      images: service.image ? [{ url: service.image, alt: service.title }] : [],
       type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.title} | Emirate Hub`,
+      description: service.description,
+      images: service.image ? [service.image] : undefined,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }
 
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const sanityService = await getCorporateServiceBySlug(id);
+  const [sanityService, globalSeo] = await Promise.all([
+    getCorporateServiceBySlug(id),
+    getGlobalSeoData(),
+  ]);
   const fallbackService = getServiceById(id);
 
   const service = sanityService
@@ -66,10 +92,20 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const siteUrl = globalSeo.siteUrl || "https://emiratehub.ae";
+  const serviceSlug = (service as any).slug || service.id || id;
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: `${siteUrl}/` },
+    { name: "Services", url: `${siteUrl}/services` },
+    { name: service.title, url: `${siteUrl}/services/${serviceSlug}` },
+  ]);
+
+  const serviceSchema = buildServiceSchema(service, globalSeo);
   const relatedServices = getRelatedServices(id, 3);
 
   return (
     <main>
+      <StructuredData data={[breadcrumbSchema, serviceSchema]} />
       <ServiceDetail service={service as any} relatedServices={relatedServices} />
     </main>
   );

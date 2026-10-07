@@ -4,7 +4,10 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import PageLoader from "@/components/common/PageLoader";
-import { getFooterData, getNavbarData } from "@/lib/sanity/api";
+import Analytics from "@/components/analytics/Analytics";
+import StructuredData from "@/components/seo/StructuredData";
+import { getFooterData, getNavbarData, getGlobalSeoData } from "@/lib/sanity/api";
+import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/seo/schemaOrg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,25 +32,80 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export const metadata: Metadata = {
-  title: "Emirate Hub",
-  description: "Emirate Hub",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Emirate Hub",
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const globalSeo = await getGlobalSeoData();
+  const siteUrl = globalSeo.siteUrl || "https://emiratehub.ae";
+  const defaultTitle =
+    globalSeo.defaultSeoTitle || "Emirate Hub | Business Setup & Company Formation Dubai, UAE";
+  const titleTemplate = `%s ${globalSeo.titleSeparator || "|"} ${globalSeo.siteName || "Emirate Hub"}`;
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [navbarData, footerData] = await Promise.all([
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: defaultTitle,
+      template: titleTemplate,
+    },
+    description: globalSeo.defaultMetaDescription,
+    keywords: globalSeo.defaultKeywords,
+    alternates: {
+      canonical: siteUrl,
+    },
+    openGraph: {
+      title: defaultTitle,
+      description: globalSeo.defaultMetaDescription,
+      url: siteUrl,
+      siteName: globalSeo.siteName || "Emirate Hub",
+      locale: globalSeo.locale || "en_AE",
+      type: "website",
+      images: globalSeo.defaultOgImage
+        ? [
+            {
+              url: globalSeo.defaultOgImage,
+              alt: globalSeo.defaultOgImageAlt || defaultTitle,
+              width: 1200,
+              height: 630,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: (globalSeo.twitterCardType || "summary_large_image") as "summary" | "summary_large_image",
+      title: defaultTitle,
+      description: globalSeo.defaultMetaDescription,
+      images: globalSeo.defaultOgImage ? [globalSeo.defaultOgImage] : undefined,
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "black-translucent",
+      title: globalSeo.siteName || "Emirate Hub",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
+}
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [navbarData, footerData, globalSeo] = await Promise.all([
     getNavbarData(),
     getFooterData(),
+    getGlobalSeoData(),
   ]);
+
+  const organizationSchema = buildOrganizationSchema(globalSeo);
+  const webSiteSchema = buildWebSiteSchema(globalSeo);
 
   return (
     <html
@@ -60,11 +118,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="min-h-full flex flex-col bg-white">
+        <Analytics seoData={globalSeo} />
+        <StructuredData data={[organizationSchema, webSiteSchema]} />
         <PageLoader />
         <Navbar data={navbarData} />
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
         <Footer data={footerData} />
       </body>
     </html>

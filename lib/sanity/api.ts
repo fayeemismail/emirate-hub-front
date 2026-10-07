@@ -23,7 +23,25 @@ import {
   FOOTER_QUERY,
   CONTACT_CONFIG_QUERY,
   SERVICES_SELECT_OPTIONS_QUERY,
+  GLOBAL_SEO_QUERY,
+  HOME_SEO_QUERY,
+  ABOUT_SEO_QUERY,
+  SERVICES_SEO_QUERY,
+  BLOG_SEO_QUERY,
+  CONTACT_SEO_QUERY,
+  SITEMAP_SERVICES_QUERY,
+  SITEMAP_BLOGS_QUERY,
 } from "./queries";
+
+import { GlobalSeoData, PageSeoData } from "@/types/seo";
+import {
+  DEFAULT_GLOBAL_SEO,
+  DEFAULT_HOME_SEO,
+  DEFAULT_ABOUT_SEO,
+  DEFAULT_SERVICES_SEO,
+  DEFAULT_BLOG_SEO,
+  DEFAULT_CONTACT_SEO,
+} from "./seoDefaults";
 
 // Fallback static JSON imports
 import defaultHeroData from "@/data/home/hero.json";
@@ -428,3 +446,108 @@ export async function getContactConfigData() {
   });
   return data;
 }
+
+// ==========================================
+// SEO & ANALYTICS FETCHERS
+// ==========================================
+
+export async function getGlobalSeoData(): Promise<GlobalSeoData> {
+  const data = await sanityFetch<GlobalSeoData>({
+    query: GLOBAL_SEO_QUERY,
+    tags: ["emirateGlobalSeo"],
+  });
+  if (data && (data.siteName || data.gtmContainerId || data.gaMeasurementId)) {
+    return {
+      ...DEFAULT_GLOBAL_SEO,
+      ...data,
+    };
+  }
+  return DEFAULT_GLOBAL_SEO;
+}
+
+export async function getHomeSeoData(): Promise<PageSeoData> {
+  const data = await sanityFetch<PageSeoData>({
+    query: HOME_SEO_QUERY,
+    tags: ["emirateHomeSeo"],
+  });
+  if (data && (data.seoTitle || data.metaDescription)) {
+    return {
+      ...DEFAULT_HOME_SEO,
+      ...data,
+    };
+  }
+  return DEFAULT_HOME_SEO;
+}
+
+export async function getAboutSeoData(): Promise<PageSeoData> {
+  const data = await sanityFetch<PageSeoData>({
+    query: ABOUT_SEO_QUERY,
+    tags: ["emirateAboutSeo"],
+  });
+  if (data && (data.seoTitle || data.metaDescription)) {
+    return {
+      ...DEFAULT_ABOUT_SEO,
+      ...data,
+    };
+  }
+  return DEFAULT_ABOUT_SEO;
+}
+
+export async function getServicesSeoData(): Promise<PageSeoData> {
+  const data = await sanityFetch<PageSeoData>({
+    query: SERVICES_SEO_QUERY,
+    tags: ["emirateServicesSeo"],
+  });
+  if (data && (data.seoTitle || data.metaDescription)) {
+    return {
+      ...DEFAULT_SERVICES_SEO,
+      ...data,
+    };
+  }
+  return DEFAULT_SERVICES_SEO;
+}
+
+export async function getBlogSeoData(): Promise<PageSeoData> {
+  const data = await sanityFetch<PageSeoData>({
+    query: BLOG_SEO_QUERY,
+    tags: ["emirateBlogSeo"],
+  });
+  if (data && (data.seoTitle || data.metaDescription)) {
+    return {
+      ...DEFAULT_BLOG_SEO,
+      ...data,
+    };
+  }
+  return DEFAULT_BLOG_SEO;
+}
+
+export async function getContactSeoData(): Promise<PageSeoData> {
+  const data = await sanityFetch<PageSeoData>({
+    query: CONTACT_SEO_QUERY,
+    tags: ["emirateContactSeo"],
+  });
+  if (data && (data.seoTitle || data.metaDescription)) {
+    return {
+      ...DEFAULT_CONTACT_SEO,
+      ...data,
+    };
+  }
+  return DEFAULT_CONTACT_SEO;
+}
+
+export async function getSitemapServices(): Promise<Array<{ slug: string; _updatedAt?: string }>> {
+  const data = await sanityFetch<Array<{ slug: string; _updatedAt?: string }>>({
+    query: SITEMAP_SERVICES_QUERY,
+    tags: ["emirateCorporateService"],
+  });
+  return data || [];
+}
+
+export async function getSitemapBlogs(): Promise<Array<{ slug: string; _updatedAt?: string; date?: string }>> {
+  const data = await sanityFetch<Array<{ slug: string; _updatedAt?: string; date?: string }>>({
+    query: SITEMAP_BLOGS_QUERY,
+    tags: ["emirateBlogPost"],
+  });
+  return data || [];
+}
+

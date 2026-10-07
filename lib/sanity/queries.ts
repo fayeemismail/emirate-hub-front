@@ -218,3 +218,50 @@ export const SERVICES_SELECT_OPTIONS_QUERY = `*[_type == "emirateCorporateServic
   "value": coalesce(slug.current, slug, _id),
   "slug": coalesce(slug.current, slug, _id)
 }`;
+
+// ==========================================
+// SEO & ANALYTICS GROQ QUERIES
+// ==========================================
+
+export const GLOBAL_SEO_QUERY = `*[_type == "emirateGlobalSeo"][0]{
+  ...,
+  "defaultOgImage": coalesce(defaultOgImage.asset->url, defaultOgImage),
+  "organizationLogo": coalesce(organizationLogo.asset->url, organizationLogo)
+}`;
+
+export const HOME_SEO_QUERY = `*[_type == "emirateHomeSeo"][0]{
+  ...,
+  "ogImage": coalesce(ogImage.asset->url, ogImage)
+}`;
+
+export const ABOUT_SEO_QUERY = `*[_type == "emirateAboutSeo"][0]{
+  ...,
+  "ogImage": coalesce(ogImage.asset->url, ogImage)
+}`;
+
+export const SERVICES_SEO_QUERY = `*[_type == "emirateServicesSeo"][0]{
+  ...,
+  "ogImage": coalesce(ogImage.asset->url, ogImage)
+}`;
+
+export const BLOG_SEO_QUERY = `*[_type == "emirateBlogSeo"][0]{
+  ...,
+  "ogImage": coalesce(ogImage.asset->url, ogImage)
+}`;
+
+export const CONTACT_SEO_QUERY = `*[_type == "emirateContactSeo"][0]{
+  ...,
+  "ogImage": coalesce(ogImage.asset->url, ogImage)
+}`;
+
+export const SITEMAP_SERVICES_QUERY = `*[_type == "emirateCorporateService" && active != false]{
+  "slug": coalesce(slug.current, slug, _id),
+  _updatedAt
+}`;
+
+export const SITEMAP_BLOGS_QUERY = `*[_type == "emirateBlogPost" && active != false]{
+  "slug": coalesce(slug.current, slug, _id),
+  _updatedAt,
+  date
+}`;
+

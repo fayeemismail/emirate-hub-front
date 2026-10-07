@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogDetail from "@/components/blog/BlogDetail";
-import { getBlogPageData, getBlogPostBySlug } from "@/lib/sanity/api";
+import StructuredData from "@/components/seo/StructuredData";
+import { getBlogPageData, getBlogPostBySlug, getGlobalSeoData } from "@/lib/sanity/api";
+import { buildBreadcrumbSchema, buildArticleSchema } from "@/lib/seo/schemaOrg";
 
 export const revalidate = 60;
 
@@ -23,7 +25,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const blog = await getBlogPostBySlug(id);
+  const [blog, globalSeo] = await Promise.all([
+    getBlogPostBySlug(id),
+    getGlobalSeoData(),
+  ]);
 
   if (!blog) {
     return {
@@ -31,30 +36,60 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const siteUrl = globalSeo.siteUrl || "https://emiratehub.ae";
+  const postSlug = blog.slug || id;
+  const canonicalUrl = `${siteUrl}/blog/${postSlug}`;
+
   return {
     title: `${blog.title} | Emirate Hub Dubai`,
     description: blog.excerpt,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: blog.title,
       description: blog.excerpt,
-      images: blog.image ? [blog.image] : [],
+      url: canonicalUrl,
+      images: blog.image ? [{ url: blog.image, alt: blog.title }] : [],
       type: "article",
       publishedTime: blog.date,
       authors: blog.author ? [blog.author.name] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.excerpt,
+      images: blog.image ? [blog.image] : undefined,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { id } = await params;
-  const [blog, data] = await Promise.all([
+  const [blog, data, globalSeo] = await Promise.all([
     getBlogPostBySlug(id),
     getBlogPageData(),
+    getGlobalSeoData(),
   ]);
 
   if (!blog) {
     notFound();
   }
+
+  const siteUrl = globalSeo.siteUrl || "https://emiratehub.ae";
+  const postSlug = blog.slug || id;
+
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: `${siteUrl}/` },
+    { name: "Blog", url: `${siteUrl}/blog` },
+    { name: blog.title, url: `${siteUrl}/blog/${postSlug}` },
+  ]);
+
+  const articleSchema = buildArticleSchema(blog, globalSeo);
 
   const relatedBlogs = (data.blogs || [])
     .filter((item) => item.id !== blog.id && item.active !== false)
@@ -62,6 +97,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <main>
+      <StructuredData data={[breadcrumbSchema, articleSchema]} />
       <BlogDetail blog={blog} relatedBlogs={relatedBlogs} />
     </main>
   );
