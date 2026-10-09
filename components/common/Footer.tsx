@@ -34,7 +34,7 @@ const defaultQuickLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Blogs & Insights", href: "/blog" },
+  { name: "Blogs", href: "/blog" },
   { name: "Contact Us", href: "/#contact-us" },
 ];
 
@@ -51,6 +51,26 @@ const defaultCoreServices = [
     href: "/services/corporate-tax-vat-compliance",
   },
 ];
+
+const DEFAULT_OFFICE_TITLE = "Head Office";
+const DEFAULT_OFFICE_UNIT = "2204, 22nd Floor, Iris Bay Tower";
+const DEFAULT_OFFICE_LOCATION = "Business Bay, Dubai, United Arab Emirates";
+const DEFAULT_PHONE = "+971 50 943 2297";
+const DEFAULT_EMAIL = "info@emiratehub.ae";
+const DEFAULT_WORKING_HOURS = "Mon - Fri: 9:00 AM - 6:00 PM";
+const DEFAULT_COPYRIGHT_TEXT = "© 2026 Emirate Hub Corporate Services. All rights reserved.";
+
+// Color defaults aligned with active Sanity data
+const DEFAULT_FOOTER_BG = "#E2E8F0";
+const DEFAULT_COLUMN_TITLE_COLOR = "#E02126";
+const DEFAULT_HEADING_COLOR = "#000000";
+const DEFAULT_TEXT_COLOR = "#141414";
+const DEFAULT_LINK_COLOR = "#000000";
+const DEFAULT_CONTACT_TEXT_COLOR = "#000000";
+const DEFAULT_CONTACT_ICON_COLOR = "#000000";
+const DEFAULT_OFFICE_CARD_BG = "#E2E8F0";
+const DEFAULT_COPYRIGHT_COLOR = "#000000";
+const DEFAULT_SOCIAL_ICON_COLOR = "#000000";
 
 const defaultSocialLinks: FooterSocialLink[] = [
   { platform: "instagram", url: "#" },
@@ -110,34 +130,33 @@ export default function Footer({ data }: FooterProps) {
     : defaultSocialLinks;
 
   const description = data?.description || DEFAULT_DESCRIPTION;
-  const officeTitle = data?.headOffice?.title || "Head Office";
-  const officeUnit = data?.headOffice?.unit || "2204, 22nd Floor, Iris Bay Tower";
+  const officeTitle = data?.headOffice?.title || DEFAULT_OFFICE_TITLE;
+  const officeUnit = data?.headOffice?.unit || DEFAULT_OFFICE_UNIT;
   const officeLocation =
-    data?.headOffice?.location || "Business Bay, Dubai, United Arab Emirates";
+    data?.headOffice?.location || DEFAULT_OFFICE_LOCATION;
   const mapsUrl = data?.headOffice?.mapsUrl || GOOGLE_MAPS_URL;
-  const phone = data?.phone || "+971 50 943 2297";
+  const phone = data?.phone || DEFAULT_PHONE;
   const phoneHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
-  const email = data?.email || "info@emiratehub.ae";
-  const weekdayHours = splitHours(data?.workingHours) || {
+  const email = data?.email || DEFAULT_EMAIL;
+  const weekdayHours = splitHours(data?.workingHours || DEFAULT_WORKING_HOURS) || {
     label: "Mon – Fri:",
     hours: "9:00 AM – 6:00 PM",
   };
   const copyrightText =
-    data?.copyrightText || "© 2026 Emirate Hub Corporate Services. All rights reserved.";
+    data?.copyrightText || DEFAULT_COPYRIGHT_TEXT;
 
-  // Adaptive palette based on background lightness
-  const isLightBg = isLightColor(data?.backgroundColor);
+  // Active Sanity color values with Sanity-matched fallbacks
+  const backgroundColor = data?.backgroundColor || DEFAULT_FOOTER_BG;
+  const isLightBg = isLightColor(backgroundColor);
 
-  // Exact Sanity color values with dark-mode fallback
-  const backgroundColor = data?.backgroundColor || "#000000";
-  const columnTitleColor = data?.columnTitleColor || data?.headingColor || "#E02126";
-  const headingColor = data?.headingColor || (isLightBg ? "#000000" : "#FFFFFF");
-  const textColor = data?.textColor || (isLightBg ? "#1F2937" : "#9CA3AF");
-  const linkColor = data?.linkColor || (isLightBg ? "#1F2937" : "#D1D5DB");
-  const contactTextColor = data?.contactTextColor || data?.textColor || (isLightBg ? "#1F2937" : "#D1D5DB");
-  const contactIconColor = data?.contactIconColor || "#E02126";
-  const copyrightColor = data?.copyrightColor || data?.textColor || (isLightBg ? "#4B5563" : "#6B7280");
-  const socialIconColor = data?.socialIconColor || data?.textColor || (isLightBg ? "#4B5563" : "#9CA3AF");
+  const columnTitleColor = data?.columnTitleColor || DEFAULT_COLUMN_TITLE_COLOR;
+  const headingColor = data?.headingColor || DEFAULT_HEADING_COLOR;
+  const textColor = data?.textColor || DEFAULT_TEXT_COLOR;
+  const linkColor = data?.linkColor || DEFAULT_LINK_COLOR;
+  const contactTextColor = data?.contactTextColor || DEFAULT_CONTACT_TEXT_COLOR;
+  const contactIconColor = data?.contactIconColor || DEFAULT_CONTACT_ICON_COLOR;
+  const copyrightColor = data?.copyrightColor || DEFAULT_COPYRIGHT_COLOR;
+  const socialIconColor = data?.socialIconColor || DEFAULT_SOCIAL_ICON_COLOR;
 
   const columnTitleStyle = { color: columnTitleColor };
   const headingStyle = { color: headingColor };
@@ -150,7 +169,7 @@ export default function Footer({ data }: FooterProps) {
 
   const officeCardStyle = {
     backgroundColor:
-      data?.officeCardBg || (isLightBg ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.05)"),
+      data?.officeCardBg || (isLightBg ? DEFAULT_OFFICE_CARD_BG : "rgba(255, 255, 255, 0.05)"),
     borderColor:
       data?.officeCardBorder || (isLightBg ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)"),
   };

@@ -19,6 +19,23 @@ const defaultNavLinks = [
 
 const DEFAULT_PHONE = "+971 50 943 2297";
 const DEFAULT_WHATSAPP_URL = "https://wa.me/971509432297";
+const DEFAULT_LOGO_ALT = "emirate-logo";
+
+const DEFAULT_NAV_BG = "#E2E8F0";
+const DEFAULT_NAV_LINK = "#000000";
+const DEFAULT_NAV_LINK_ACTIVE = "#C62F34";
+const DEFAULT_NAV_PHONE = "#000000";
+
+function isLightColor(hex?: string): boolean {
+  if (!hex || !hex.startsWith("#")) return false;
+  const clean = hex.replace("#", "");
+  if (clean.length < 6) return false;
+  const r = parseInt(clean.substring(0, 2), 16);
+  const g = parseInt(clean.substring(2, 4), 16);
+  const b = parseInt(clean.substring(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5;
+}
 
 interface NavbarProps {
   data?: NavbarData | null;
@@ -33,11 +50,14 @@ export default function Navbar({ data }: NavbarProps) {
   const phone = data?.phone || DEFAULT_PHONE;
   const phoneHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
   const whatsappUrl = data?.whatsappUrl || DEFAULT_WHATSAPP_URL;
+
+  const isLightBg = isLightColor(data?.backgroundColor || DEFAULT_NAV_BG);
+
   const colorVars = {
-    "--nav-bg": data?.backgroundColor || "#000000",
-    "--nav-link": data?.linkColor || "#FFFFFF",
-    "--nav-link-active": data?.activeLinkColor || "#E02126",
-    "--nav-phone": data?.phoneColor || "#FFFFFF",
+    "--nav-bg": data?.backgroundColor || DEFAULT_NAV_BG,
+    "--nav-link": data?.linkColor || DEFAULT_NAV_LINK,
+    "--nav-link-active": data?.activeLinkColor || DEFAULT_NAV_LINK_ACTIVE,
+    "--nav-phone": data?.phoneColor || DEFAULT_NAV_PHONE,
   } as React.CSSProperties;
 
   const pathname = usePathname();
@@ -228,8 +248,12 @@ export default function Navbar({ data }: NavbarProps) {
         <div
           className={`w-full transition-colors duration-300 ${
             showSolidNavbar
-              ? "bg-[var(--nav-bg)]/85 backdrop-blur-md shadow-lg border-b border-white/10"
-              : "bg-[var(--nav-bg)]/35 backdrop-blur-md border-b border-white/10"
+              ? `bg-[var(--nav-bg)]/85 backdrop-blur-md shadow-lg ${
+                  isLightBg ? "border-b border-black/10" : "border-b border-white/10"
+                }`
+              : `bg-[var(--nav-bg)]/35 backdrop-blur-md ${
+                  isLightBg ? "border-b border-black/10" : "border-b border-white/10"
+                }`
           }`}
         >
           <div className="site-container">
@@ -239,7 +263,7 @@ export default function Navbar({ data }: NavbarProps) {
                 <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                   <Image
                     src={data?.logo || "/images/logo.png"}
-                    alt={data?.logoAlt || "Emirate Hub"}
+                    alt={data?.logoAlt || DEFAULT_LOGO_ALT}
                     width={150}
                     height={50}
                     priority
@@ -258,7 +282,7 @@ export default function Navbar({ data }: NavbarProps) {
                       key={index}
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
-                      style={isActive ? { color: "var(--nav-link-active, #E02126)" } : undefined}
+                      style={isActive ? { color: "var(--nav-link-active, #C62F34)" } : undefined}
                       className={`text-[13px] tracking-wide transition-colors ${
                         isActive
                           ? "font-semibold"
@@ -279,7 +303,10 @@ export default function Navbar({ data }: NavbarProps) {
                   onClick={() => setIsMobileMenuOpen((prev) => !prev)}
                   aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={isMobileMenuOpen}
-                  className="flex items-center justify-center w-10 h-10 rounded-lg text-white hover:bg-white/10 transition-colors lg:hidden cursor-pointer"
+                  style={{ color: "var(--nav-link)" }}
+                  className={`flex items-center justify-center w-10 h-10 rounded-lg ${
+                    isLightBg ? "hover:bg-black/5" : "hover:bg-white/10"
+                  } transition-colors lg:hidden cursor-pointer`}
                 >
                   {isMobileMenuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
                 </button>
@@ -295,7 +322,9 @@ export default function Navbar({ data }: NavbarProps) {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.28, ease: "easeInOut" }}
-                className="lg:hidden bg-[var(--nav-bg)]/95 backdrop-blur-xl border-t border-white/10 overflow-hidden shadow-2xl"
+                className={`lg:hidden bg-[var(--nav-bg)]/95 backdrop-blur-xl ${
+                  isLightBg ? "border-t border-black/10" : "border-t border-white/10"
+                } overflow-hidden shadow-2xl`}
               >
                 <div className="site-container py-5 flex flex-col space-y-2">
                   {navLinks.map((link, index) => {
@@ -309,11 +338,13 @@ export default function Navbar({ data }: NavbarProps) {
                           setIsMobileMenuOpen(false);
                           handleNavClick(e, link.href);
                         }}
-                        style={isActive ? { color: "var(--nav-link-active, #E02126)" } : undefined}
+                        style={isActive ? { color: "var(--nav-link-active, #C62F34)" } : undefined}
                         className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${
                           isActive
-                            ? "font-semibold bg-white/5"
-                            : "text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] hover:bg-white/5"
+                            ? `font-semibold ${isLightBg ? "bg-black/5" : "bg-white/5"}`
+                            : `text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] ${
+                                isLightBg ? "hover:bg-black/5" : "hover:bg-white/5"
+                              }`
                         }`}
                       >
                         <span>{link.label}</span>
