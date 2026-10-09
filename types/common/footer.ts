@@ -26,10 +26,16 @@ export interface FooterData {
   logo?: string;
   logoAlt?: string;
   backgroundColor?: string;
+  columnTitleColor?: string;
   headingColor?: string;
   textColor?: string;
   linkColor?: string;
+  contactTextColor?: string;
+  contactIconColor?: string;
+  officeCardBg?: string;
+  officeCardBorder?: string;
   copyrightColor?: string;
+  socialIconColor?: string;
   description?: string;
   headOffice?: FooterHeadOffice;
   phone?: string;

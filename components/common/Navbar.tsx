@@ -243,7 +243,7 @@ export default function Navbar({ data }: NavbarProps) {
                     width={150}
                     height={50}
                     priority
-                    className="h-auto w-27.5 md:w-30 lg:w-37.5 cursor-pointer"
+                    className="h-auto w-27.5 md:w-30 lg:w-32 cursor-pointer"
                   />
                 </Link>
               </div>

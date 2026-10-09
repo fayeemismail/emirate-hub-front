@@ -85,6 +85,17 @@ function splitHours(value?: string) {
   return { label: value.slice(0, index + 1), hours: value.slice(index + 2) };
 }
 
+function isLightColor(hex?: string): boolean {
+  if (!hex || !hex.startsWith("#")) return false;
+  const clean = hex.replace("#", "");
+  if (clean.length < 6) return false;
+  const r = parseInt(clean.substring(0, 2), 16);
+  const g = parseInt(clean.substring(2, 4), 16);
+  const b = parseInt(clean.substring(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5;
+}
+
 interface FooterProps {
   data?: FooterData | null;
 }
@@ -112,20 +123,54 @@ export default function Footer({ data }: FooterProps) {
     hours: "9:00 AM – 6:00 PM",
   };
   const copyrightText =
-    data?.copyrightText || "© 2026 Emirate Hub. All Rights Reserved.";
+    data?.copyrightText || "© 2026 Emirate Hub Corporate Services. All rights reserved.";
 
-  const headingStyle = data?.headingColor ? { color: data.headingColor } : undefined;
-  const textStyle = data?.textColor ? { color: data.textColor } : undefined;
-  const linkStyle = data?.linkColor ? { color: data.linkColor } : undefined;
+  // Adaptive palette based on background lightness
+  const isLightBg = isLightColor(data?.backgroundColor);
+
+  // Exact Sanity color values with dark-mode fallback
+  const backgroundColor = data?.backgroundColor || "#000000";
+  const columnTitleColor = data?.columnTitleColor || data?.headingColor || "#E02126";
+  const headingColor = data?.headingColor || (isLightBg ? "#000000" : "#FFFFFF");
+  const textColor = data?.textColor || (isLightBg ? "#1F2937" : "#9CA3AF");
+  const linkColor = data?.linkColor || (isLightBg ? "#1F2937" : "#D1D5DB");
+  const contactTextColor = data?.contactTextColor || data?.textColor || (isLightBg ? "#1F2937" : "#D1D5DB");
+  const contactIconColor = data?.contactIconColor || "#E02126";
+  const copyrightColor = data?.copyrightColor || data?.textColor || (isLightBg ? "#4B5563" : "#6B7280");
+  const socialIconColor = data?.socialIconColor || data?.textColor || (isLightBg ? "#4B5563" : "#9CA3AF");
+
+  const columnTitleStyle = { color: columnTitleColor };
+  const headingStyle = { color: headingColor };
+  const textStyle = { color: textColor };
+  const linkStyle = { color: linkColor };
+  const contactTextStyle = { color: contactTextColor };
+  const contactIconStyle = { color: contactIconColor };
+  const copyrightStyle = { color: copyrightColor };
+  const socialIconStyle = { color: socialIconColor };
+
+  const officeCardStyle = {
+    backgroundColor:
+      data?.officeCardBg || (isLightBg ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.05)"),
+    borderColor:
+      data?.officeCardBorder || (isLightBg ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)"),
+  };
+
+  const dividerBorderColor = isLightBg ? "rgba(0, 0, 0, 0.12)" : "rgba(255, 255, 255, 0.1)";
 
   return (
     <footer
-      style={data?.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
-      className="bg-black text-white pt-12 sm:pt-14 md:pt-16 pb-8 sm:pb-10 border-t border-gray-900"
+      style={{
+        backgroundColor,
+        borderTopColor: dividerBorderColor,
+      }}
+      className="pt-12 sm:pt-14 md:pt-16 pb-8 sm:pb-10 border-t"
     >
       <div className="site-container">
         {/* Main Grid: Split 2-col on mobile, 4 columns on desktop */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 pb-10 sm:pb-14 border-b border-gray-800/80">
+        <div
+          style={{ borderBottomColor: dividerBorderColor }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 pb-10 sm:pb-14 border-b"
+        >
           {/* Column 1: Brand & Office Location (lg:col-span-5) */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-5 sm:space-y-6">
             <div>
@@ -141,30 +186,42 @@ export default function Footer({ data }: FooterProps) {
               </Link>
               <p
                 style={textStyle}
-                className="text-gray-400 text-xs sm:text-sm font-light leading-relaxed max-w-sm mb-4 sm:mb-6"
+                className="text-xs sm:text-sm font-light leading-relaxed max-w-sm mb-4 sm:mb-6"
               >
                 {description}
               </p>
 
               {/* Office Location Card */}
-              <div className="rounded-2xl bg-white/5 border border-white/10 p-3.5 sm:p-5 max-w-md">
+              <div
+                style={officeCardStyle}
+                className="rounded-2xl p-3.5 sm:p-5 max-w-md border transition-colors"
+              >
                 <div className="flex items-start gap-3 sm:gap-3.5">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-primary/20 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                  <div
+                    style={{
+                      backgroundColor: `${contactIconColor}20`,
+                      color: contactIconColor,
+                    }}
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
+                  >
                     <FiMapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4
                       style={headingStyle}
-                      className="text-white text-xs font-semibold uppercase tracking-wider mb-0.5 sm:mb-1"
+                      className="text-xs font-semibold uppercase tracking-wider mb-0.5 sm:mb-1"
                     >
                       {officeTitle}
                     </h4>
-                    <p className="text-gray-200 text-xs sm:text-sm font-medium leading-snug">
+                    <p
+                      style={textStyle}
+                      className="text-xs sm:text-sm font-medium leading-snug"
+                    >
                       {officeUnit}
                     </p>
                     <p
                       style={textStyle}
-                      className="text-gray-400 text-xs leading-normal mt-0.5"
+                      className="text-xs leading-normal mt-0.5 opacity-90"
                     >
                       {officeLocation}
                     </p>
@@ -172,7 +229,8 @@ export default function Footer({ data }: FooterProps) {
                       href={mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs text-primary font-medium mt-1.5 sm:mt-2 hover:underline group"
+                      style={{ color: contactIconColor }}
+                      className="inline-flex items-center gap-1.5 text-xs font-medium mt-1.5 sm:mt-2 hover:underline group"
                     >
                       <span>View on Google Maps</span>
                       <FiExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -183,20 +241,27 @@ export default function Footer({ data }: FooterProps) {
             </div>
 
             {/* Direct Contact Details */}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-300 font-light pt-1 sm:pt-2">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm font-light pt-1 sm:pt-2">
               <a
                 href={phoneHref}
-                className="inline-flex items-center gap-2 hover:text-primary transition-colors"
+                style={contactTextStyle}
+                className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
               >
-                <FiPhone className="w-3.5 h-3.5 text-primary shrink-0" />
+                <FiPhone style={contactIconStyle} className="w-3.5 h-3.5 shrink-0" />
                 <span>{phone}</span>
               </a>
-              <span className="hidden sm:inline text-gray-700">•</span>
+              <span
+                style={{ color: contactTextColor, opacity: 0.4 }}
+                className="hidden sm:inline"
+              >
+                •
+              </span>
               <a
                 href={`mailto:${email}`}
-                className="inline-flex items-center gap-2 hover:text-primary transition-colors"
+                style={contactTextStyle}
+                className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
               >
-                <FiMail className="w-3.5 h-3.5 text-primary shrink-0" />
+                <FiMail style={contactIconStyle} className="w-3.5 h-3.5 shrink-0" />
                 <span>{email}</span>
               </a>
             </div>
@@ -206,7 +271,10 @@ export default function Footer({ data }: FooterProps) {
           <div className="grid grid-cols-2 gap-6 sm:gap-8 lg:contents">
             {/* Column 2: Quick Links (lg:col-span-2) */}
             <div className="lg:col-span-2 flex flex-col">
-              <h3 className="text-primary text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wider mb-3 sm:mb-5">
+              <h3
+                style={columnTitleStyle}
+                className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wider mb-3 sm:mb-5"
+              >
                 Quick Links
               </h3>
               <ul className="space-y-2 sm:space-y-3">
@@ -215,7 +283,7 @@ export default function Footer({ data }: FooterProps) {
                     <Link
                       href={link.href}
                       style={linkStyle}
-                      className="inline-block text-xs sm:text-sm text-gray-300 hover:text-white hover:translate-x-1.5 transition-all duration-200 font-light"
+                      className="inline-block text-xs sm:text-sm hover:translate-x-1.5 hover:opacity-80 transition-all duration-200 font-light"
                     >
                       {link.name}
                     </Link>
@@ -226,7 +294,10 @@ export default function Footer({ data }: FooterProps) {
 
             {/* Column 3: Core Services (lg:col-span-3) */}
             <div className="lg:col-span-3 flex flex-col">
-              <h3 className="text-primary text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wider mb-3 sm:mb-5">
+              <h3
+                style={columnTitleStyle}
+                className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wider mb-3 sm:mb-5"
+              >
                 Core Services
               </h3>
               <ul className="space-y-2 sm:space-y-3">
@@ -235,7 +306,7 @@ export default function Footer({ data }: FooterProps) {
                     <Link
                       href={service.href}
                       style={linkStyle}
-                      className="inline-block text-xs sm:text-sm text-gray-300 hover:text-white hover:translate-x-1.5 transition-all duration-200 font-light"
+                      className="inline-block text-xs sm:text-sm hover:translate-x-1.5 hover:opacity-80 transition-all duration-200 font-light"
                     >
                       {service.name}
                     </Link>
@@ -248,23 +319,30 @@ export default function Footer({ data }: FooterProps) {
           {/* Column 4: Working Hours (hidden on mobile, visible on lg screens) */}
           <div className="hidden lg:flex lg:col-span-2 flex-col justify-between">
             <div>
-              <h3 className="text-primary text-sm sm:text-base font-semibold uppercase tracking-wider mb-5">
+              <h3
+                style={columnTitleStyle}
+                className="text-sm sm:text-base font-semibold uppercase tracking-wider mb-5"
+              >
                 Working Hours
               </h3>
-              <div className="space-y-2.5 text-xs sm:text-sm text-gray-300 font-light mb-6">
+              <div className="space-y-2.5 text-xs sm:text-sm font-light mb-6">
                 <div>
-                  <p style={headingStyle} className="text-white font-medium">
+                  <p style={headingStyle} className="font-medium">
                     {weekdayHours.label}
                   </p>
-                  <p className="text-gray-400">{weekdayHours.hours}</p>
+                  <p style={textStyle}>{weekdayHours.hours}</p>
                 </div>
                 <div>
-                  <p style={headingStyle} className="text-white font-medium">Saturday:</p>
-                  <p className="text-gray-400">10:00 AM – 3:00 PM</p>
+                  <p style={headingStyle} className="font-medium">
+                    Saturday:
+                  </p>
+                  <p style={textStyle}>10:00 AM – 3:00 PM</p>
                 </div>
                 <div>
-                  <p style={headingStyle} className="text-white font-medium">Sunday:</p>
-                  <p className="text-gray-500">Closed</p>
+                  <p style={headingStyle} className="font-medium">
+                    Sunday:
+                  </p>
+                  <p style={{ ...textStyle, opacity: 0.7 }}>Closed</p>
                 </div>
               </div>
             </div>
@@ -272,20 +350,22 @@ export default function Footer({ data }: FooterProps) {
             <div>
               <h4
                 style={headingStyle}
-                className="text-white text-xs font-semibold uppercase tracking-wider mb-2"
+                className="text-xs font-semibold uppercase tracking-wider mb-2"
               >
                 Legal
               </h4>
-              <div className="flex flex-col space-y-1.5 text-xs text-gray-400 font-light">
+              <div className="flex flex-col space-y-1.5 text-xs font-light">
                 <Link
                   href="/coming-soon"
-                  className="hover:text-white transition-colors"
+                  style={linkStyle}
+                  className="hover:opacity-80 transition-opacity"
                 >
                   Privacy Policy
                 </Link>
                 <Link
                   href="/coming-soon"
-                  className="hover:text-white transition-colors"
+                  style={linkStyle}
+                  className="hover:opacity-80 transition-opacity"
                 >
                   Terms & Conditions
                 </Link>
@@ -295,21 +375,25 @@ export default function Footer({ data }: FooterProps) {
         </div>
 
         {/* Bottom Section */}
-        <div className="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-xs sm:text-sm text-gray-400 font-light">
+        <div className="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-xs sm:text-sm font-light">
           {/* Copyright & Mobile Legal Links */}
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center md:text-left">
-            <p>{copyrightText}</p>
-            <div className="flex lg:hidden items-center gap-3 text-xs text-gray-400">
+            <p style={copyrightStyle} className="text-xs sm:text-sm font-light">
+              {copyrightText}
+            </p>
+            <div className="flex lg:hidden items-center gap-3 text-xs">
               <Link
                 href="/coming-soon"
-                className="hover:text-white transition-colors"
+                style={linkStyle}
+                className="hover:opacity-80 transition-opacity"
               >
                 Privacy Policy
               </Link>
-              <span className="text-gray-700">•</span>
+              <span style={{ color: linkColor, opacity: 0.4 }}>•</span>
               <Link
                 href="/coming-soon"
-                className="hover:text-white transition-colors"
+                style={linkStyle}
+                className="hover:opacity-80 transition-opacity"
               >
                 Terms & Conditions
               </Link>
@@ -318,7 +402,10 @@ export default function Footer({ data }: FooterProps) {
 
           {/* Social Links */}
           <div className="flex items-center gap-4 sm:gap-5">
-            <span className="hidden sm:inline text-xs text-gray-500">
+            <span
+              style={socialIconStyle}
+              className="hidden sm:inline text-xs font-light"
+            >
               Connect with us:
             </span>
             <div className="flex items-center gap-4">
@@ -330,10 +417,11 @@ export default function Footer({ data }: FooterProps) {
                     key={idx}
                     href={social.url}
                     aria-label={label}
+                    style={socialIconStyle}
                     {...(isExternal
                       ? { target: "_blank", rel: "noopener noreferrer" }
                       : {})}
-                    className="text-gray-400 hover:text-primary transition-all duration-200 transform hover:scale-110"
+                    className="hover:opacity-75 transition-all duration-200 transform hover:scale-110"
                   >
                     <Icon className="w-4 h-4 md:w-4.5 md:h-4.5" />
                   </a>
