@@ -132,8 +132,8 @@ export default function Footer({ data }: FooterProps) {
               {/* Logo */}
               <Link href="/" className="inline-block mb-3 sm:mb-4">
                 <Image
-                  src="/images/logo.png"
-                  alt="Emirate Hub"
+                  src={data?.logo || "/images/logo.png"}
+                  alt={data?.logoAlt || "Emirate Hub"}
                   width={180}
                   height={60}
                   className="h-auto w-32 sm:w-36 md:w-44"

@@ -23,6 +23,8 @@ export interface FooterSocialLink {
 }
 
 export interface FooterData {
+  logo?: string;
+  logoAlt?: string;
   backgroundColor?: string;
   headingColor?: string;
   textColor?: string;

@@ -208,7 +208,10 @@ export const NAVBAR_QUERY = `*[_type == "emirateNavbar"][0]{
   "logo": logo.asset->url
 }`;
 
-export const FOOTER_QUERY = `*[_type == "emirateFooter"][0]`;
+export const FOOTER_QUERY = `*[_type == "emirateFooter"][0]{
+  ...,
+  "logo": logo.asset->url
+}`;
 
 export const CONTACT_CONFIG_QUERY = `*[_type == "emirateContactConfig"][0]`;
  
