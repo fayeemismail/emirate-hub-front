@@ -391,9 +391,9 @@ export default function HeroPanoramaBackground({
       </div>
 
       {/* Balanced Cinematic Overlays (Preserved exactly as previously and positioned above images with z-20) */}
-      <div className="absolute inset-0 bg-black/45 pointer-events-none z-20" />
+      {/* <div className="absolute inset-0 bg-black/10 pointer-events-none z-20" /> */}
       <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-transparent pointer-events-none z-20" />
-      <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/70 to-transparent pointer-events-none z-20" />
+      {/* <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/70 to-transparent pointer-events-none z-20" /> */}
       <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-black/85 to-transparent pointer-events-none z-20" />
 
       {/* Interactive Engagement Hint: hidden on lg screens */}
