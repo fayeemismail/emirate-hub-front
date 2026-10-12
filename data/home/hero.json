@@ -9,14 +9,12 @@
     "/images/hero-panorama-future-day.jpg"
   ],
   "heading": {
-    "prefix": "Your",
-    "boldKeyword": "Search",
-    "middle": "for the right",
-    "highlightedText": "UAE business license",
-    "suffix": " ends here."
+    "prefix": "Your business",
+    "highlightedText": "the Emirates way",
+    "highlightedBoldKeyword": "Emirates"
   },
-  "subheading": "Get the most cost-effective mainland or free zone setup with a partner you can trust.",
-  "description": "We deliver comprehensive, end-to-end solutions spanning business setup, licensing, visa processing, compliance, and corporate service equipping you to establish, expand, and maintain a thriving business in the UAE.",
+  "subheading": "Your Search for The Right UAE Business License Ends Here.",
+  "description": "Get the most cost-effective mainland or free zone setup with a partner you can trust.",
   "buttonText": "REQUEST INFORMATION",
   "buttonHref": "/#contact-us"
 }

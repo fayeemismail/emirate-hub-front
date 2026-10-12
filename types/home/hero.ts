@@ -3,7 +3,8 @@ export interface HeroHeading {
   boldKeyword?: string;
   middle?: string;
   highlightedText: string;
-  suffix: string;
+  highlightedBoldKeyword?: string;
+  suffix?: string;
 }
 
 export interface HeroData {

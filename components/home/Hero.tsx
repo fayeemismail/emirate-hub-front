@@ -10,6 +10,69 @@ interface HeroProps {
   data?: HeroData | null;
 }
 
+const renderHighlightedText = (
+  text?: string,
+  highlightColor?: string,
+  boldKeyword?: string
+) => {
+  if (!text) return null;
+  const colorStyle = highlightColor ? { color: highlightColor } : undefined;
+
+  // 1. Support markdown syntax like "**Emirates**" if present in text
+  if (text.includes("**")) {
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, idx) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
+        const keyword = part.slice(2, -2);
+        return (
+          <span key={idx} className="font-extrabold italic" style={colorStyle}>
+            {keyword}
+          </span>
+        );
+      }
+      return (
+        <span key={idx} style={colorStyle}>
+          {part}
+        </span>
+      );
+    });
+  }
+
+  // 2. Determine target keyword:
+  // If explicitly "none", no bold effect is applied.
+  // Otherwise use boldKeyword (trimmed) or fallback to "Emirates" if found in text
+  const targetKeyword =
+    boldKeyword === "none"
+      ? null
+      : boldKeyword?.trim() || (text.toLowerCase().includes("emirates") ? "Emirates" : null);
+
+  if (targetKeyword) {
+    const escaped = targetKeyword.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+    const regex = new RegExp(`(${escaped})`, "gi");
+    const parts = text.split(regex);
+    return parts.map((part, idx) => {
+      if (part.toLowerCase() === targetKeyword.toLowerCase()) {
+        return (
+          <span key={idx} className="font-extrabold italic" style={colorStyle}>
+            {part}
+          </span>
+        );
+      }
+      return (
+        <span key={idx} style={colorStyle}>
+          {part}
+        </span>
+      );
+    });
+  }
+
+  return (
+    <span style={colorStyle}>
+      {text}
+    </span>
+  );
+};
+
 const Hero = ({ data: propData }: HeroProps) => {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
@@ -105,15 +168,23 @@ const Hero = ({ data: propData }: HeroProps) => {
               )}
               <br className="" />
               <span
-                className="text-[#E02126] font-bold"
+                className="text-[#E02126]"
                 style={data.highlightColor ? { color: data.highlightColor } : undefined}
               >
-                {data.heading?.highlightedText}
+                {renderHighlightedText(
+                  data.heading?.highlightedText,
+                  data.highlightColor || "#E02126",
+                  data.heading?.highlightedBoldKeyword
+                )}
               </span>{" "}
-              <br className="block md:hidden lg:hidden " />
-              <span style={data.headingColor ? { color: data.headingColor } : undefined}>
-                {data.heading?.suffix}
-              </span>
+              {data.heading?.suffix ? (
+                <>
+                  <br className="block md:hidden lg:hidden " />
+                  <span style={data.headingColor ? { color: data.headingColor } : undefined}>
+                    {data.heading.suffix}
+                  </span>
+                </>
+              ) : null}
             </h1>
 
             {/* Sub Heading & Description */}
