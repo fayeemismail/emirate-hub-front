@@ -44,8 +44,8 @@ interface NavbarProps {
 export default function Navbar({ data }: NavbarProps) {
   const navLinks = data?.navLinks?.length
     ? data.navLinks
-        .filter((link) => link.name && link.href)
-        .map((link) => ({ label: link.name, href: link.href }))
+      .filter((link) => link.name && link.href)
+      .map((link) => ({ label: link.name, href: link.href }))
     : defaultNavLinks;
   const phone = data?.phone || DEFAULT_PHONE;
   const phoneHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
@@ -239,35 +239,31 @@ export default function Navbar({ data }: NavbarProps) {
       <nav
         ref={navRef}
         style={colorVars}
-        className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-all duration-300 ease-in-out ${
-          isVisible || isMobileMenuOpen
+        className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-all duration-300 ease-in-out ${isVisible || isMobileMenuOpen
             ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0 pointer-events-none"
-        }`}
+          }`}
       >
         <div
-          className={`w-full transition-colors duration-300 ${
-            showSolidNavbar
-              ? `bg-[var(--nav-bg)]/85 backdrop-blur-md shadow-lg ${
-                  isLightBg ? "border-b border-black/10" : "border-b border-white/10"
-                }`
-              : `bg-[var(--nav-bg)]/35 backdrop-blur-md ${
-                  isLightBg ? "border-b border-black/10" : "border-b border-white/10"
-                }`
-          }`}
+          className={`w-full transition-colors duration-300 ${showSolidNavbar
+              ? `bg-[var(--nav-bg)]/85 backdrop-blur-md shadow-lg ${isLightBg ? "border-b border-black/10" : "border-b border-white/10"
+              }`
+              : `bg-[var(--nav-bg)]/35 backdrop-blur-md ${isLightBg ? "border-b border-black/10" : "border-b border-white/10"
+              }`
+            }`}
         >
           <div className="site-container">
             <div className="flex h-20 sm:h-22.5 items-center justify-between">
               {/* Logo */}
-              <div>
-                <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="shrink-0 flex items-center">
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="inline-flex items-center">
                   <Image
                     src={data?.logo || "/images/logo.png"}
                     alt={data?.logoAlt || DEFAULT_LOGO_ALT}
-                    width={150}
-                    height={50}
+                    width={240}
+                    height={80}
                     priority
-                    className="h-auto w-27.5 md:w-30 lg:w-32 cursor-pointer"
+                    className="h-auto w-36 sm:w-44 md:w-48 lg:w-56 xl:w-60 max-h-14 sm:max-h-16 lg:max-h-18 cursor-pointer object-contain"
                   />
                 </Link>
               </div>
@@ -283,11 +279,10 @@ export default function Navbar({ data }: NavbarProps) {
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
                       style={isActive ? { color: "var(--nav-link-active, #C62F34)" } : undefined}
-                      className={`text-[13px] tracking-wide transition-colors ${
-                        isActive
+                      className={`text-[13px] tracking-wide transition-colors ${isActive
                           ? "font-semibold"
                           : "text-[var(--nav-link)]/80 hover:text-[var(--nav-link)]"
-                      }`}
+                        }`}
                     >
                       {link.label}
                     </Link>
@@ -304,9 +299,8 @@ export default function Navbar({ data }: NavbarProps) {
                   aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={isMobileMenuOpen}
                   style={{ color: "var(--nav-link)" }}
-                  className={`flex items-center justify-center w-10 h-10 rounded-lg ${
-                    isLightBg ? "hover:bg-black/5" : "hover:bg-white/10"
-                  } transition-colors lg:hidden cursor-pointer`}
+                  className={`flex items-center justify-center w-10 h-10 rounded-lg ${isLightBg ? "hover:bg-black/5" : "hover:bg-white/10"
+                    } transition-colors lg:hidden cursor-pointer`}
                 >
                   {isMobileMenuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
                 </button>
@@ -322,9 +316,8 @@ export default function Navbar({ data }: NavbarProps) {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.28, ease: "easeInOut" }}
-                className={`lg:hidden bg-[var(--nav-bg)]/95 backdrop-blur-xl ${
-                  isLightBg ? "border-t border-black/10" : "border-t border-white/10"
-                } overflow-hidden shadow-2xl`}
+                className={`lg:hidden bg-[var(--nav-bg)]/95 backdrop-blur-xl ${isLightBg ? "border-t border-black/10" : "border-t border-white/10"
+                  } overflow-hidden shadow-2xl`}
               >
                 <div className="site-container py-5 flex flex-col space-y-2">
                   {navLinks.map((link, index) => {
@@ -339,13 +332,11 @@ export default function Navbar({ data }: NavbarProps) {
                           handleNavClick(e, link.href);
                         }}
                         style={isActive ? { color: "var(--nav-link-active, #C62F34)" } : undefined}
-                        className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${
-                          isActive
+                        className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${isActive
                             ? `font-semibold ${isLightBg ? "bg-black/5" : "bg-white/5"}`
-                            : `text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] ${
-                                isLightBg ? "hover:bg-black/5" : "hover:bg-white/5"
-                              }`
-                        }`}
+                            : `text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] ${isLightBg ? "hover:bg-black/5" : "hover:bg-white/5"
+                            }`
+                          }`}
                       >
                         <span>{link.label}</span>
                         <FiArrowRight className="w-4 h-4 opacity-40" />
