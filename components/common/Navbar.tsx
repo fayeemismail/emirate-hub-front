@@ -260,10 +260,10 @@ export default function Navbar({ data }: NavbarProps) {
                   <Image
                     src={data?.logo || "/images/logo.png"}
                     alt={data?.logoAlt || DEFAULT_LOGO_ALT}
-                    width={240}
-                    height={80}
+                    width={320}
+                    height={100}
                     priority
-                    className="h-auto w-36 sm:w-44 md:w-48 lg:w-56 xl:w-60 max-h-14 sm:max-h-16 lg:max-h-18 cursor-pointer object-contain"
+                    className="h-auto w-52 sm:w-60 md:w-60 lg:w-64 xl:w-72 2xl:w-80 max-h-[70px] sm:max-h-18 lg:max-h-20 cursor-pointer object-contain"
                   />
                 </Link>
               </div>

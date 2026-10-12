@@ -138,9 +138,14 @@ const Hero = ({ data: propData }: HeroProps) => {
         {/* Text block: normal flow on mobile/tablet so it can never be covered;
             only becomes an absolutely-centered min-h-screen block at lg+ */}
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0 pointer-events-none">
-          <div className="w-full flex flex-col items-start text-start pointer-events-none">
+          <div className="relative w-full max-w-full lg:max-w-5xl xl:max-w-6xl flex flex-col items-start text-start pointer-events-none">
+            {/* Dark gradient localized ONLY where the texts are */}
+            <div
+              className="absolute -inset-x-6 sm:-inset-x-10 md:-inset-x-14 -inset-y-8 sm:-inset-y-10 -z-10 bg-linear-to-r from-black/85 via-black/50 to-transparent blur-2xl rounded-3xl pointer-events-none"
+              aria-hidden="true"
+            />
             {/* Heading */}
-            <h1 className="w-full text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-3xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            <h1 className="w-full text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-5xl xl:max-w-6xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               {data.heading?.boldKeyword ? (
                 <>
                   <span style={data.headingColor ? { color: data.headingColor } : undefined}>
@@ -166,7 +171,8 @@ const Hero = ({ data: propData }: HeroProps) => {
                   {data.heading?.prefix}
                 </span>
               )}
-              <br className="" />
+              <span className="hidden lg:inline"> </span>
+              <br className="block lg:hidden" />
               <span
                 className="text-[#E02126]"
                 style={data.highlightColor ? { color: data.highlightColor } : undefined}
