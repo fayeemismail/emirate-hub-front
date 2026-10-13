@@ -86,8 +86,45 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
         className="object-cover object-top"
       />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/70" />
+      {/*
+        ── STATIC SEAMLESS OVERLAY ──────────────────────────────────────────────
+        Matches Home Hero:
+          • Absolutely static — never flickers.
+          • Top ~20% is fully transparent (navbar safe zone).
+          • From 22% downward the dark+blur smoothly eases in for text readability.
+          • Horizontal gradient fades right so the right side of the image stays clean.
+        ────────────────────────────────────────────────────────────────────── */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[5]"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.08) 26%, rgba(0,0,0,0.25) 32%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 60%, black 72%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.08) 26%, rgba(0,0,0,0.25) 32%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 60%, black 72%)",
+        }}
+        aria-hidden="true"
+      >
+        {/* Backdrop blur — masked horizontally so only left region is blurred */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            maskImage:
+              "linear-gradient(to right, black 0%, black 30%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.15) 70%, transparent 86%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, black 0%, black 30%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.15) 70%, transparent 86%)",
+          }}
+        />
+        {/* Black gradient overlay on top of blur */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.65) 28%, rgba(0,0,0,0.38) 50%, rgba(0,0,0,0.12) 68%, transparent 84%)",
+          }}
+        />
+      </div>
 
       {/* Hero Content */}
       <div className="relative z-10 flex min-h-screen flex-col lg:block">
@@ -96,11 +133,11 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-center md:text-start lg:text-start">
             {/* Breadcrumb Navigation */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 mb-4 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-200 mb-4 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">
               <Link href={parentHref} className="hover:text-white transition-colors">
                 {parentLabel}
               </Link>
-              <FiChevronRight className="w-3.5 h-3.5 text-gray-500" />
+              <FiChevronRight className="w-3.5 h-3.5 text-gray-300" />
               <span className="text-primary font-medium">{currentLabel}</span>
             </div>
 
@@ -109,11 +146,17 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
               style={data?.titleColor ? { color: data.titleColor } : undefined}
               className="text-[28px] font-medium leading-tight tracking-[-0.5px] lg:max-w-3xl text-white sm:text-[32px] md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]"
             >
-              {titleText}
+              <span className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+                {titleText}
+              </span>
               <span
                 style={data?.highlightColor ? { color: data.highlightColor } : undefined}
-                className="text-[#E02126] font-bold"
+                className="relative inline-block isolate text-[#E02126] font-bold"
               >
+                <span
+                  aria-hidden="true"
+                  className="absolute -inset-x-2.5 -inset-y-1 bg-black/50 blur-md rounded-lg -z-10 pointer-events-none"
+                />
                 {highlightedTitle}
               </span>
             </h1>

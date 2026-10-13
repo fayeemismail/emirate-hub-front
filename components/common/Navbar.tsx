@@ -256,14 +256,14 @@ export default function Navbar({ data }: NavbarProps) {
             <div className="flex h-20 sm:h-22.5 items-center justify-between">
               {/* Logo */}
               <div className="shrink-0 flex items-center">
-                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="inline-flex items-center">
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="inline-flex justify-start items-center">
                   <Image
                     src={data?.logo || "/images/logo.png"}
                     alt={data?.logoAlt || DEFAULT_LOGO_ALT}
                     width={320}
                     height={100}
                     priority
-                    className="h-auto w-52 sm:w-60 md:w-60 lg:w-64 xl:w-72 2xl:w-80 max-h-[70px] sm:max-h-18 lg:max-h-20 cursor-pointer object-contain"
+                    className="h-auto w-52 sm:w-60 md:w-60 lg:w-60 xl:w-72 2xl:w-80 max-h-[70px] sm:max-h-18 lg:max-h-15 cursor-pointer object-contain object-left"
                   />
                 </Link>
               </div>
@@ -291,7 +291,7 @@ export default function Navbar({ data }: NavbarProps) {
               </div>
 
               {/* Right Side Info & Mobile Actions */}
-              <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
+              <div className="flex items-center gap-3 sm:gap-4 lg:hidden">
                 {/* Mobile Menu Button */}
                 <button
                   type="button"
@@ -300,7 +300,7 @@ export default function Navbar({ data }: NavbarProps) {
                   aria-expanded={isMobileMenuOpen}
                   style={{ color: "var(--nav-link)" }}
                   className={`flex items-center justify-center w-10 h-10 rounded-lg ${isLightBg ? "hover:bg-black/5" : "hover:bg-white/10"
-                    } transition-colors lg:hidden cursor-pointer`}
+                    } transition-colors cursor-pointer`}
                 >
                   {isMobileMenuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
                 </button>
