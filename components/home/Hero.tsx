@@ -138,21 +138,22 @@ const Hero = ({ data: propData }: HeroProps) => {
         Rules:
           • Absolutely static — sits between background and content, never tied
             to any image transition, never animates, never flickers.
-          • Top 45% is FULLY transparent — zero dark shade near the navbar or
-            the light-sky area of the images.
-          • Below 45% the dark+blur eases in over a long soft gradient so there
-            is NO visible hard edge anywhere.
+          • Top ~20% is FULLY transparent — zero dark shade near the navbar
+            (navbar sits at roughly 0-12% of viewport height).
+          • From 22% downward the dark+blur smoothly eases in so there is
+            NO visible hard edge, and the text area (around 40-65%) gets full
+            contrast for white text readability.
           • Horizontal gradient fades right so the right side of the image stays
             clean and the overlay only darkens/blurs the left text region.
         ────────────────────────────────────────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none z-[5]"
         style={{
-          /* Vertical mask: top 45% is fully transparent, no hard line */
+          /* Vertical mask: top 20% fully transparent (navbar safe zone), then gradually fades in */
           maskImage:
-            "linear-gradient(to bottom, transparent 0%, transparent 45%, rgba(0,0,0,0.12) 52%, rgba(0,0,0,0.55) 62%, rgba(0,0,0,0.88) 74%, black 100%)",
+            "linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.08) 26%, rgba(0,0,0,0.25) 32%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 60%, black 72%)",
           WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, transparent 45%, rgba(0,0,0,0.12) 52%, rgba(0,0,0,0.55) 62%, rgba(0,0,0,0.88) 74%, black 100%)",
+            "linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.08) 26%, rgba(0,0,0,0.25) 32%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 60%, black 72%)",
         }}
         aria-hidden="true"
       >
@@ -173,7 +174,7 @@ const Hero = ({ data: propData }: HeroProps) => {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 28%, rgba(0,0,0,0.28) 50%, rgba(0,0,0,0.08) 68%, transparent 84%)",
+              "linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.65) 28%, rgba(0,0,0,0.38) 50%, rgba(0,0,0,0.12) 68%, transparent 84%)",
           }}
         />
       </div>
