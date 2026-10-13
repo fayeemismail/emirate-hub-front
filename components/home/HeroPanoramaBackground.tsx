@@ -31,8 +31,9 @@ export default function HeroPanoramaBackground({
     });
   }, [imageList]);
 
-  // Active image index
+  // Active image index + previous index (held visible during crossfade to prevent any brightness dip)
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const currentIndexRef = useRef(0);
   currentIndexRef.current = currentIndex;
 
@@ -99,7 +100,11 @@ export default function HeroPanoramaBackground({
     const timer = setInterval(() => {
       if (stateRef.current.isDragging) return;
 
-      const nextIndex = (currentIndexRef.current + 1) % imageList.length;
+      const outgoing = currentIndexRef.current;
+      const nextIndex = (outgoing + 1) % imageList.length;
+
+      // Keep outgoing image visible underneath so there is ZERO opacity gap
+      setPrevIndex(outgoing);
 
       // Alternate direction for the next image (ltr -> rtl, rtl -> ltr)
       const nextDir = directionRef.current === "ltr" ? "rtl" : "ltr";
@@ -121,6 +126,9 @@ export default function HeroPanoramaBackground({
       }
 
       setCurrentIndex(nextIndex);
+
+      // Clear prevIndex slightly after the crossfade finishes (duration: desktop 1800ms, mobile 1000ms)
+      setTimeout(() => setPrevIndex(null), 1950);
     }, 5000);
 
     return () => clearInterval(timer);
@@ -338,65 +346,76 @@ export default function HeroPanoramaBackground({
     >
       {/* 1. Large screens (>= 1024px): completely stationary, NOT moving, with 5s timer and smooth 1.8s crossfade */}
       <div className="hidden lg:block absolute inset-0">
-        {imageList.map((src, imgIdx) => (
-          <div
-            key={src}
-            className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
-              imgIdx === currentIndex
-                ? "opacity-100 z-10"
-                : "opacity-0 z-0 pointer-events-none"
-            }`}
-          >
-            <img
-              src={src}
-              alt=""
-              draggable={false}
-              className="w-full h-full object-cover object-center select-none pointer-events-none"
-            />
-          </div>
-        ))}
+        {imageList.map((src, imgIdx) => {
+          const isActive = imgIdx === currentIndex;
+          const isPrev  = imgIdx === prevIndex;
+          return (
+            <div
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
+                isActive
+                  ? "opacity-100 z-10"
+                  : isPrev
+                  ? "opacity-100 z-[5] pointer-events-none"
+                  : "opacity-0 z-0 pointer-events-none"
+              }`}
+            >
+              <img
+                src={src}
+                alt=""
+                draggable={false}
+                className="w-full h-full object-cover object-center select-none pointer-events-none"
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* 2. Mobile & Tablet screens (< 1024px): single-image clamped pan with slow auto-swipe, NO seams, transitions only on timer */}
       <div className="block lg:hidden absolute inset-0">
-        {imageList.map((src, imgIdx) => (
-          <div
-            key={src}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              imgIdx === currentIndex
-                ? "opacity-100 z-10"
-                : "opacity-0 z-0 pointer-events-none"
-            }`}
-          >
+        {imageList.map((src, imgIdx) => {
+          const isActive = imgIdx === currentIndex;
+          const isPrev  = imgIdx === prevIndex;
+          return (
             <div
-              ref={(el) => {
-                tracksRef.current[imgIdx] = el;
-              }}
-              className="absolute inset-y-0 left-0 h-full flex will-change-transform"
-              style={{
-                transform: `translate3d(${(panPositionsRef.current[imgIdx] ?? 0).toFixed(2)}px, 0, 0)`,
-              }}
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                isActive
+                  ? "opacity-100 z-10"
+                  : isPrev
+                  ? "opacity-100 z-[5] pointer-events-none"
+                  : "opacity-0 z-0 pointer-events-none"
+              }`}
             >
-              <img
-                ref={imgIdx === 0 ? firstImgRef : undefined}
-                src={src}
-                alt=""
-                onLoad={imgIdx === 0 ? measureImage : undefined}
-                draggable={false}
-                className="h-full w-auto max-w-none select-none pointer-events-none object-cover"
-              />
+              <div
+                ref={(el) => {
+                  tracksRef.current[imgIdx] = el;
+                }}
+                className="absolute inset-y-0 left-0 h-full flex will-change-transform"
+                style={{
+                  transform: `translate3d(${(panPositionsRef.current[imgIdx] ?? 0).toFixed(2)}px, 0, 0)`,
+                }}
+              >
+                <img
+                  ref={imgIdx === 0 ? firstImgRef : undefined}
+                  src={src}
+                  alt=""
+                  onLoad={imgIdx === 0 ? measureImage : undefined}
+                  draggable={false}
+                  className="h-full w-auto max-w-none select-none pointer-events-none object-cover"
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Cinematic overlays removed from full panorama; gradient is localized exclusively behind text in Hero.tsx */}
 
       {/* Interactive Engagement Hint: hidden on lg screens */}
       <div
-        className={`absolute bottom-6 right-6 md:bottom-8 md:right-10 z-30 pointer-events-none transition-all duration-700 ease-out hidden sm:flex lg:hidden items-center gap-2.5 px-4 py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white/90 shadow-xl ${
-          hasInteracted ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
-        }`}
+        className={`absolute bottom-6 right-6 md:bottom-8 md:right-10 z-30 pointer-events-none transition-all duration-700 ease-out hidden sm:flex lg:hidden items-center gap-2.5 px-4 py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white/90 shadow-xl ${hasInteracted ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
+          }`}
       >
         <span className="flex items-center gap-1 text-[#E02126] font-bold text-xs tracking-widest animate-pulse">
           <span>◀</span>

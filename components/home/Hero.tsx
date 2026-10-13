@@ -133,17 +133,57 @@ const Hero = ({ data: propData }: HeroProps) => {
         images={heroBackgroundImages}
       />
 
+      {/*
+        ── STATIC SEAMLESS OVERLAY ──────────────────────────────────────────────
+        Rules:
+          • Absolutely static — sits between background and content, never tied
+            to any image transition, never animates, never flickers.
+          • Top 45% is FULLY transparent — zero dark shade near the navbar or
+            the light-sky area of the images.
+          • Below 45% the dark+blur eases in over a long soft gradient so there
+            is NO visible hard edge anywhere.
+          • Horizontal gradient fades right so the right side of the image stays
+            clean and the overlay only darkens/blurs the left text region.
+        ────────────────────────────────────────────────────────────────────── */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[5]"
+        style={{
+          /* Vertical mask: top 45% is fully transparent, no hard line */
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, transparent 45%, rgba(0,0,0,0.12) 52%, rgba(0,0,0,0.55) 62%, rgba(0,0,0,0.88) 74%, black 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, transparent 45%, rgba(0,0,0,0.12) 52%, rgba(0,0,0,0.55) 62%, rgba(0,0,0,0.88) 74%, black 100%)",
+        }}
+        aria-hidden="true"
+      >
+        {/* Backdrop blur — masked horizontally so only left region is blurred */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            maskImage:
+              "linear-gradient(to right, black 0%, black 30%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.15) 70%, transparent 86%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, black 0%, black 30%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.15) 70%, transparent 86%)",
+          }}
+        />
+        {/* Black gradient overlay on top of blur */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 28%, rgba(0,0,0,0.28) 50%, rgba(0,0,0,0.08) 68%, transparent 84%)",
+          }}
+        />
+      </div>
+
       {/* Hero Content */}
       <div className="relative z-10 flex min-h-screen flex-col lg:block pointer-events-none">
         {/* Text block: normal flow on mobile/tablet so it can never be covered;
             only becomes an absolutely-centered min-h-screen block at lg+ */}
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0 pointer-events-none">
           <div className="relative w-full max-w-full lg:max-w-5xl xl:max-w-6xl flex flex-col items-start text-start pointer-events-none">
-            {/* Dark gradient localized ONLY where the texts are */}
-            <div
-              className="absolute -inset-x-6 sm:-inset-x-10 md:-inset-x-14 -inset-y-8 sm:-inset-y-10 -z-10 bg-linear-to-r from-black/85 via-black/50 to-transparent blur-2xl rounded-3xl pointer-events-none"
-              aria-hidden="true"
-            />
             {/* Heading */}
             <h1 className="w-full text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-5xl xl:max-w-6xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               {data.heading?.boldKeyword ? (
@@ -222,25 +262,22 @@ const Hero = ({ data: propData }: HeroProps) => {
               {/* Round Circle background that animates on hover and click */}
               <span
                 style={{ backgroundColor: "var(--hero-btn-bg)" }}
-                className={`absolute left-0 top-0 rounded-full transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${
-                  isClicked ? "w-full h-full" : "w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13"
-                }`}
+                className={`absolute left-0 top-0 rounded-full transition-all duration-500 ease-in-out group-hover:w-full group-hover:h-full group-active:w-full group-active:h-full z-0 shadow-sm ${isClicked ? "w-full h-full" : "w-11 h-11 sm:w-12 sm:h-12 md:w-13 md:h-13"
+                  }`}
               />
 
               {/* Button Text */}
               <span
-                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
-                  isClicked ? "text-black!" : ""
-                }`}
+                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${isClicked ? "text-black!" : ""
+                  }`}
               >
                 {data.buttonText}
               </span>
 
               {/* Right Arrow */}
               <span
-                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
-                  isClicked ? "text-black! translate-x-2" : ""
-                }`}
+                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${isClicked ? "text-black! translate-x-2" : ""
+                  }`}
               >
                 →
               </span>

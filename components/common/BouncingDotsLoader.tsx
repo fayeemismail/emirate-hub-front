@@ -2,14 +2,14 @@ export default function BouncingDotsLoader() {
   return (
     <div className="flex flex-col items-center gap-5 select-none">
       {/* Brand Wordmark */}
-      <div className="flex items-center gap-2 tracking-[0.22em]">
+      {/* <div className="flex items-center gap-2 tracking-[0.22em]">
         <span className="text-xl sm:text-2xl font-black text-gray-950">
           EMIRATE
         </span>
         <span className="text-xl sm:text-2xl font-black text-primary">
           HUB
         </span>
-      </div>
+      </div> */}
 
       {/* Bouncing Dots in Brand Palette */}
       <div className="flex items-center gap-2.5" role="status" aria-label="Loading">

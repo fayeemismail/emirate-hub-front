@@ -1,12 +1,13 @@
 {
   "active": true,
-  "backgroundImage": "/images/hero-panorama-downtown-day.jpg",
+  "backgroundImage": "/images/hero/hero-one.jpg",
   "backgroundImages": [
-    "/images/hero-panorama-downtown-day.jpg",
-    "/images/hero-panorama-marina-day.jpg",
-    "/images/hero-panorama-businessbay-day.jpg",
-    "/images/hero-panorama-palm-day.jpg",
-    "/images/hero-panorama-future-day.jpg"
+    "/images/hero/hero-one.jpg",
+    "/images/hero/hero-two.jpg",
+    "/images/hero/hero-three.jpg",
+    "/images/hero/hero-four.jpg",
+    "/images/hero/hero-five.jpg",
+    "/images/hero/hero-six.jpg"
   ],
   "heading": {
     "prefix": "Your business",
