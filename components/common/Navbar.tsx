@@ -246,9 +246,9 @@ export default function Navbar({ data }: NavbarProps) {
       >
         <div
           className={`w-full transition-colors duration-300 ${showSolidNavbar
-              ? `bg-[var(--nav-bg)]/85 backdrop-blur-md shadow-lg ${isLightBg ? "border-b border-black/10" : "border-b border-white/10"
+              ? `bg-(--nav-bg)/85 backdrop-blur-md shadow-lg ${isLightBg ? "border-b border-black/10" : "border-b border-white/10"
               }`
-              : `bg-[var(--nav-bg)]/35 backdrop-blur-md ${isLightBg ? "border-b border-black/10" : "border-b border-white/10"
+              : `bg-(--nav-bg)/35 backdrop-blur-md ${isLightBg ? "border-b border-black/10" : "border-b border-white/10"
               }`
             }`}
         >
@@ -263,7 +263,7 @@ export default function Navbar({ data }: NavbarProps) {
                     width={320}
                     height={100}
                     priority
-                    className="h-auto w-52 sm:w-60 md:w-60 lg:w-60 xl:w-72 2xl:w-80 max-h-[70px] sm:max-h-18 lg:max-h-15 cursor-pointer object-contain object-left"
+                    className="h-auto w-52 sm:w-60 md:w-60 lg:w-60 xl:w-72 2xl:w-80 max-h-17.5 sm:max-h-18 lg:max-h-15 cursor-pointer object-contain object-left"
                   />
                 </Link>
               </div>
@@ -281,7 +281,7 @@ export default function Navbar({ data }: NavbarProps) {
                       style={isActive ? { color: "var(--nav-link-active, #C62F34)" } : undefined}
                       className={`text-[13px] tracking-wide transition-colors ${isActive
                           ? "font-semibold"
-                          : "text-[var(--nav-link)]/80 hover:text-[var(--nav-link)]"
+                          : "text-(--nav-link)/80 hover:text-(--nav-link)"
                         }`}
                     >
                       {link.label}
@@ -316,7 +316,7 @@ export default function Navbar({ data }: NavbarProps) {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.28, ease: "easeInOut" }}
-                className={`lg:hidden bg-[var(--nav-bg)]/95 backdrop-blur-xl ${isLightBg ? "border-t border-black/10" : "border-t border-white/10"
+                className={`lg:hidden bg-(--nav-bg)/95 backdrop-blur-xl ${isLightBg ? "border-t border-black/10" : "border-t border-white/10"
                   } overflow-hidden shadow-2xl`}
               >
                 <div className="site-container py-5 flex flex-col space-y-2">
@@ -334,7 +334,7 @@ export default function Navbar({ data }: NavbarProps) {
                         style={isActive ? { color: "var(--nav-link-active, #C62F34)" } : undefined}
                         className={`text-sm font-medium py-2.5 px-3.5 rounded-xl transition-all duration-200 flex items-center justify-between ${isActive
                             ? `font-semibold ${isLightBg ? "bg-black/5" : "bg-white/5"}`
-                            : `text-[var(--nav-link)]/85 hover:text-[var(--nav-link)] ${isLightBg ? "hover:bg-black/5" : "hover:bg-white/5"
+                            : `text-(--nav-link)/85 hover:text-(--nav-link) ${isLightBg ? "hover:bg-black/5" : "hover:bg-white/5"
                             }`
                           }`}
                       >

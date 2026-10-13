@@ -155,7 +155,7 @@ const Hero = ({ data: propData }: HeroProps) => {
             clean and the overlay only darkens/blurs the left text region.
         ────────────────────────────────────────────────────────────────────── */}
       <div
-        className="absolute inset-0 pointer-events-none z-[5]"
+        className="absolute inset-0 pointer-events-none z-5"
         style={{
           /* Vertical mask: top 20% fully transparent (navbar safe zone), then gradually fades in */
           maskImage:
@@ -281,7 +281,7 @@ const Hero = ({ data: propData }: HeroProps) => {
 
               {/* Button Text */}
               <span
-                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${isClicked ? "text-black!" : ""
+                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-(--hero-btn-text) group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${isClicked ? "text-black!" : ""
                   }`}
               >
                 {data.buttonText}
@@ -289,7 +289,7 @@ const Hero = ({ data: propData }: HeroProps) => {
 
               {/* Right Arrow */}
               <span
-                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${isClicked ? "text-black! translate-x-2" : ""
+                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-(--hero-btn-text) group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${isClicked ? "text-black! translate-x-2" : ""
                   }`}
               >
                 →

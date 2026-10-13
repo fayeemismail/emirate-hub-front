@@ -95,7 +95,7 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
           • Horizontal gradient fades right so the right side of the image stays clean.
         ────────────────────────────────────────────────────────────────────── */}
       <div
-        className="absolute inset-0 pointer-events-none z-[5]"
+        className="absolute inset-0 pointer-events-none z-5"
         style={{
           maskImage:
             "linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(0,0,0,0.08) 26%, rgba(0,0,0,0.25) 32%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.92) 60%, black 72%)",
@@ -133,11 +133,11 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
         <div className="site-container flex flex-1 items-center py-20 md:py-24 lg:min-h-screen lg:py-0">
           <div className="w-full flex flex-col items-center md:items-start lg:items-start text-center md:text-start lg:text-start">
             {/* Breadcrumb Navigation */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-200 mb-4 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-black mb-4 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">
               <Link href={parentHref} className="hover:text-white transition-colors">
                 {parentLabel}
               </Link>
-              <FiChevronRight className="w-3.5 h-3.5 text-gray-300" />
+              <FiChevronRight className="w-3.5 h-3.5 text-black" />
               <span className="text-primary font-medium">{currentLabel}</span>
             </div>
 
@@ -197,7 +197,7 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
 
               {/* Button Text */}
               <span
-                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
+                className={`relative z-10 text-[12px] sm:text-[13px] md:text-[14px] font-normal text-(--hero-btn-text) group-hover:text-black group-active:text-black transition-colors duration-300 tracking-wider uppercase pl-2 ${
                   isClicked ? "text-black!" : ""
                 }`}
               >
@@ -206,7 +206,7 @@ export default function ServicesHero({ data }: ServicesHeroProps) {
 
               {/* Right Arrow */}
               <span
-                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-[var(--hero-btn-text)] group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
+                className={`relative z-10 text-[20px] leading-none sm:text-[24px] md:text-[28px] text-(--hero-btn-text) group-hover:text-black group-active:text-black group-hover:translate-x-2 group-active:translate-x-2 transition-all duration-300 ease-in-out ${
                   isClicked ? "text-black! translate-x-2" : ""
                 }`}
               >

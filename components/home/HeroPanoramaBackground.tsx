@@ -352,11 +352,11 @@ export default function HeroPanoramaBackground({
           return (
             <div
               key={src}
-              className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
+              className={`absolute inset-0 transition-opacity duration-1800 ease-in-out ${
                 isActive
                   ? "opacity-100 z-10"
                   : isPrev
-                  ? "opacity-100 z-[5] pointer-events-none"
+                  ? "opacity-100 z-5 pointer-events-none"
                   : "opacity-0 z-0 pointer-events-none"
               }`}
             >
@@ -383,7 +383,7 @@ export default function HeroPanoramaBackground({
                 isActive
                   ? "opacity-100 z-10"
                   : isPrev
-                  ? "opacity-100 z-[5] pointer-events-none"
+                  ? "opacity-100 z-5 pointer-events-none"
                   : "opacity-0 z-0 pointer-events-none"
               }`}
             >
