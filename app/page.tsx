@@ -6,7 +6,7 @@ import Hero from "@/components/home/Hero";
 import PriceCards from "@/components/home/PriceCards";
 import Service from "@/components/home/Service";
 import StructuredData from "@/components/seo/StructuredData";
-// import Testimonials from "@/components/home/Testimonials";
+import Testimonials from "@/components/home/Testimonials";
 
 import {
   getHomeHeroData,
@@ -15,6 +15,7 @@ import {
   getHomeContactData,
   getHomeBlogSectionData,
   getHomeFaqData,
+  getHomeTestimonialsData,
   getServicesSelectOptions,
   getHomeSeoData,
   getGlobalSeoData,
@@ -39,6 +40,7 @@ export default async function Home() {
     contactData,
     blogData,
     faqData,
+    testimonialsData,
     serviceOptions,
     globalSeo,
   ] = await Promise.all([
@@ -48,6 +50,7 @@ export default async function Home() {
     getHomeContactData(),
     getHomeBlogSectionData(),
     getHomeFaqData(),
+    getHomeTestimonialsData(),
     getServicesSelectOptions(),
     getGlobalSeoData(),
   ]);
@@ -77,7 +80,7 @@ export default async function Home() {
       {contactData?.active !== false && (
         <ContactUs data={contactData} serviceOptions={serviceOptions} />
       )}
-      {/* Testimonials remains commented until active */}
+      {testimonialsData?.active !== false && <Testimonials data={testimonialsData} />}
       {blogData?.active !== false && <BlogsAndNews data={blogData} />}
       {faqData?.active !== false && <Faq data={faqData} />}
     </main>

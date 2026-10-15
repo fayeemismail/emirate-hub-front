@@ -54,6 +54,15 @@ export const HOME_FAQ_QUERY = `*[_type == "emirateHomeFaq"][0]{
   }
 }`;
 
+export const HOME_TESTIMONIALS_QUERY = `*[_type == "emirateHomeTestimonials"][0]{
+  ...,
+  testimonials[]{
+    ...,
+    "id": coalesce(_key, name),
+    "image": coalesce(image.asset->url, image)
+  }
+}`;
+
 // ==========================================
 // ABOUT PAGE GROQ QUERIES
 // ==========================================

@@ -6,6 +6,7 @@ import {
   HOME_CONTACT_QUERY,
   HOME_BLOGS_QUERY,
   HOME_FAQ_QUERY,
+  HOME_TESTIMONIALS_QUERY,
   ABOUT_HERO_QUERY,
   ABOUT_VISION_QUERY,
   ABOUT_LOCATION_QUERY,
@@ -47,6 +48,7 @@ import {
 import defaultHeroData from "@/data/home/hero.json";
 import defaultPricingData from "@/data/home/pricing.json";
 import defaultServiceData from "@/data/home/service.json";
+import defaultTestimonialsData from "@/data/home/testimonials.json";
 import defaultBlogData from "@/data/home/blog.json";
 import defaultAboutHeroData from "@/data/about/aboutHero.json";
 import defaultVisionData from "@/data/about/vision.json";
@@ -64,6 +66,7 @@ import { HomeServiceData } from "@/types/home/service";
 import { HomeBlogData, HomeBlogCard } from "@/types/home/blog";
 import { HomeContactData } from "@/types/home/contact";
 import { HomeFaqData } from "@/types/home/faq";
+import { TestimonialsData } from "@/types/home/testimonials";
 import { AboutHeroData } from "@/types/about/aboutHero";
 import { VisionData } from "@/types/about/vision";
 import { LocationData } from "@/types/about/location";
@@ -180,6 +183,17 @@ export async function getHomeFaqData(): Promise<HomeFaqData | null> {
     tags: ["emirateHomeFaq"],
   });
   return data;
+}
+
+export async function getHomeTestimonialsData(): Promise<TestimonialsData> {
+  const data = await sanityFetch<TestimonialsData>({
+    query: HOME_TESTIMONIALS_QUERY,
+    tags: ["emirateHomeTestimonials"],
+  });
+  if (data && data.active !== false && data.testimonials && data.testimonials.length > 0) {
+    return data;
+  }
+  return defaultTestimonialsData as unknown as TestimonialsData;
 }
 
 // ==========================================

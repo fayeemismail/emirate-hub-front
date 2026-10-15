@@ -5,17 +5,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LuChevronLeft, LuChevronRight, LuStar } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import rawTestimonialsData from "@/data/home/testimonials.json";
-import { TestimonialsData } from "@/types/home/testimonials";
+import { TestimonialsData, TestimonialItem } from "@/types/home/testimonials";
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  data?: TestimonialsData | null;
+}
+
+export default function Testimonials({ data: propData }: TestimonialsProps = {}) {
   const router = useRouter();
-  const data: TestimonialsData = rawTestimonialsData as TestimonialsData;
+  const data: TestimonialsData =
+    propData && propData.active !== false && propData.testimonials && propData.testimonials.length > 0
+      ? propData
+      : (rawTestimonialsData as unknown as TestimonialsData);
 
-  if (!data.active) {
+  if (data.active === false) {
     return null;
   }
 
-  const activeTestimonials = data.testimonials.filter(
+  const activeTestimonials = (data.testimonials || []).filter(
     (item) => item.active !== false
   );
 
@@ -32,7 +39,7 @@ function TestimonialsContent({
   router,
 }: {
   data: TestimonialsData;
-  testimonials: typeof data.testimonials;
+  testimonials: TestimonialItem[];
   router: ReturnType<typeof useRouter>;
 }) {
   const defaultIndex = Math.min(3, Math.max(0, Math.floor(testimonials.length / 2)));
@@ -179,15 +186,24 @@ function TestimonialsContent({
   }, [safeIndex, testimonials.length]);
 
   return (
-    <section className="py-16 md:py-24 lg:py-28 bg-white overflow-hidden select-none">
+    <section
+      style={data.backgroundColor ? { backgroundColor: data.backgroundColor } : undefined}
+      className="py-16 md:py-24 lg:py-28 bg-white overflow-hidden select-none"
+    >
       {/* Section Header */}
       <div className="site-container px-4 sm:px-6 md:px-8">
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-3 sm:mb-4">
+          <h2
+            style={data.titleColor ? { color: data.titleColor } : undefined}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-3 sm:mb-4"
+          >
             {data.title}
           </h2>
           {data.description && (
-            <p className="text-gray-500 text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-xl mb-6 px-2">
+            <p
+              style={data.descriptionColor ? { color: data.descriptionColor } : undefined}
+              className="text-gray-500 text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-xl mb-6 px-2"
+            >
               {data.description}
             </p>
           )}
@@ -208,10 +224,10 @@ function TestimonialsContent({
       {/* Sinusoidal Wave Track & Floating Avatars */}
       <div
         ref={scrollContainerRef}
-        className="w-full overflow-x-auto md:overflow-visible pb-12 pt-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none touch-pan-x"
+        className="w-full overflow-x-auto md:overflow-visible pb-4 sm:pb-6 md:pb-6 pt-4 sm:pt-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none touch-pan-x"
       >
         <div className="inline-flex md:block min-w-max md:min-w-full px-[50vw] md:px-0">
-          <div className="relative w-170 md:w-full min-w-170 md:min-w-full h-60 sm:h-70 md:h-80 lg:h-90 max-w-5xl lg:max-w-6xl mx-auto shrink-0">
+          <div className="relative w-170 md:w-full min-w-170 md:min-w-full h-52 sm:h-60 md:h-68 lg:h-72 max-w-5xl lg:max-w-6xl mx-auto shrink-0">
             {/* Background Sinusoidal Dotted SVG Path */}
             <svg
               viewBox="0 0 1000 300"
@@ -244,14 +260,14 @@ function TestimonialsContent({
 
               return (
                 <div
-                  key={item.id}
+                  key={item.id || item._key || index}
                   ref={(el) => {
                     avatarRefs.current[index] = el;
                   }}
                   onClick={() => setActiveIndex(index)}
                   style={{
-                    left: `${item.leftPercent}%`,
-                    top: `${item.topPercent}%`,
+                    left: `${item.leftPercent ?? 50}%`,
+                    top: `${item.topPercent ?? 53}%`,
                   }}
                   className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center cursor-pointer z-10 select-none group"
                 >
@@ -278,10 +294,12 @@ function TestimonialsContent({
                     )}
 
                     <div
-                      className={`relative overflow-hidden rounded-full aspect-square bg-gray-100 ${item.sizeClass}`}
+                      className={`relative overflow-hidden rounded-full aspect-square bg-gray-100 ${
+                        item.sizeClass || "w-16 h-16 sm:w-18 sm:h-18 md:w-22 md:h-22 lg:w-26 lg:h-26"
+                      }`}
                     >
                       <img
-                        src={item.image}
+                        src={item.image || "/images/contact-person.jpg"}
                         alt={item.name}
                         className={`w-full h-full object-cover transition-transform duration-500 ${
                           isActive ? "scale-105" : "grayscale-15 group-hover:grayscale-0"
@@ -291,7 +309,11 @@ function TestimonialsContent({
                   </motion.div>
 
                   {/* Customer Name below the Avatar */}
-                  <div className="mt-2 sm:mt-2.5 max-w-26.25 sm:max-w-30 md:max-w-32.5 pointer-events-none">
+                  <div
+                    className={`transition-all duration-300 max-w-26.25 sm:max-w-30 md:max-w-32.5 pointer-events-none ${
+                      isActive ? "mt-4 sm:mt-4.5 md:mt-5" : "mt-2.5 sm:mt-3"
+                    }`}
+                  >
                     <p
                       className={`text-[11px] sm:text-xs md:text-sm font-semibold tracking-tight transition-colors duration-300 truncate ${
                         isActive ? "text-primary font-bold scale-105" : "text-gray-600 group-hover:text-gray-900"
@@ -300,7 +322,9 @@ function TestimonialsContent({
                       {item.name}
                     </p>
                     <p className="text-[9px] sm:text-[10px] text-gray-400 truncate hidden sm:block">
-                      {item.company}
+                      {item.role && item.company
+                        ? `${item.role}, ${item.company}`
+                        : item.company || item.role || ""}
                     </p>
                   </div>
                 </div>
@@ -313,7 +337,7 @@ function TestimonialsContent({
       {/* Dynamic Testimonial Display Bar with Navigation Arrows */}
       <div className="site-container px-4 sm:px-6 md:px-8">
         {activeTestimonial && (
-          <div className="relative max-w-4xl mx-auto mt-4 sm:mt-6 md:mt-10 flex items-center justify-between gap-3 sm:gap-6 md:gap-8 px-2 sm:px-4">
+          <div className="relative max-w-4xl mx-auto mt-2 sm:mt-3 md:mt-4 flex items-center justify-between gap-3 sm:gap-6 md:gap-8 px-2 sm:px-4">
             {/* Previous Button */}
             <button
               type="button"
@@ -328,7 +352,7 @@ function TestimonialsContent({
             <div className="flex-1 text-center min-h-25 sm:min-h-28.75 flex items-center justify-center px-2">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={activeTestimonial.id}
+                  key={activeTestimonial.id || activeTestimonial._key || safeIndex}
                   initial={{ opacity: 0, y: 10, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -10, scale: 0.98 }}
@@ -337,7 +361,7 @@ function TestimonialsContent({
                 >
                   {/* Rating */}
                   <div className="flex items-center gap-1 text-amber-400 mb-1.5 sm:mb-2">
-                    {[...Array(activeTestimonial.rating)].map((_, i) => (
+                    {[...Array(Math.max(1, Math.min(5, activeTestimonial.rating || 5)))].map((_, i) => (
                       <LuStar key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-400 stroke-amber-400" />
                     ))}
                   </div>
@@ -352,10 +376,16 @@ function TestimonialsContent({
                     <span className="font-bold text-gray-900">
                       {activeTestimonial.name}
                     </span>
-                    <span className="text-gray-300">•</span>
-                    <span className="text-gray-500">
-                      {activeTestimonial.role}, {activeTestimonial.company}
-                    </span>
+                    {(activeTestimonial.role || activeTestimonial.company) && (
+                      <>
+                        <span className="text-gray-300">•</span>
+                        <span className="text-gray-500">
+                          {activeTestimonial.role && activeTestimonial.company
+                            ? `${activeTestimonial.role}, ${activeTestimonial.company}`
+                            : activeTestimonial.company || activeTestimonial.role}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </motion.div>
               </AnimatePresence>
