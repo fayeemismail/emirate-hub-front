@@ -55,13 +55,9 @@ const renderHighlightedText = (
         return (
           <span
             key={idx}
-            className="relative inline-block isolate font-extrabold italic"
+            className="font-extrabold italic drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
             style={colorStyle}
           >
-            <span
-              aria-hidden="true"
-              className="absolute -inset-x-2.5 -inset-y-1 bg-black/50 blur-md rounded-lg -z-10 pointer-events-none"
-            />
             {part}
           </span>
         );
@@ -201,13 +197,9 @@ const Hero = ({ data: propData }: HeroProps) => {
                     {data.heading.prefix?.trim()}
                   </span>{" "}
                   <span
-                    className="relative inline-block isolate font-extrabold italic text-white"
+                    className=" text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
                     style={data.headingColor ? { color: data.headingColor } : undefined}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="absolute -inset-x-2.5 -inset-y-1 bg-black/50 blur-md rounded-lg -z-10 pointer-events-none"
-                    />
                     {data.heading.boldKeyword.trim()}
                   </span>
                   {data.heading.middle ? (
