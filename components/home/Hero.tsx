@@ -55,7 +55,7 @@ const renderHighlightedText = (
         return (
           <span
             key={idx}
-            className="font-extrabold italic drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
+            className="font-extrabold italic drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
             style={colorStyle}
           >
             {part}
@@ -63,7 +63,7 @@ const renderHighlightedText = (
         );
       }
       return (
-        <span key={idx} className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" style={colorStyle}>
+        <span key={idx} className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" style={colorStyle}>
           {part}
         </span>
       );
@@ -71,7 +71,7 @@ const renderHighlightedText = (
   }
 
   return (
-    <span className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" style={colorStyle}>
+    <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" style={colorStyle}>
       {text}
     </span>
   );
@@ -178,7 +178,7 @@ const Hero = ({ data: propData }: HeroProps) => {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.65) 28%, rgba(0,0,0,0.38) 50%, rgba(0,0,0,0.12) 68%, transparent 84%)",
+              "linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0.16) 50%, rgba(0,0,0,0.05) 68%, transparent 84%)",
           }}
         />
       </div>
@@ -193,11 +193,11 @@ const Hero = ({ data: propData }: HeroProps) => {
             <h1 className="w-full text-[28px] font-normal leading-tight tracking-[-0.5px] lg:max-w-5xl xl:max-w-6xl text-white md:text-[38px] md:leading-[1.15] md:tracking-[-1px] lg:text-[44px] lg:leading-[1.15] lg:tracking-[-1.5px]">
               {data.heading?.boldKeyword ? (
                 <>
-                  <span className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
                     {data.heading.prefix?.trim()}
                   </span>{" "}
                   <span
-                    className=" text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
+                    className="font-extrabold italic text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
                     style={data.headingColor ? { color: data.headingColor } : undefined}
                   >
                     {data.heading.boldKeyword.trim()}
@@ -205,14 +205,14 @@ const Hero = ({ data: propData }: HeroProps) => {
                   {data.heading.middle ? (
                     <>
                       {" "}
-                      <span className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
+                      <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
                         {data.heading.middle.trim()}
                       </span>
                     </>
                   ) : null}
                 </>
               ) : (
-                <span className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
+                <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
                   {data.heading?.prefix}
                 </span>
               )}
@@ -231,7 +231,7 @@ const Hero = ({ data: propData }: HeroProps) => {
               {data.heading?.suffix ? (
                 <>
                   <br className="block md:hidden lg:hidden " />
-                  <span className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" style={data.headingColor ? { color: data.headingColor } : undefined}>
                     {data.heading.suffix}
                   </span>
                 </>
